@@ -1,0 +1,5 @@
+const { PrismaClient } = require('@prisma/client')
+const prisma = new PrismaClient()
+prisma.appSetting.count()
+  .then(c => { console.log('AppSetting table OK, rows:', c); return prisma.$disconnect() })
+  .catch(e => { console.error('AppSetting ERROR:', e.message); return prisma.$disconnect().then(() => process.exit(1)) })

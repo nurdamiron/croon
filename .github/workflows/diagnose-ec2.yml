@@ -1,0 +1,72 @@
+name: Diagnose & Recover EC2
+
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: 'Mode: status-only or recover'
+        required: true
+        default: 'status-only'
+        type: choice
+        options:
+          - status-only
+          - recover
+
+jobs:
+  diagnose:
+    name: Diagnose and recover EC2
+    runs-on: ubuntu-latest
+
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_DEFAULT_REGION: eu-north-1
+
+    steps:
+      - name: Status only
+        if: ${{ inputs.mode == 'status-only' }}
+        id: status
+        run: |
+          COMMAND_ID=$(aws ssm send-command \
+            --instance-ids i-06e2d5837c24c75f3 \
+            --region eu-north-1 \
+            --document-name "AWS-RunShellScript" \
+            --parameters 'commands=["sudo -u ubuntu -i bash -c \"echo === Memory === && free -m && echo === PM2 === && pm2 list && echo === Port 5000 === && ss -tlnp | grep 5000 || echo NOT_LISTENING && echo === Logs === && pm2 logs alash-electronics --lines 30 --nostream 2>&1\""]' \
+            --output text --query "Command.CommandId")
+          echo "command_id=$COMMAND_ID" >> $GITHUB_OUTPUT
+          echo "SSM: $COMMAND_ID"
+
+      - name: Recover - restart alash-electronics
+        if: ${{ inputs.mode == 'recover' }}
+        id: recover
+        run: |
+          COMMAND_ID=$(aws ssm send-command \
+            --instance-ids i-06e2d5837c24c75f3 \
+            --region eu-north-1 \
+            --document-name "AWS-RunShellScript" \
+            --parameters 'commands=["sudo -u ubuntu -i bash -c \"echo === Before === && pm2 list && pm2 restart alash-electronics && pm2 save && sleep 5 && echo === After === && pm2 list && curl -s -o /dev/null -w STATUS_%{http_code} http://localhost:5000/ && echo\""]' \
+            --output text --query "Command.CommandId")
+          echo "command_id=$COMMAND_ID" >> $GITHUB_OUTPUT
+          echo "SSM: $COMMAND_ID"
+
+      - name: Wait and show output
+        run: |
+          COMMAND_ID="${{ steps.status.outputs.command_id || steps.recover.outputs.command_id }}"
+          for i in $(seq 1 20); do
+            sleep 10
+            STATUS=$(aws ssm get-command-invocation \
+              --command-id "$COMMAND_ID" \
+              --instance-id i-06e2d5837c24c75f3 \
+              --region eu-north-1 \
+              --query "Status" --output text 2>/dev/null || echo "Pending")
+            echo "[$i/20] Status: $STATUS"
+            if [ "$STATUS" = "Success" ] || [ "$STATUS" = "Failed" ]; then
+              aws ssm get-command-invocation \
+                --command-id "$COMMAND_ID" \
+                --instance-id i-06e2d5837c24c75f3 \
+                --region eu-north-1 \
+                --query "[StandardOutputContent, StandardErrorContent]" \
+                --output text
+              break
+            fi
+          done

@@ -1,0 +1,61 @@
+# Dependencies
+node_modules/
+
+# Next.js
+frontend/.next/
+frontend/out/
+
+# Environment
+frontend/.env
+.env
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Debug/temp
+*.log
+.mcp.json
+.firecrawl/
+.playwright-mcp/
+.claude/skills/
+
+# Screenshots and temp images (root level)
+*.png
+!frontend/public/**/*.png
+*.xml
+!frontend/public/sitemap.xml
+!frontend/scripts/data/*.xml
+!frontend/src/app/api/kaspi/feed.xml/
+!frontend/src/app/api/kaspi/feed.xml/**
+*.csv
+!frontend/scripts/data/*.csv
+
+# Data dumps
+data/
+!frontend/scripts/data/
+scripts/*.json
+
+# Local export dumps (Kaspi/Satu/CSV outputs)
+exports/
+
+# TypeScript build cache
+frontend/tsconfig.tsbuildinfo
+
+# Локальные временные дампы/пробы в КОРНЕ репозитория (не код проекта).
+# Реальный код живёт в frontend/, поэтому корневые .txt/.json/.jpg — это скретч.
+/*.txt
+/*.json
+/*.jpg
+/*.jpeg
+# но НЕ трогаем настоящие корневые файлы проекта
+!/package.json
+!/package-lock.json
+/algatopHTML/
+.claude/

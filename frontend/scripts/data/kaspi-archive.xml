@@ -1,0 +1,2572 @@
+<?xml version="1.0" encoding="UTF-8"?><kaspi_catalog xmlns="kaspiShopping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://kaspi.kz/kaspishopping.xsd" date="2026-05-19 22:30">
+    <company>30233309</company>
+    <merchantid>30233309</merchantid>
+    <offers>
+        <offer sku="117384616_990623989">
+            <model>Bambu Lab X1 Carbon Combo EU with AMS System</model>
+            <brand/>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">990000</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="105711025_150869387">
+            <model>NVIDIA Jetson Nano Developer Kit</model>
+            <brand/>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">115000</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="106898898_054625680">
+            <model>Набор для моделирования Arduino UNO KIT 001, мультиколор</model>
+            <brand/>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">12000</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="100799487_610959621">
+            <model>SONOFF реле управления Basic R2 WiFi</model>
+            <brand/>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">3747</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="101055941_118948028">
+            <model>SONOFF реле контроля питания AC 220 В 16 А, кол-во фаз : 1</model>
+            <brand/>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">5022</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="180821959">
+            <model>Кримпер 180821959</model>
+            <brand/>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">6000</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="108636209_553488435">
+            <model>Модуль управления MingJiaTai ESP32 CP2102</model>
+            <brand/>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">4490</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="106323033_891380105">
+            <model>Опыты с электричеством Arduino UNO CH340</model>
+            <brand/>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">10766</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="112248256_443893147">
+            <model>YIHUA паяльная станция 858D</model>
+            <brand/>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">20000</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="763871898">
+            <model>EweLink переносная C338, умная розетка цвет белый</model>
+            <brand/>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">7500</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="108318642_436119877">
+            <model>YIHUA паяльная станция 8586</model>
+            <brand/>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">20000</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="408610024">
+            <model>Машинка на радиоуправлении 30233309_408610024</model>
+            <brand/>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">16000</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="120770672_003838074">
+            <model>Мини-сумка Alaia 2177 экокожа красный</model>
+            <brand/>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">10500</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="121700901_986908644">
+            <model>Мини-сумка Alaia 951914486 экокожа красный</model>
+            <brand/>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">10000</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="105655898_167076480">
+            <model>Micron G-1200 1-1200x</model>
+            <brand/>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">33900</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="102876599_632235325">
+            <model>Maxmoll Arduino UNO R3</model>
+            <brand/>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">12500</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="105149921_959560509">
+            <model>Набор датчиков MingJiaTai Sensor Кit for Arduino 37</model>
+            <brand/>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">7999</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="101436382_145621992">
+            <model>Raspberry Pi 4 Model B 2Gb</model>
+            <brand/>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">32900</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="116544767_956269145">
+            <model>Модуль преобразователя Arduino XL4015</model>
+            <brand/>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">800</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="113210842_692242834">
+            <model>Опыты с электричеством Arduino KS0085</model>
+            <brand/>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">64000</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="106221915_596184680">
+            <model>Keyestudio Набор Умный дом с микроконтроллером UNO R3 KS0085, деталей 53 шт</model>
+            <brand/>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">63000</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="110339182_895592183">
+            <model>Опыты с электричеством, проектирование и моделирование Keyestudio 15808023_820867, мультиколор</model>
+            <brand/>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">64000</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="106139492_743580217">
+            <model>Raspberry Pi B3</model>
+            <brand/>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">45000</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="117666400_295111656">
+            <model>Кнопка сенсорного управления SONOFF T0EU3C, белый</model>
+            <brand/>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">10400</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="110354788_067806080">
+            <model>Кнопка сенсорного управления SONOFF TX T0EU3C белый</model>
+            <brand/>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">10498</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="116737351_988509343">
+            <model>Модуль дисплея Arduino i2c</model>
+            <brand/>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">2000</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="122739400_279827593">
+            <model>Сумка хобо 7218 искусственная кожа красный</model>
+            <brand/>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">6900</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="118101372_203694477">
+            <model>Сумка хобо 7812 red искусственная кожа красный</model>
+            <brand/>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">4473</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="110559723_814366585">
+            <model>Зарядное устройство HD HD-8991B/USB</model>
+            <brand/>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">2390</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="101436430_131239438">
+            <model>Raspberry Pi 4 Model B</model>
+            <brand/>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">54000</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="117270056_776241526">
+            <model>FNIRSI SWM-10</model>
+            <brand/>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">27884</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="110623704_931595438">
+            <model>Датчик движения SONOFF SNZB-03, экосистема: Amazon Alexa, Умный дом Яндекса, Google Home</model>
+            <brand/>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">4799</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="108096854_083698461">
+            <model>Датчик движения SONOFF SNZB-03, экосистема: Amazon Alexa, Xiaomi Mi Home, Apple HomeKit, Умный дом Яндекса</model>
+            <brand/>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">4999</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="110526604_467829200">
+            <model>Датчик движения SONOFF PIR3-RF 6920075775372, экосистема: Умный дом Яндекса</model>
+            <brand/>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">6299</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="103948669_813776822">
+            <model>SONOFF реле управления mini r2</model>
+            <brand/>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">12000</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="109771507_951564196">
+            <model>SONOFF ZBMiniR2 1 шт</model>
+            <brand/>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">9990</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="949575834">
+            <model>ANENG мультиметр A3007, цифровой</model>
+            <brand/>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">7900</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="108510572_194831498">
+            <model>Модуль управления Arduino UNO R3 CH340</model>
+            <brand/>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">2359</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="120640518_832117500">
+            <model>FNIRSI осциллограф DSO152</model>
+            <brand/>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">17980</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="112841440_725611249">
+            <model>FNIRSI осциллограф DSO152</model>
+            <brand/>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">17980</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="106262323_260281754">
+            <model>Raspberry Pi Camera V2.1 для Pi Camera NoIR V2</model>
+            <brand/>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">29000</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="106028528_041860532">
+            <model>Autool аппарат для промывки инжекторов GX100</model>
+            <brand/>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">54995</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="115704452_973976473">
+            <model>Inskam эндоскоп 161157</model>
+            <brand/>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">48000</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="223081640">
+            <model>Набор часового мастера для ремонта часов</model>
+            <brand/>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">27000</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="119785064_280241664">
+            <model>Заколка краб 1 шт</model>
+            <brand/>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">590</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="110673065_248077408">
+            <model>Заколка краб 1 шт</model>
+            <brand/>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">284</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="106630197_652224327">
+            <model>Заколка краб 1 шт</model>
+            <brand/>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">440</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="118108057_353656486">
+            <model>Заколка краб 1 шт</model>
+            <brand/>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">228</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="118965914_387349753">
+            <model>Заколка краб 1 шт</model>
+            <brand/>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">424</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="117297997_537185607">
+            <model>Заколка краб 1 шт</model>
+            <brand/>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">675</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="106764609_550744408">
+            <model>Shine заколка краб 1 шт</model>
+            <brand/>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">209</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="106600772_127013706">
+            <model>Classic заколка краб 1 шт</model>
+            <brand/>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">228</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="108583423_696585002">
+            <model>Заколка краб 1 шт</model>
+            <brand/>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">209</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="118738738_050111943">
+            <model>Заколка краб 1 шт</model>
+            <brand/>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">248</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="118738757_597457864">
+            <model>Заколка краб 1 шт</model>
+            <brand/>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">248</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="110607630_947801082">
+            <model>Заколка краб 1 шт</model>
+            <brand/>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">222</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="117897296_684439826">
+            <model>Заколка краб 1 шт</model>
+            <brand/>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">219</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="110867304_292330242">
+            <model>Accessories заколка краб 1 шт</model>
+            <brand/>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">226</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="101055962_654575189">
+            <model>SONOFF реле управления AC 220 В 16 А, кол-во фаз : 1</model>
+            <brand/>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">12000</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="117182013_870955801">
+            <model>Мини-сумка Kellys HJ8172 полиуретан черный</model>
+            <brand/>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">3686</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="113685811_981735563">
+            <model>FNIRSI мультиметр S1, цифровой</model>
+            <brand/>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">14998</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="110623758_597885147">
+            <model>Датчик открытия SONOFF SNZB-04 - ZigBee, экосистема: Amazon Alexa, Умный дом Яндекса, Google Home</model>
+            <brand/>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">3099</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="110690525_031639800">
+            <model>SONOFF центр управления Zigbee Bridge Pro 6920075777123</model>
+            <brand/>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">11200</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="108096920_855990317">
+            <model>Датчик температуры и влажности SONOFF SNZB-02, экосистема: Xiaomi Mi Home, Apple HomeKit, Умный дом Яндекса</model>
+            <brand/>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">4499</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="109915538_281653723">
+            <model>Датчик открытия SONOFF Snzb-04, экосистема: Apple HomeKit, Умный дом Яндекса, Tuya Smart</model>
+            <brand/>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">4999</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="107702975_326772173">
+            <model>Датчик открытия SONOFF SNZB-04, экосистема: Apple HomeKit, Умный дом Яндекса</model>
+            <brand/>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">4999</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="104530393_543717820">
+            <model>Fashion Jewelry заколка краб 1 шт</model>
+            <brand/>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">200</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="110623698_958777695">
+            <model>SONOFF умная беспроводная кнопка 6920075776201</model>
+            <brand/>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">3799</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="668178651">
+            <model>Опыты с электричеством, проектирование и моделирование Keyestudio Smart Home KS5009</model>
+            <brand/>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">50000</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="761281730">
+            <model>Осциллограф DS0120M</model>
+            <brand/>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">28000</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="945845136">
+            <model>Эндоскоп G10</model>
+            <brand/>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">60000</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="118327534_606329289">
+            <model>Inskam эндоскоп 054740865</model>
+            <brand/>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">60000</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="115938690_432809780">
+            <model>Mastertool рассухариватель N111</model>
+            <brand/>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">66150</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="113900564_952359827">
+            <model>Рассухариватель UN-PRO29</model>
+            <brand/>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">40551</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="123567488_189116506">
+            <model>Сумка кросс-боди MUA Женская сумка кросс-боди Safari ART. 2710 натуральная кожа черный</model>
+            <brand/>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">7999</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="106067991_577844347">
+            <model>GSMIN FD 001 TL88</model>
+            <brand/>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">24000</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="113240781_634855201">
+            <model>Модуль управления Arduino Pro Micro</model>
+            <brand/>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">2449</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="108102822_220570495">
+            <model>SONOFF центр управления Sonoff ZigBee Bridge M0802070001</model>
+            <brand/>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">10000</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="123566832_456547154">
+            <model>Сумка кросс-боди MUA Женская сумка кросс-боди Fiore ART. 8195 экокожа черный</model>
+            <brand/>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">6470</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="122677974_210592078">
+            <model>Спонж скошенный, спонж капля полиуретан 4 шт</model>
+            <brand/>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">986</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="114152286_320794855">
+            <model>Сумка шоппер 30019839_126854 искусственная кожа черный</model>
+            <brand/>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">3689</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="114284589_644070848">
+            <model>PARON кримпер, стриппер 736194</model>
+            <brand/>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">25000</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="121028224_814034506">
+            <model>Клатч 30291805_099130608 искусственная кожа черный</model>
+            <brand/>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">3200</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="123566768_677560150">
+            <model>Сумка кросс-боди MUA Женская сумка кросс-боди Fiore ART. 8195 экокожа коричневый</model>
+            <brand/>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">4999</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="117117507_466797292">
+            <model>Сумка багет 2034 натуральная кожа коричневый</model>
+            <brand>Без бренда</brand>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">6795</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="117216505_476236696">
+            <model>Сумка багет MADOO 479902 искусственная кожа коричневый, кофейный</model>
+            <brand/>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">7500</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="120550936_536095202">
+            <model>Сумка хобо Leather 2020006 натуральная кожа шоколадный</model>
+            <brand>Leather</brand>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">17756</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="104971465_420131594">
+            <model>Ancel мультимарочный AS500</model>
+            <brand/>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">28000</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="129919656_976384090">
+            <model>Сумка хобо 4.10 Avenue 1313 искусственная кожа бордовый</model>
+            <brand>4.10 Avenue</brand>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">4890</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="123613586_073780449">
+            <model>Сумка шоппер MUA Женская сумка шоппер Academy натуральная кожа черный</model>
+            <brand>MUA</brand>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0" stockCount="0.0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">10270</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="120728656_325978536">
+            <model>Мини-сумка Miledi 1888055 искусственная кожа красный</model>
+            <brand>Miledi</brand>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0" stockCount="0.0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">4895</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="108094644_921017891">
+            <model>Eva store спонж скошенный, спонж капля поролон, нейлон 7 шт</model>
+            <brand>Eva store</brand>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">549</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="103515460_625734010">
+            <model>Health Store спонж скошенный поролон розовый 7 шт</model>
+            <brand>Health Store</brand>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">549</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="113576509_935568050">
+            <model>Модуль аудио Arduino MAX9814</model>
+            <brand/>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">1940</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="120153641_736390055">
+            <model>Сумка хобо 7875 bordo искусственная кожа бордовый</model>
+            <brand>Без бренда</brand>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0" stockCount="0.0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">4490</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="666892532">
+            <model>Keyestudio 223 деталей 179 шт</model>
+            <brand/>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">50000</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="110159317_222964927">
+            <model>Спонж скошенный, спонж капля поролон 7 шт</model>
+            <brand/>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">988</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="116705676_286484686">
+            <model>Эндоскоп 15386004</model>
+            <brand>Без бренда</brand>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0" stockCount="0.0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">139318</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="120203663_946808608">
+            <model>Сумка шоппер 7868 bordo искусственная кожа бордовый</model>
+            <brand>Без бренда</brand>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0" stockCount="0.0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">7883</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="122634432_252181983">
+            <model>Сумка кросс-боди Сумка сердце искусственная кожа красный</model>
+            <brand>Без бренда</brand>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">4575</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="129194173_387836569">
+            <model>BSIDE мультиметр S10, цифровой</model>
+            <brand>BSIDE</brand>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">20996</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="115700465_306342374">
+            <model>FNIRSI диагностический комплекс 2C23T</model>
+            <brand>fnirsi</brand>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">40000</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="120635826_364975530">
+            <model>FNIRSI осциллограф 2C23T</model>
+            <brand>fnirsi</brand>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">39998</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="112780847_763046644">
+            <model>LUCKY FFW718 LA</model>
+            <brand>LUCKY</brand>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0" stockCount="0.0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">53574</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="746">
+            <model>Сервопривод TD-8135MG</model>
+            <brand>china-toys</brand>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">18000</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="116062679_071789353">
+            <model>NOYAFA кабельный тестер NF-8506, цифровой</model>
+            <brand>NOYAFA</brand>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0" stockCount="0.0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">82100</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="132138163_531825905">
+            <model>FNIRSI мультиметр мультиметр с токовыми клещами DMC-100, цифровой</model>
+            <brand>fnirsi</brand>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">29989</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="121334588_026126448">
+            <model>FNIRSI паяльник HS-02A-B серый</model>
+            <brand>FNIRSI</brand>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">22987</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="109335249_118556283">
+            <model>Ancel тестер BST100</model>
+            <brand>Ancel</brand>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">23000</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="123571154_762614016">
+            <model>Сумка хобо MUA Женская сумка хобо Row ART. 6158 натуральная кожа черный</model>
+            <brand>MUA</brand>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0" stockCount="0.0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">7999</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="115700455_375591094">
+            <model>Детектор FNIRSI с дисплеем WD-02</model>
+            <brand>FNIRSI</brand>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0" stockCount="0.0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">25885</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="121318077_094294862">
+            <model>Мини-сумка Сердце искусственная кожа красный</model>
+            <brand>Без бренда</brand>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0" stockCount="0.0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">4999</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="115308679_731034500">
+            <model>FX-Audio X6MKII</model>
+            <brand>fx-audio</brand>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">78000</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="129572652">
+            <model/>
+            <brand/>
+            <availabilities/>
+            <price>0</price>
+        </offer>
+        <offer sku="110074495_743169587">
+            <model>Модуль управления Arduino Mega 2560 R3</model>
+            <brand>Arduino</brand>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">11500</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="921585569">
+            <model>Alashed Активный Кулер Raspberry Pi</model>
+            <brand>raspberry-pi</brand>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">4200</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="123332932_797492645">
+            <model>Многофункциональный датчик SONOFF ZBDongle-E, экосистема: Google Home, Amazon Alexa, Умный дом Яндекса</model>
+            <brand>sonoff</brand>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">14700</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="123567481_605004835">
+            <model>Сумка шоппер MUA Женская сумка шоппер Stefania экокожа черный</model>
+            <brand>MUA</brand>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0" stockCount="0.0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">6499</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="116266234_658091062">
+            <model>Сумка бочонок 30030606_960227 искусственная кожа, экокожа черный</model>
+            <brand>Без бренда</brand>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0" stockCount="0.0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">7895</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="109662297_630732517">
+            <model>Клатч Saralyn Женская сумка клатч со стразами 806# искусственная кожа серебристый</model>
+            <brand>Saralyn</brand>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0" stockCount="0.0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">13975</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="110690524_068592932">
+            <model>SONOFF центр управления Smart Zigbee Bridge 6920075775884</model>
+            <brand>sonoff</brand>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">12099</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="102715166_500488347">
+            <model>NOYAFA кабельный тестер NF-820, аналоговый</model>
+            <brand>noyafa</brand>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">65000</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="113102497_105746867">
+            <model>Третья рука TE-801 1 шт</model>
+            <brand/>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">3599</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="826779241">
+            <model>Keyestudio Basic Starter Kit For BBC Micro 4003, деталей 142 шт</model>
+            <brand>keyestudio</brand>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">50000</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="123345793_949660055">
+            <model>SONOFF реле управления AC 220 В 10 А, кол-во фаз : 1</model>
+            <brand>sonoff</brand>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">9000</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="225452109">
+            <model>Keyestudio Robot Car V2.0 0559, деталей 156 шт</model>
+            <brand>keyestudio</brand>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">50000</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="110608245_697966387">
+            <model>SONOFF реле управления 4CH R3</model>
+            <brand>sonoff</brand>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">17500</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="103027794_997865044">
+            <model>Датчик температуры Arduino DHT11</model>
+            <brand>arduino</brand>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">3000</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="113360596_815964650">
+            <model>Набор датчиков Arduino GY521 MPU-6050</model>
+            <brand>arduino</brand>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">1090</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="102908748_972507219">
+            <model>Arduino RoboShop Starter Kit</model>
+            <brand>arduino</brand>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">25000</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="110621147_898323113">
+            <model>SONOFF реле управления Smart Stackable Power Meter</model>
+            <brand>SONOFF</brand>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">45699</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="105752409_774262868">
+            <model>Модуль GSM/GPRS/GPS Arduino NEO-6M</model>
+            <brand>arduino</brand>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">4900</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="853760746">
+            <model>FNIRSI мультиметр DMT-99, цифровой</model>
+            <brand>FNIRSI</brand>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">43999</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="120790630_726461202">
+            <model>Мини-сумка Miledi 1888055 искусственная кожа черный</model>
+            <brand>Miledi</brand>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">7999</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="101055754_950099285">
+            <model>SONOFF реле контроля питания AC 220 В 10 А, кол-во фаз : 1</model>
+            <brand>sonoff</brand>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">22499</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="195315554">
+            <model>Цифровой 30233309_195315554</model>
+            <brand>china-toys</brand>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">7000</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="122331283_939726387">
+            <model>DM9</model>
+            <brand>Без бренда</brand>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">54000</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="107702890_050086130">
+            <model>SONOFF температурное реле THR320D</model>
+            <brand>sonoff</brand>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">11099</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="105749873_608554944">
+            <model>SONOFF реле управления SH-10_1CH_WF</model>
+            <brand>SONOFF</brand>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">4964</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="115250626_072482864">
+            <model>SONOFF реле управления AC 220 В 10 А, кол-во фаз : 1</model>
+            <brand>sonoff</brand>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">10000</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="113593071_115246155">
+            <model>Модуль преобразователя Arduino ADS1115</model>
+            <brand>arduino</brand>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">2000</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="108668591_287120687">
+            <model>Модуль расширения Arduino FC-03</model>
+            <brand>arduino</brand>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">1500</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="108325409_995382120">
+            <model>Модуль Wi-Fi Arduino WeMos D1 WiFi</model>
+            <brand>arduino</brand>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">4500</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="116479663_146078262">
+            <model>Датчик влажности почвы Arduino Capacitive soil moisture sensor v1.2</model>
+            <brand>Arduino</brand>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">1688</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="122494800_249164412">
+            <model>Робот DanTa DNTI602, высота 15 см</model>
+            <brand>DanTa</brand>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">35978</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="123344441_579503727">
+            <model>Датчик влажности SONOFF MS01, экосистема: Amazon Alexa, Умный дом Яндекса, Google Home</model>
+            <brand>SONOFF</brand>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">4749</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="107702992_853217127">
+            <model>Датчик влажности SONOFF MS01, экосистема: Apple HomeKit, Умный дом Яндекса</model>
+            <brand>sonoff</brand>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">4799</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="110074550_317640779">
+            <model>Arduino Mega 2560 R3</model>
+            <brand>Без бренда</brand>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">7464</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="115853130_005498620">
+            <model>Датчик температуры SONOFF 1820, экосистема: Ajax, Amazon Alexa, Xiaomi Mi Home, Apple HomeKit, Умный дом Яндекса, ACME Smart Home, EZVIZ, STL Smart Home, Tuya Smart, TDM, Samsung SmartThings</model>
+            <brand>sonoff</brand>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">19000</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="101055761_599657855">
+            <model>SONOFF температурное реле TH16</model>
+            <brand>sonoff</brand>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">14999</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="113363285_899639971">
+            <model>Датчик температуры и влажности Arduino DHT11</model>
+            <brand>arduino</brand>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">690</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="817728974">
+            <model>Держатель белый</model>
+            <brand>Без бренда</brand>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">999</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="677485435">
+            <model>1465 A3</model>
+            <brand/>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">5700</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="109771568_048362637">
+            <model>Камера видеонаблюдения SONOFF GK-200MP2-B 1080P</model>
+            <brand>sonoff</brand>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">16998</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="684965991">
+            <model>Подставка 1424 1 шт</model>
+            <brand>china-toys</brand>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">1500</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="110690526_640489752">
+            <model>SONOFF L1 Smart RGB LED Light Strip 6920075770070 2 м</model>
+            <brand>SONOFF</brand>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">14100</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="461978864">
+            <model>Сервопривод arduino DSSERVO DS3230</model>
+            <brand>Alashed</brand>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">20000</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="905734783">
+            <model>Датчик температуры DHT11</model>
+            <brand>Alashed</brand>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">790</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="130648324_694136906">
+            <model>FNIRSI мультиметр LCR-ST1, цифровой</model>
+            <brand>FNIRSI</brand>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">23985</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="103074364_989628313">
+            <model>Датчик света Arduino 37 in 1 kit</model>
+            <brand>arduino</brand>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">4999</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="132576700_680440517">
+            <model>FNIRSI омметр LCR-ST1, цифровой</model>
+            <brand>fnirsi</brand>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">23989</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="487496562">
+            <model>3G-OA</model>
+            <brand>china-toys</brand>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">31000</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="120189985_373016313">
+            <model>Сумка кросс-боди Serdecko2 искусственная кожа черный</model>
+            <brand>Без бренда</brand>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">4856</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="104768725_029737645">
+            <model>Модуль управления Arduino UNO R3</model>
+            <brand>arduino</brand>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">4817</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="566">
+            <model>Сервопривод TD-812MG</model>
+            <brand>china-toys</brand>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">12000</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="123068494_140009781">
+            <model>Сумка шоппер MUA Женская сумка шоппер Valencia ART. 8192 экокожа бежевый</model>
+            <brand>MUA</brand>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">6197</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="113662052_143511632">
+            <model>Опыты с электричеством, проектирование и моделирование Arduino arducarkit, мультиколор</model>
+            <brand>arduino</brand>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">24999</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="229413696">
+            <model>Датчик расстояния WCMCU-531</model>
+            <brand>china-toys</brand>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">3600</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="075151873">
+            <model>Отвертка 075151873 SL4х150 мм</model>
+            <brand>china-toys</brand>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">18000</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="ALASH">
+            <model>Аккумулятор 6S 1 шт</model>
+            <brand>china-toys</brand>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">40000</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="119330970_637340786">
+            <model>SONOFF модуль управления MINIR4</model>
+            <brand>sonoff</brand>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">12000</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="094466902">
+            <model>4xAA AA 4</model>
+            <brand>Alashed</brand>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">700</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="122214087_258226687">
+            <model>Сумка кросс-боди Сумка-сердце полиуретан черный</model>
+            <brand>Без бренда</brand>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">4994</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="110367777_094833380">
+            <model>SONOFF реле управления WiFi SPM-4Relay</model>
+            <brand>sonoff</brand>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">49000</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="587990724">
+            <model>Датчик влажности почвы DHT11</model>
+            <brand>Alashed</brand>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">790</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="131073140_219625441">
+            <model>FNIRSI мультиметр LCR-P1, цифровой</model>
+            <brand>FNIRSI</brand>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">20200</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="113576224_427981816">
+            <model>Модуль GSM/GPRS Arduino SIM900</model>
+            <brand>arduino</brand>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">6400</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="113361324_675310509">
+            <model>Датчик температуры и влажности Arduino DHT11</model>
+            <brand>arduino</brand>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">790</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="110528275_977421248">
+            <model>Кнопка сенсорного управления SONOFF T2EU1C, белый</model>
+            <brand>sonoff</brand>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">12000</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="306322536">
+            <model>Fosi Audio BT20A</model>
+            <brand>fosi-audio</brand>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">35000</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="108325547_686089705">
+            <model>Модуль GSM/GPRS/GPS Arduino SIM808 EVB-V3.2.4</model>
+            <brand>arduino</brand>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">13990</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="118620126_512059514">
+            <model>BSIDE мультиметр EMF BSIDE S20/ ZY24020235, цифровой</model>
+            <brand>BSIDE</brand>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">29999</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="108042518_384435762">
+            <model>Модуль управления Arduino Pro Mini</model>
+            <brand>Arduino</brand>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">2476</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="312881784">
+            <model>Подставка 1425 1 шт</model>
+            <brand>china-toys</brand>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">3500</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="113363233_170929252">
+            <model>Датчик атмосферного давления Arduino BMP-280</model>
+            <brand>arduino</brand>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">790</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="969550554">
+            <model>30233309_969550554</model>
+            <brand>china-toys</brand>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">69000</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="9">
+            <model>Набор пинцетов ALASH 9 шт</model>
+            <brand>china-toys</brand>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">8990</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="107475197_561133891">
+            <model>FISH FINDER Portable</model>
+            <brand>Без бренда</brand>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">21592</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="761043958">
+            <model>Модуль управления Joystick</model>
+            <brand>Alahed</brand>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">1500</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="544490803">
+            <model>2xAAA AAA 2</model>
+            <brand>Alashed</brand>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">500</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="377919708">
+            <model>SONOFF беспроводной выключатель</model>
+            <brand>sonoff</brand>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">10000</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="281321022">
+            <model>Модуль Mojo FPGA</model>
+            <brand>china-toys</brand>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">72000</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="061681000">
+            <model>Лопатка монтажная 1451 1 шт</model>
+            <brand>china-toys</brand>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">240</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="591317541">
+            <model>Keyestudio Coding Education Robot for Arduino 0353, деталей 70 шт</model>
+            <brand>keyestudio</brand>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">50000</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="102113172_054784079">
+            <model>Arduino STM32F103C8T6 ARM STM32</model>
+            <brand>arduino</brand>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">4999</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="822452875">
+            <model>Набор термоусадочных трубок 4.5 6/6 мм, 200 шт</model>
+            <brand>china-toys</brand>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">2400</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="131345136_893806791">
+            <model>Проектирование и моделирование, опыты с электричеством ARDUINO ROBOT KIT CAR 2WD</model>
+            <brand>arduino</brand>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">9999</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="243998322">
+            <model>Воздуходувка 243998322</model>
+            <brand>china-toys</brand>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">30000</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="052548896">
+            <model>SONOFF лампочка</model>
+            <brand>sonoff</brand>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">10000</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="109376634_733170669">
+            <model>NOYAFA кабельный тестер NF-8209S, цифровой</model>
+            <brand>noyafa</brand>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">38424</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="010501954">
+            <model>Hanmatek Мультиметр SF1, цифровой</model>
+            <brand>HANMATEK</brand>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">60000</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="116482042_235463351">
+            <model>Raspberry Pi 5 B Starter Kit 4GB</model>
+            <brand>raspberry-pi</brand>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">100000</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="106459856_791721982">
+            <model>NOYAFA кабельный тестер NF-8508, цифровой</model>
+            <brand>NOYAFA</brand>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">69298</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="101851468_783994675">
+            <model>NOYAFA мультиметр NF-816, аналоговый</model>
+            <brand>NOYAFA</brand>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">33999</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="118822227_709214767">
+            <model>Raspberry Pi Pi5 4Gb</model>
+            <brand>raspberry-pi</brand>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">68000</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="121442700_101360086">
+            <model>Модуль управления A4988</model>
+            <brand/>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">2700</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="108345725_325386426">
+            <model>Опыты с электричеством Arduino UNO KIT</model>
+            <brand>arduino</brand>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">17095</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="113350707_037704174">
+            <model>Проектирование и моделирование Arduino Smart Car Kit</model>
+            <brand>arduino</brand>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">31000</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="110623742_437046319">
+            <model>SONOFF центр управления Smart Stackable Power Meter</model>
+            <brand>SONOFF</brand>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">30149</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="371449976">
+            <model>Подставка 1422 1 шт</model>
+            <brand>china-toys</brand>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">1500</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="178392374">
+            <model>30233309_178392374</model>
+            <brand>china-toys</brand>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">79000</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="100799527_700531295">
+            <model>Многофункциональный датчик SONOFF AL560, экосистема: не поддерживается</model>
+            <brand>sonoff</brand>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">2500</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="106221960_155331586">
+            <model>Keyestudio Мини роботизированный манипулятор 4DOF (Акрил) KS0198X, деталей 57 шт</model>
+            <brand>keyestudio</brand>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">50000</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="116482059_278320623">
+            <model>Raspberry Pi 5 B Starter Kit 8GB</model>
+            <brand>Raspberry Pi</brand>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">199998</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="131264047_252410320">
+            <model>Raspberry Pi 5 8 GB</model>
+            <brand>raspberry-pi</brand>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">95000</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="753904498">
+            <model>Переходник USB 2.0 (F) черный</model>
+            <brand>Alashed</brand>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">1200</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="115853132_416280898">
+            <model>Датчик влажности SONOFF 1211, экосистема: Xiaomi Mi Home, Умный дом Яндекса</model>
+            <brand>sonoff</brand>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">17000</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="383811428">
+            <model>1464 A4</model>
+            <brand/>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">1560</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="298035387">
+            <model>Keyestudio Micro bit Desk Bit Mini Car KS4041, деталей 62 шт</model>
+            <brand>keyestudio</brand>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">50000</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="101436418_302930044">
+            <model>Raspberry Pi 4 Model B 4Gb</model>
+            <brand>Raspberry Pi</brand>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">44986</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="110608239_515475608">
+            <model>Кнопка сенсорного управления SONOFF T2EU1C-RF, белый</model>
+            <brand>sonoff</brand>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">12000</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="650928797">
+            <model>Подставка 1421 1 шт</model>
+            <brand>china-toys</brand>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">3000</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="31000507_205189773">
+            <model>LUCKY 31000507</model>
+            <brand>LUCKY</brand>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">22440</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="109074052_258467916">
+            <model>Модуль Wi-Fi Arduino ESP8266</model>
+            <brand>arduino</brand>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">4900</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="123597063_606149193">
+            <model>Сумка кросс-боди MUA Женская сумка кросс-боди Emmy экокожа черный</model>
+            <brand>MUA</brand>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">6998</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="995555261">
+            <model>Лопатка монтажная 995555261 1 шт</model>
+            <brand/>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">240</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="113592968_851903138">
+            <model>модуль камеры Raspberry Pi OV5647</model>
+            <brand>raspberry-pi</brand>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">4500</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="113360779_358661039">
+            <model>Набор датчиков Arduino 37 in 1 Sensors Kit</model>
+            <brand>arduino</brand>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">6882</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="350781437">
+            <model>Флюс-гель 081-188, 1 шт</model>
+            <brand>china-toys</brand>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">3500</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="113363255_469963102">
+            <model>Датчик атмосферного давления Arduino BMP180</model>
+            <brand>arduino</brand>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">790</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="283796469">
+            <model>Модуль управления ESPRESSIF ESP32 pro OLED V2.0</model>
+            <brand>espressif</brand>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">12000</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="100799523_498167726">
+            <model>Датчик температуры и влажности SONOFF AM2301 TH-16, экосистема: Amazon Alexa, Умный дом Яндекса</model>
+            <brand>sonoff</brand>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">4000</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="117851311_548531621">
+            <model>Сумка тоут 30228755_759815407 натуральная кожа красный</model>
+            <brand>Без бренда</brand>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">8389</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="254461638">
+            <model>Модуль дисплея 254461638</model>
+            <brand>china-toys</brand>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">30000</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="116515994_406474838">
+            <model>Модуль CAN-шины Arduino MCP2515 TJA1050</model>
+            <brand>arduino</brand>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">1994</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="106172711_640331423">
+            <model>Raspberry Pi RA562</model>
+            <brand>raspberry-pi</brand>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">4990</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="110699397_112136274">
+            <model>SONOFF RGB Smart LED Light Strip 5 м</model>
+            <brand>sonoff</brand>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">13199</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="115853508_547262370">
+            <model>Удлинитель для датчиков SONOFF 1702, экосистема: не поддерживается</model>
+            <brand>sonoff</brand>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">4999</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="230333846">
+            <model>Электромагнитное реле 1420, пластик</model>
+            <brand>china-toys</brand>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">950</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="115853131_196686304">
+            <model>Датчик температуры и влажности SONOFF 1212, экосистема: Ajax, Amazon Alexa, Xiaomi Mi Home, Apple HomeKit, Умный дом Яндекса, ACME Smart Home, STL Smart Home, Tuya Smart, TDM</model>
+            <brand>sonoff</brand>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">12000</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="110675805_252985014">
+            <model>SONOFF реле управления POWR3 6920075776768</model>
+            <brand>SONOFF</brand>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">20399</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="108622067_027460679">
+            <model>Модуль расширения Arduino US-100</model>
+            <brand>arduino</brand>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">2800</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="122494802_876278076">
+            <model>Робот DanTa DNTI601, высота 15 см</model>
+            <brand>DanTa</brand>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">35000</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="164859335">
+            <model>Двигатель DC24V-180RPM</model>
+            <brand>china-toys</brand>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">18000</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="124086077_810638204">
+            <model>Спонж скошенный, спонж капля поролон, полиуретан 7 шт</model>
+            <brand>Без бренда</brand>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">600</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="360608054">
+            <model>Подставка 1423 1 шт</model>
+            <brand>china-toys</brand>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">3500</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="115301902_517045700">
+            <model>Alctron 2231</model>
+            <brand>Alctron</brand>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">14000</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="110500442_338286904">
+            <model>Камера видеонаблюдения SONOFF 6920075777413 1080P</model>
+            <brand>SONOFF</brand>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">23599</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="626453954">
+            <model>Датчик газа CJMCU-811</model>
+            <brand/>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">9800</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="116488014_169228126">
+            <model>Модуль расширения Arduino JA12-N20B 6В</model>
+            <brand>arduino</brand>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">4900</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="123744126_978968847">
+            <model>SONOFF реле управления AC 220 В 10 А, кол-во фаз : 1</model>
+            <brand>sonoff</brand>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">12200</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="002480096">
+            <model>Подставка 1426 1 шт</model>
+            <brand>china-toys</brand>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">1800</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="122121726_521884068">
+            <model>Проектирование и моделирование Arduino UNO RFID, мультиколор</model>
+            <brand>arduino</brand>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">14999</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="113592981_913837011">
+            <model>Модуль камеры Arduino OV7670</model>
+            <brand>arduino</brand>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">1098</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="120591629_842438688">
+            <model>Модуль GSM/GPRS SIM800L</model>
+            <brand/>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">6998</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="113363268_053412517">
+            <model>Датчик атмосферного давления Arduino BME-280</model>
+            <brand>arduino</brand>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">4999</cityprice>
+            </cityprices>
+        </offer>
+        <offer sku="119608602_443995343">
+            <model>Arduino UNO R4 WIFI</model>
+            <brand>arduino</brand>
+            <availabilities>
+                <availability available="no" storeId="30233309_PP1" preOrder="0"/>
+            </availabilities>
+            <cityprices>
+                <cityprice cityId="750000000">18000</cityprice>
+            </cityprices>
+        </offer>
+    </offers>
+</kaspi_catalog>

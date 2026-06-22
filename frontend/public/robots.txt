@@ -1,0 +1,42 @@
+User-Agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /account
+Disallow: /client_account/
+Disallow: /checkout/
+Disallow: /cart
+Disallow: /favorites
+Disallow: /api/
+Disallow: /_next/
+
+# AI bots — same rules, explicit for search AI features (ChatGPT, Gemini, Perplexity, etc.)
+User-Agent: GPTBot
+User-Agent: OAI-SearchBot
+User-Agent: ChatGPT-User
+User-Agent: Google-Extended
+User-Agent: Google-CloudVertexBot
+User-Agent: Gemini-Deep-Research
+User-Agent: ClaudeBot
+User-Agent: Claude-SearchBot
+User-Agent: Claude-Web
+User-Agent: Claude-User
+User-Agent: anthropic-ai
+User-Agent: PerplexityBot
+User-Agent: FacebookBot
+User-Agent: Applebot-Extended
+User-Agent: DeepSeekBot
+User-Agent: DuckAssistBot
+User-Agent: CCBot
+User-Agent: YouBot
+Allow: /
+Disallow: /admin/
+Disallow: /account
+Disallow: /client_account/
+Disallow: /checkout/
+Disallow: /cart
+Disallow: /favorites
+Disallow: /api/
+Disallow: /_next/
+
+Sitemap: https://alash-electronics.kz/sitemap.xml
+IndexNow: https://alash-electronics.kz/4bb2949a7737b479b3c93be2474b352c.txt

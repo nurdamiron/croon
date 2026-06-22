@@ -1,0 +1,14 @@
+{
+  "name": "alash-electronics-blog-bot",
+  "version": "1.0.0",
+  "private": true,
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "blog-bot-core": "file:../../blog-bot-core",
+    "dotenv": "^16.4.5",
+    "pg": "^8.12.0"
+  }
+}

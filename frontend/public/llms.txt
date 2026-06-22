@@ -1,0 +1,61 @@
+# Alash Electronics
+
+> Alash Electronics — интернет-магазин электронных компонентов в Казахстане. Официальный поставщик Arduino, ESP32, Raspberry Pi, датчиков, модулей, инструментов и робототехники. Доставка по Алматы и всему Казахстану. 1896 товаров в наличии.
+
+## О магазине
+
+Alash Electronics — специализированный интернет-магазин электронных компонентов для разработчиков, студентов, любителей робототехники и DIY-проектов в Казахстане (г. Алматы). Работаем с 2019 года.
+
+- Сайт: https://alash-electronics.kz
+- Телефон: +7(700) 900-17-90
+- Telegram: https://t.me/alash_electronics
+- Instagram: https://www.instagram.com/alash_engineer/
+- Wiki с обучающими материалами: https://wiki.alashed.kz
+
+## Каталог
+
+- [Arduino](https://alash-electronics.kz/collection/arduino): Платы Arduino Uno, Mega, Nano и комплекты
+- [ESP32 / ESP8266](https://alash-electronics.kz/collection/esp32-esp8266): Модули WiFi/Bluetooth для IoT
+- [Raspberry Pi](https://alash-electronics.kz/collection/raspberry): Одноплатные компьютеры всех версий, корпуса, камеры
+- [Датчики](https://alash-electronics.kz/collection/datchiki): Температура, расстояние, движение, газ
+- [Готовые наборы](https://alash-electronics.kz/collection/gotovye-nabory-dlya-robototehniki): Стартовые наборы для обучения робототехнике
+- [Аккумуляторы и батареи](https://alash-electronics.kz/collection/akkumulyatory-i-batarei): Li-Ion 18650, LiPo, зарядные модули
+- [Адаптеры, разъёмы и штекеры](https://alash-electronics.kz/collection/adaptery-razyomy-i-shteker): USB, HDMI, GPIO-разъёмы и кабели
+- [Аксессуары](https://alash-electronics.kz/collection/aksessuary): Макетные платы, провода, паяльные принадлежности
+- [CNC / ЧПУ станки](https://alash-electronics.kz/collection/cnc-chpu-stanki): Лазерные граверы, фрезеры с ЧПУ
+- [BMS платы](https://alash-electronics.kz/collection/bms-platy): Платы управления аккумуляторами
+- [Автотовары](https://alash-electronics.kz/collection/avtotovary): Зарядные устройства, инверторы, диагностика
+- [Все товары](https://alash-electronics.kz/collection/all): Полный каталог
+
+## Информация
+
+- [О нас](https://alash-electronics.kz/page/about-us): Официальный импортёр Arduino в Казахстане
+- [Контакты](https://alash-electronics.kz/page/contacts): Алматы, самовывоз и доставка по РК
+- [Доставка](https://alash-electronics.kz/page/delivery): Условия и способы доставки
+- [Оплата](https://alash-electronics.kz/page/payment-2): Способы оплаты
+- [AlashEd](https://alash-electronics.kz/page/alashed): Товары для государственных закупок
+- [Блог](https://alash-electronics.kz/blogs/kits): Обзоры, туториалы по электронике и программированию
+- [Wiki / база знаний](https://wiki.alashed.kz/): Обучающие материалы
+
+## Доставка и оплата
+
+- Доставка по Алматы: Яндекс Курьер. Бесплатно при заказе от 150 000 ₸.
+- Доставка по Казахстану: inDrive
+- Самовывоз: ул. Кыз Жибек, 104/1, Алматы. Пн–Сб, 12:00–20:00
+- Оплата: наличными, картой или банковским переводом
+
+## Государственные закупки
+
+Alash Electronics участвует в государственных закупках Казахстана через платформу AlashEd: https://alash-electronics.kz/page/alashed
+
+## Не для LLM
+
+- /api/
+- /cart/
+- /checkout/
+- /account/
+- /admin/
+
+## Sitemap
+
+https://alash-electronics.kz/sitemap.xml

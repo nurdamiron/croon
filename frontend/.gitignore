@@ -1,0 +1,16 @@
+node_modules
+.next
+.env
+.env.local
+
+# Google Cloud service account keys (Indexing API и т.д.)
+*-service-account*.json
+google-indexing*.json
+google-indexing-state.json
+.secrets/
+
+# Kaspi cabinet worker session + креды робота (СЕКРЕТ, не коммитить)
+.kaspi-session.json
+.kaspi-credentials.json
+# Логи разведки чатов кабинета (содержат данные кабинета)
+kaspi-chat-recon.log

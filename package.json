@@ -1,0 +1,26 @@
+{
+  "name": "alash-electronics.kz",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Alash-electronics/alash-electronics.kz.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Alash-electronics/alash-electronics.kz/issues"
+  },
+  "homepage": "https://github.com/Alash-electronics/alash-electronics.kz#readme",
+  "dependencies": {
+    "csv-parse": "^6.1.0",
+    "iconv-lite": "^0.7.2",
+    "xml2js": "^0.6.2"
+  }
+}

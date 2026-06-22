@@ -1,0 +1,126 @@
+User-Agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /account
+Disallow: /client_account/
+Disallow: /checkout/
+Disallow: /cart
+Disallow: /favorites
+Disallow: /api/
+
+# OpenAI
+User-Agent: GPTBot
+Allow: /
+Disallow: /admin/
+Disallow: /account
+Disallow: /client_account/
+Disallow: /checkout/
+Disallow: /cart
+Disallow: /favorites
+Disallow: /api/
+
+User-Agent: OAI-SearchBot
+Allow: /
+Disallow: /admin/
+Disallow: /checkout/
+Disallow: /api/
+
+User-Agent: ChatGPT-User
+Allow: /
+Disallow: /admin/
+Disallow: /checkout/
+Disallow: /api/
+
+# Anthropic
+User-Agent: ClaudeBot
+Allow: /
+Disallow: /admin/
+Disallow: /checkout/
+Disallow: /api/
+
+User-Agent: Claude-SearchBot
+Allow: /
+Disallow: /admin/
+Disallow: /checkout/
+Disallow: /api/
+
+User-Agent: Claude-Web
+Allow: /
+Disallow: /admin/
+Disallow: /checkout/
+Disallow: /api/
+
+User-Agent: anthropic-ai
+Allow: /
+Disallow: /admin/
+Disallow: /checkout/
+Disallow: /api/
+
+# Perplexity
+User-Agent: PerplexityBot
+Allow: /
+Disallow: /admin/
+Disallow: /checkout/
+Disallow: /api/
+
+# Google
+User-Agent: Google-Extended
+Allow: /
+Disallow: /admin/
+Disallow: /checkout/
+Disallow: /api/
+
+User-Agent: Google-CloudVertexBot
+Allow: /
+Disallow: /admin/
+Disallow: /checkout/
+Disallow: /api/
+
+User-Agent: Gemini-Deep-Research
+Allow: /
+Disallow: /admin/
+Disallow: /checkout/
+Disallow: /api/
+
+# Apple
+User-Agent: Applebot-Extended
+Allow: /
+Disallow: /admin/
+Disallow: /checkout/
+Disallow: /api/
+
+# DeepSeek
+User-Agent: DeepSeekBot
+Allow: /
+Disallow: /admin/
+Disallow: /checkout/
+Disallow: /api/
+
+# DuckDuckGo AI
+User-Agent: DuckAssistBot
+Allow: /
+Disallow: /admin/
+Disallow: /checkout/
+Disallow: /api/
+
+# Common Crawl (used by most LLMs for training)
+User-Agent: CCBot
+Allow: /
+Disallow: /admin/
+Disallow: /checkout/
+Disallow: /api/
+
+# You.com
+User-Agent: YouBot
+Allow: /
+Disallow: /admin/
+Disallow: /checkout/
+Disallow: /api/
+
+# Social
+User-Agent: FacebookBot
+Allow: /
+Disallow: /admin/
+Disallow: /api/
+
+Sitemap: https://alash-electronics.kz/sitemap.xml

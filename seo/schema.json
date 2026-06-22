@@ -1,0 +1,69 @@
+[
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "@id": "https://alash-electronics.kz/#website",
+    "url": "https://alash-electronics.kz",
+    "name": "Alash Electronics",
+    "description": "Интернет-магазин электронных компонентов в Казахстане",
+    "inLanguage": "ru",
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": {
+        "@type": "EntryPoint",
+        "urlTemplate": "https://alash-electronics.kz/collection/all?search={search_term_string}"
+      },
+      "query-input": "required name=search_term_string"
+    }
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": ["LocalBusiness", "Store", "Organization"],
+    "@id": "https://alash-electronics.kz/#organization",
+    "name": "Alash Electronics",
+    "url": "https://alash-electronics.kz",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://alash-electronics.kz/images/logo.png",
+      "width": 200,
+      "height": 60
+    },
+    "image": "https://alash-electronics.kz/images/og-cover.jpg",
+    "telephone": "+7-700-900-17-90",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "ул. Кыз Жибек, 104/1",
+      "addressLocality": "Алматы",
+      "postalCode": "050020",
+      "addressCountry": "KZ"
+    },
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": 43.214927,
+      "longitude": 76.97348
+    },
+    "openingHoursSpecification": {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],
+      "opens": "12:00",
+      "closes": "20:00"
+    },
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "telephone": "+7-700-900-17-90",
+      "contactType": "customer service",
+      "availableLanguage": "Russian"
+    },
+    "foundingDate": "2019",
+    "areaServed": {
+      "@type": "Country",
+      "name": "Kazakhstan"
+    },
+    "sameAs": [
+      "https://t.me/alash_electronics",
+      "https://www.instagram.com/alash_engineer/",
+      "https://wa.me/77009001790"
+    ],
+    "hasMap": "https://2gis.kz/almaty/search/alash%20electronics/firm/70000001086917700"
+  }
+]

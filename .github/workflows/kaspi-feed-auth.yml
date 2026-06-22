@@ -1,0 +1,83 @@
+name: Kaspi Feed Basic Auth (prod)
+
+on:
+  workflow_dispatch:
+    inputs:
+      user:
+        description: 'KASPI_FEED_USER (логин в Kaspi для фида)'
+        type: string
+        required: true
+      password:
+        description: 'KASPI_FEED_PASS (пароль)'
+        type: string
+        required: true
+      action:
+        description: 'set: установить/обновить, clear: убрать защиту'
+        type: choice
+        required: true
+        default: set
+        options:
+          - set
+          - clear
+
+jobs:
+  apply:
+    name: Update .env on EC2
+    runs-on: ubuntu-latest
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_DEFAULT_REGION: eu-north-1
+      FEED_USER: ${{ inputs.user }}
+      FEED_PASS: ${{ inputs.password }}
+      ACTION: ${{ inputs.action }}
+
+    steps:
+      - uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: eu-north-1
+
+      - name: Send SSM command
+        id: send
+        run: |
+          USER_B64=$(printf '%s' "$FEED_USER" | base64 -w0)
+          PASS_B64=$(printf '%s' "$FEED_PASS" | base64 -w0)
+          if [ "$ACTION" = "clear" ]; then
+            REMOTE_CMD="set -e; ENV=/home/ubuntu/alashed-shop/frontend/.env; TMP=\$(mktemp); sudo cat \$ENV | grep -vE '^KASPI_FEED_(USER|PASS)=' > \$TMP; sudo tee \$ENV < \$TMP >/dev/null; sudo chown ubuntu:ubuntu \$ENV; rm \$TMP; cd /home/ubuntu/alashed-shop/frontend && sudo -u ubuntu pm2 restart alash-electronics && echo CLEARED"
+          else
+            REMOTE_CMD="set -e; ENV=/home/ubuntu/alashed-shop/frontend/.env; TMP=\$(mktemp); U=\$(echo ${USER_B64} | base64 -d); P=\$(echo ${PASS_B64} | base64 -d); { sudo cat \$ENV | grep -vE '^KASPI_FEED_(USER|PASS)='; echo KASPI_FEED_USER=\$U; echo KASPI_FEED_PASS=\$P; } > \$TMP; sudo tee \$ENV < \$TMP >/dev/null; sudo chown ubuntu:ubuntu \$ENV; rm \$TMP; cd /home/ubuntu/alashed-shop/frontend && sudo -u ubuntu pm2 restart alash-electronics && echo APPLIED"
+          fi
+          export REMOTE_CMD ACTION
+          python3 - <<'PY' > /tmp/ssm.json
+          import json, os
+          payload = {
+            "InstanceIds": ["i-06e2d5837c24c75f3"],
+            "DocumentName": "AWS-RunShellScript",
+            "Comment": "kaspi feed auth " + os.environ["ACTION"],
+            "Parameters": {"commands": [os.environ["REMOTE_CMD"]]}
+          }
+          print(json.dumps(payload))
+          PY
+          CMD_ID=$(aws ssm send-command --cli-input-json file:///tmp/ssm.json --output text --query Command.CommandId)
+          echo "cmd=$CMD_ID" >> $GITHUB_OUTPUT
+          echo "SSM Command ID: $CMD_ID"
+
+      - name: Wait
+        run: |
+          CMD_ID="${{ steps.send.outputs.cmd }}"
+          for i in $(seq 1 20); do
+            sleep 5
+            ST=$(aws ssm get-command-invocation --command-id "$CMD_ID" --instance-id i-06e2d5837c24c75f3 --region eu-north-1 --query Status --output text 2>/dev/null || echo Pending)
+            echo "[$i/20] $ST"
+            if [ "$ST" = "Success" ]; then exit 0; fi
+            if [ "$ST" = "Failed" ] || [ "$ST" = "TimedOut" ] || [ "$ST" = "Cancelled" ]; then exit 1; fi
+          done
+          exit 1
+
+      - name: Output
+        if: always()
+        run: |
+          CMD_ID="${{ steps.send.outputs.cmd }}"
+          aws ssm get-command-invocation --command-id "$CMD_ID" --instance-id i-06e2d5837c24c75f3 --region eu-north-1 --query "[StandardOutputContent, StandardErrorContent]" --output text 2>/dev/null || true

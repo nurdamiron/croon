@@ -1,0 +1,113 @@
+name: Deploy to Production
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'frontend/**'        # деплоим только при изменениях фронта
+      - '.github/workflows/deploy.yml'
+  workflow_dispatch:          # плюс ручной запуск
+
+# не запускать два деплоя параллельно; новый отменяет старый в очереди
+concurrency:
+  group: deploy-production
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: Build & Deploy
+    runs-on: ubuntu-latest
+
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_DEFAULT_REGION: eu-north-1
+      INSTANCE_ID: i-06e2d5837c24c75f3
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: eu-north-1
+
+      # Архив именуется по commit SHA — детерминированно, видно какой код едет.
+      - name: Build archive and upload to S3
+        id: upload
+        run: |
+          SHA="${GITHUB_SHA::12}"
+          ARCHIVE="deploy-${SHA}.tar.gz"
+          echo "archive=$ARCHIVE" >> $GITHUB_OUTPUT
+          echo "sha=$SHA" >> $GITHUB_OUTPUT
+          cd frontend
+          tar czf /tmp/$ARCHIVE \
+            --exclude=node_modules \
+            --exclude=.next \
+            --exclude=.env \
+            --exclude=.env.local \
+            .
+          aws s3 cp /tmp/$ARCHIVE s3://alashed-media/deploys/$ARCHIVE
+          echo "Uploaded $ARCHIVE (commit $SHA) to S3"
+
+      # Серверный /home/ubuntu/deploy.sh всегда синхронизируем с репо-копией,
+      # чтобы не расходились. Заливаем через S3 (надёжнее, чем inline в SSM).
+      - name: Sync deploy.sh to server
+        run: |
+          aws s3 cp frontend/scripts/server-deploy.sh s3://alashed-media/deploys/server-deploy.sh
+          CMD=$(aws ssm send-command \
+            --instance-ids "$INSTANCE_ID" --region eu-north-1 \
+            --document-name "AWS-RunShellScript" \
+            --parameters 'commands=["aws s3 cp s3://alashed-media/deploys/server-deploy.sh /home/ubuntu/deploy.sh","chmod +x /home/ubuntu/deploy.sh","chown ubuntu:ubuntu /home/ubuntu/deploy.sh","echo deploy.sh synced"]' \
+            --output text --query "Command.CommandId")
+          sleep 8
+          aws ssm get-command-invocation --command-id "$CMD" --instance-id "$INSTANCE_ID" \
+            --region eu-north-1 --query "StandardOutputContent" --output text 2>/dev/null || true
+
+      - name: Run deploy.sh on EC2 via SSM
+        id: ssm
+        run: |
+          ARCHIVE="${{ steps.upload.outputs.archive }}"
+          SHA="${{ steps.upload.outputs.sha }}"
+          # deploy.sh получает архив И ожидаемый SHA для самопроверки
+          COMMAND_ID=$(aws ssm send-command \
+            --instance-ids "$INSTANCE_ID" \
+            --region eu-north-1 \
+            --document-name "AWS-RunShellScript" \
+            --comment "Deploy $ARCHIVE" \
+            --parameters "commands=[\"bash /home/ubuntu/deploy.sh $ARCHIVE $SHA\"]" \
+            --output text --query "Command.CommandId")
+          echo "command_id=$COMMAND_ID" >> $GITHUB_OUTPUT
+          echo "SSM Command ID: $COMMAND_ID"
+
+      - name: Wait for deploy to finish
+        run: |
+          COMMAND_ID="${{ steps.ssm.outputs.command_id }}"
+          FINAL=""
+          for i in $(seq 1 40); do
+            sleep 15
+            STATUS=$(aws ssm get-command-invocation \
+              --command-id "$COMMAND_ID" \
+              --instance-id "$INSTANCE_ID" \
+              --region eu-north-1 \
+              --query "Status" --output text 2>/dev/null || echo "Pending")
+            echo "[$i/40] Status: $STATUS"
+            if [ "$STATUS" = "Success" ]; then FINAL="Success"; break; fi
+            if [ "$STATUS" = "Failed" ] || [ "$STATUS" = "TimedOut" ] || [ "$STATUS" = "Cancelled" ]; then
+              FINAL="$STATUS"; break
+            fi
+          done
+          # показать вывод команды в любом случае
+          echo "--- deploy.sh output ---"
+          aws ssm get-command-invocation --command-id "$COMMAND_ID" --instance-id "$INSTANCE_ID" \
+            --region eu-north-1 --query "StandardOutputContent" --output text 2>/dev/null || true
+          echo "--- stderr ---"
+          aws ssm get-command-invocation --command-id "$COMMAND_ID" --instance-id "$INSTANCE_ID" \
+            --region eu-north-1 --query "StandardErrorContent" --output text 2>/dev/null || true
+          if [ "$FINAL" != "Success" ]; then
+            echo "Deploy failed: ${FINAL:-Timeout}"
+            exit 1
+          fi
+          echo "Deploy succeeded!"
