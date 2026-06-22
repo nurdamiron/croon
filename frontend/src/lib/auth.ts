@@ -55,5 +55,5 @@ export const authOptions: NextAuthOptions = {
   pages: {
     signIn: '/client_account/login',
   },
-  secret: process.env.NEXTAUTH_SECRET || 'alash-electronics-secret-key-change-in-production',
+  secret: process.env.NEXTAUTH_SECRET || 'croon-secret-key-change-in-production',
 }

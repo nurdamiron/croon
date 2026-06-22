@@ -1,4 +1,4 @@
-// Авто-привязка каталога Kaspi (KaspiCatalogEntry) к товарам Alash по АРТИКУЛУ.
+// Авто-привязка каталога Kaspi (KaspiCatalogEntry) к товарам Сайт по АРТИКУЛУ.
 //
 // Логика: берём карточки каталога, чей kaspiSku — это чистый артикул нашего диапазона
 // (например «1490», «953.2»), находим Product с таким же sku и создаём/обновляем
@@ -18,7 +18,7 @@ export type AutolinkResult = {
   linked: number          // создано/обновлено офферов
   created: number
   updated: number
-  noProduct: number       // артикул каталога без товара Alash
+  noProduct: number       // артикул каталога без товара Сайт
   conflicts: number       // карточка уже привязана к другому товару
   conflictSamples: string[]
   noProductSamples: string[] // артикулы без товара (чтобы было видно, что осталось)
@@ -37,7 +37,7 @@ export async function autoLinkKaspiOffersBySku({ apply }: { apply: boolean }): P
   const candidates = entries.filter((e) => isArticleSku(e.kaspiSku))
   const skus = candidates.map((e) => e.kaspiSku)
 
-  // товары Alash по артикулу (только не архивные)
+  // товары Сайт по артикулу (только не архивные)
   const products = await prisma.product.findMany({
     where: { sku: { in: skus }, archived: false },
     select: { sku: true, id: true, price: true, name: true },

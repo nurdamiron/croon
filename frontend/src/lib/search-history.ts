@@ -2,7 +2,7 @@
 
 // История поиска в localStorage — последние запросы пользователя.
 // Хранятся на устройстве, без сервера. Дубли убираются без учёта регистра.
-const KEY = 'alash_search_history'
+const KEY = 'croon_search_history'
 const MAX = 8
 
 export function readSearchHistory(): string[] {

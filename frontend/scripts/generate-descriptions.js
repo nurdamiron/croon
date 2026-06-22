@@ -32,7 +32,7 @@ async function generateDescription(product) {
   const sku = product.sku || product.id
   const category = product.category?.name || 'Электроника'
 
-  const prompt = `Ты — копирайтер интернет-магазина электроники Alash Electronics (Казахстан). Напиши описание товара на русском языке.
+  const prompt = `Ты — копирайтер интернет-магазина электроники ИП КРУН (Казахстан). Напиши описание товара на русском языке.
 
 Товар: ${product.name}
 Категория: ${category}

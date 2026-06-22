@@ -24,7 +24,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     description,
     alternates: { canonical: `/blogs/${post.blogSlug}/${post.slug}` },
     openGraph: {
-      title: `${short ?? post.title} — Alash Electronics`,
+      title: `${short ?? post.title} — ИП КРУН`,
       description,
       type: 'article',
       locale: 'ru_KZ',
@@ -66,13 +66,13 @@ export default async function BlogPostPage({ params }: Props) {
     image: { '@type': 'ImageObject', url: `${SITE_URL}/og-image.jpg`, width: 1200, height: 630 },
     author: {
       '@type': 'Organization',
-      name: 'Alash Electronics',
+      name: 'ИП КРУН',
       url: SITE_URL,
-      sameAs: ['https://alash-electronics.kz'],
+      sameAs: ['https://croon.kz'],
     },
     publisher: {
       '@type': 'Organization',
-      name: 'Alash Electronics',
+      name: 'ИП КРУН',
       url: SITE_URL,
       logo: { '@type': 'ImageObject', url: `${SITE_URL}/og-image.jpg`, width: 1200, height: 630 },
     },
@@ -102,13 +102,13 @@ export default async function BlogPostPage({ params }: Props) {
           {post.updatedAt > post.createdAt && (
             <span>• Обновлено {post.updatedAt.toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' })}</span>
           )}
-          <span>• Alash Electronics</span>
+          <span>• ИП КРУН</span>
         </div>
         <SafeHtml html={post.content} className="prose max-w-none" />
 
         <div className="mt-8 pt-6 border-t space-y-3">
           <p className="text-sm text-gray-600 leading-relaxed">
-            Готовые наборы и комплектующие для проекта можно заказать в каталоге Alash Electronics с доставкой по Алматы и Казахстану. Самовывоз — ул. Кыз Жибек, 104/1.
+            Готовые наборы и комплектующие для проекта можно заказать в каталоге ИП КРУН с доставкой по Костанаю и Казахстану. Самовывоз — Костанай Г.А., Костанай, МИКРОРАЙОН 9, дом 7, кв/офис 9.
           </p>
           <p className="text-sm text-gray-600 leading-relaxed">
             Заказ онлайн или по тел. +7 (700) 900-17-90. Оплата при получении. Бесплатная доставка от 150 000 ₸.

@@ -1,5 +1,5 @@
 {
-  "name": "alash-electronics.kz",
+  "name": "croon.kz",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -8,16 +8,16 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Alash-electronics/alash-electronics.kz.git"
+    "url": "git+https://github.com/nurdamiron/croon.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "type": "commonjs",
   "bugs": {
-    "url": "https://github.com/Alash-electronics/alash-electronics.kz/issues"
+    "url": "https://github.com/nurdamiron/croon/issues"
   },
-  "homepage": "https://github.com/Alash-electronics/alash-electronics.kz#readme",
+  "homepage": "https://github.com/nurdamiron/croon#readme",
   "dependencies": {
     "csv-parse": "^6.1.0",
     "iconv-lite": "^0.7.2",

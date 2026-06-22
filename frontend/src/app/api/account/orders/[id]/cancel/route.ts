@@ -4,8 +4,6 @@ import { authOptions } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
 import { mirrorSingleVariantStock } from '@/lib/variant-stock'
 import { apiLimiter } from '@/lib/rate-limit'
-import { markSatuDirty } from '@/lib/satu-sync'
-import { triggerBa3arStockSync } from '@/lib/ba3ar-sync-trigger'
 
 export async function PATCH(
   request: NextRequest,
@@ -64,11 +62,6 @@ export async function PATCH(
     })
   })
 
-  // Сток вернулся при отмене (не предзаказ) → синхронизировать Satu + витрину ba3ar.
-  if (!order.isPreorder) {
-    await markSatuDirty(order.items.map(it => it.productId)).catch(() => {})
-    await triggerBa3arStockSync().catch(() => {})
-  }
 
   return NextResponse.json({ ok: true })
 }

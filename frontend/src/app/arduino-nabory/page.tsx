@@ -6,15 +6,15 @@ import Sidebar from '@/components/LazySidebar'
 import { SITE_URL } from '@/lib/seo'
 
 export const metadata: Metadata = {
-  title: { absolute: 'Наборы Arduino в Казахстане — роботы, STEM | Alash Electronics' },
-  description: 'Купить набор Arduino для начинающих и школьников: стартовые комплекты UNO R3, роботы 4WD, STEM-наборы. Доставка по Казахстану, самовывоз в Алматы от 15 000 ₸.',
+  title: { absolute: 'Наборы Arduino в Казахстане — роботы, STEM | ИП КРУН' },
+  description: 'Купить набор Arduino для начинающих и школьников: стартовые комплекты UNO R3, роботы 4WD, STEM-наборы. Доставка по Казахстану, самовывоз в Костанае от 15 000 ₸.',
   alternates: { canonical: '/arduino-nabory' },
   openGraph: {
-    title: 'Наборы Arduino в Казахстане — роботы, STEM | Alash Electronics',
+    title: 'Наборы Arduino в Казахстане — роботы, STEM | ИП КРУН',
     description: 'Стартовые наборы Arduino UNO, роботы 4WD, Raspberry Pi, LEGO, STEM-комплекты для школ. Доставка по Казахстану.',
     url: '/arduino-nabory',
     locale: 'ru_KZ',
-    images: [{ url: '/images/logo.png', width: 600, height: 300, alt: 'Наборы Arduino — Alash Electronics' }],
+    images: [{ url: '/images/logo.png', width: 600, height: 300, alt: 'Наборы Arduino — ИП КРУН' }],
   },
 }
 
@@ -37,11 +37,11 @@ const faqItems = [
   },
   {
     q: 'Какой набор выбрать для кружка робототехники в школе?',
-    a: 'Для начального уровня (5–7 класс) — наборы Arduino Starter Kit или Microbit Базовый комплект. Для среднего уровня (8–9 класс) — роботы 4WD Smart Car, Keyestudio KEYBOT или mBot от Makeblock. Для продвинутого (10–11 класс, олимпиады) — LEGO Education SPIKE Prime, набор Qurastyr или AmperPRO с расширенной программой. Alash Electronics работает с образовательными организациями и предоставляет скидки при оптовых закупках.',
+    a: 'Для начального уровня (5–7 класс) — наборы Arduino Starter Kit или Microbit Базовый комплект. Для среднего уровня (8–9 класс) — роботы 4WD Smart Car, Keyestudio KEYBOT или mBot от Makeblock. Для продвинутого (10–11 класс, олимпиады) — LEGO Education SPIKE Prime, набор Qurastyr или AmperPRO с расширенной программой. ИП КРУН работает с образовательными организациями и предоставляет скидки при оптовых закупках.',
   },
   {
     q: 'Сколько стоит набор Arduino в Казахстане и как его купить?',
-    a: 'Базовые стартовые наборы Arduino в Alash Electronics стоят от 12 000 до 35 000 ₸. Продвинутые наборы (AmperPRO, Qurastyr, Smart Car) — от 35 000 до 110 000 ₸. Raspberry Pi Starter Kit — 89 000–119 000 ₸. LEGO Education — от 150 000 ₸. Заказ онлайн на alash-electronics.kz, доставка Яндекс Курьером по Алматы за 1–2 дня, по Казахстану через inDrive за 2–5 дней. Самовывоз: ул. Кыз Жибек, 104/1, Алматы, пн–сб 12:00–20:00.',
+    a: 'Базовые стартовые наборы Arduino в ИП КРУН стоят от 12 000 до 35 000 ₸. Продвинутые наборы (AmperPRO, Qurastyr, Smart Car) — от 35 000 до 110 000 ₸. Raspberry Pi Starter Kit — 89 000–119 000 ₸. LEGO Education — от 150 000 ₸. Заказ онлайн на croon.kz, доставка Яндекс Курьером по Костанаю за 1–2 дня, по Казахстану через inDrive за 2–5 дней. Самовывоз: Костанай Г.А., Костанай, МИКРОРАЙОН 9, дом 7, кв/офис 9, пн–сб 12:00–20:00.',
   },
 ]
 
@@ -102,7 +102,7 @@ export default async function ArduinoNaboryPage() {
         <p className="text-gray-600 text-sm mb-6 leading-relaxed">
           54 готовых набора в наличии: стартовые комплекты Arduino UNO для начинающих, роботы-машинки 4WD,
           Raspberry Pi Starter Kit, LEGO Education SPIKE Prime, Microbit и STEM-наборы для школ и кружков.
-          Доставка по всему Казахстану. Самовывоз в Алматы — ул. Кыз Жибек, 104/1.
+          Доставка по всему Казахстану. Самовывоз в Костанай — Костанай Г.А., Костанай, МИКРОРАЙОН 9, дом 7, кв/офис 9.
         </p>
 
         {/* Products */}
@@ -132,7 +132,7 @@ export default async function ArduinoNaboryPage() {
           </p>
 
           <p>
-            В Alash Electronics — крупнейшем интернет-магазине электронных компонентов в Казахстане — доступно более 50 наборов:
+            В ИП КРУН — крупнейшем интернет-магазине электронных компонентов в Казахстане — доступно более 50 наборов:
             от базовых стартовых комплектов за 12 000 ₸ до профессиональных образовательных платформ LEGO Mindstorms за 460 000 ₸.
             Ниже — подробный гид, который поможет выбрать подходящий.
           </p>
@@ -141,7 +141,7 @@ export default async function ArduinoNaboryPage() {
 
           <p>
             Если вы или ваш ребёнок никогда раньше не работали с электроникой — начните с <strong>Arduino Starter Kit</strong>.
-            Три варианта в Alash Electronics (красный, зелёный, синий) содержат плату Arduino UNO R3, макетную плату, набор датчиков и инструкцию.
+            Три варианта в ИП КРУН (красный, зелёный, синий) содержат плату Arduino UNO R3, макетную плату, набор датчиков и инструкцию.
             Стоимость — от 15 000 до 25 000 ₸.
           </p>
           <p>
@@ -151,7 +151,7 @@ export default async function ArduinoNaboryPage() {
             Каждый проект занимает 30–60 минут и не требует знания программирования: код уже написан, остаётся загрузить и наблюдать результат.
           </p>
           <p>
-            Для тех, кто хочет больше: <strong>Расширенный обучающий набор Arduino от Alash Electronics</strong> (25 000 ₸)
+            Для тех, кто хочет больше: <strong>Расширенный обучающий набор Arduino от ИП КРУН</strong> (25 000 ₸)
             идёт с книгой проектов на 200+ страниц на русском языке. Это наш собственный набор, разработанный специально для казахстанских покупателей.
             <strong>Набор Arduino AmperPRO</strong> (65 000 ₸) — профессиональный уровень с расширенным набором шилдов и модулей для серьёзных проектов.
           </p>
@@ -165,8 +165,8 @@ export default async function ArduinoNaboryPage() {
             После сборки машинку можно управлять с телефона, а затем добавить автоматическое объезжание препятствий или следование по линии.
           </p>
           <p>
-            Наш <strong>Alashed Phobo Arduino 4WD BT Smart Car kit V2.0</strong> (35 000 ₸) — собственная разработка магазина.
-            Набор протестирован в кружках робототехники Алматы и рассчитан на самостоятельную сборку за 3–4 часа.
+            Наш <strong>Croon Phobo Arduino 4WD BT Smart Car kit V2.0</strong> (35 000 ₸) — собственная разработка магазина.
+            Набор протестирован в кружках робототехники Костанай и рассчитан на самостоятельную сборку за 3–4 часа.
             Для продвинутых: <strong>ESP32 4WD Smart Car V3.0 Mecanum wheels</strong> (110 000 ₸) —
             колёса Mecanum позволяют двигаться в любом направлении, включая боком, управление через Wi-Fi.
           </p>
@@ -184,7 +184,7 @@ export default async function ArduinoNaboryPage() {
             Он подходит для более серьёзных задач: веб-сервер, медиацентр, система умного дома, распознавание изображений с камерой.
           </p>
           <p>
-            В Alash Electronics доступны <strong>Raspberry Pi 4 Model B</strong> и <strong>Raspberry Pi 5 Model B</strong> в комплектации Starter Kit:
+            В ИП КРУН доступны <strong>Raspberry Pi 4 Model B</strong> и <strong>Raspberry Pi 5 Model B</strong> в комплектации Starter Kit:
             плата + блок питания + корпус + SD-карта с предустановленной системой. Версии 4 ГБ и 8 ГБ ОЗУ — от 89 000 до 119 000 ₸.
             Starter Kit позволяет начать работу сразу после покупки — не нужно искать совместимые аксессуары.
           </p>
@@ -227,10 +227,10 @@ export default async function ArduinoNaboryPage() {
           </p>
           <p>
             <strong>Makeblock mBot</strong> (50 000 ₸) — готовый колёсный робот с поддержкой Scratch, совместим с LEGO.
-            Один из наиболее популярных наборов для STEM-классов в школах Алматы и других городов Казахстана.
+            Один из наиболее популярных наборов для STEM-классов в школах Костанай и других городов Казахстана.
           </p>
           <p>
-            Для школ, STEM-центров и учебных заведений Alash Electronics предоставляет
+            Для школ, STEM-центров и учебных заведений ИП КРУН предоставляет
             <Link href="/dlya-shkol" className="text-brand hover:underline"> специальные условия при оптовых закупках</Link>.
             Работаем по безналичному расчёту с ИП и юридическими лицами, предоставляем все необходимые документы.
           </p>
@@ -298,25 +298,25 @@ export default async function ArduinoNaboryPage() {
             <li><strong>Дисплей-часы</strong> — модуль RTC DS3231, OLED-дисплей, кнопки настройки времени</li>
           </ul>
           <p>
-            Все перечисленные проекты реализуемы на наборах из ассортимента Alash Electronics без дополнительных покупок.
+            Все перечисленные проекты реализуемы на наборах из ассортимента ИП КРУН без дополнительных покупок.
             Подробные инструкции по некоторым из них — в нашем <Link href="/blogs/kits" className="text-brand hover:underline">блоге о наборах и проектах</Link>.
           </p>
 
           <h3 className="text-lg font-semibold text-gray-900 not-prose">Как оформить заказ и получить набор</h3>
 
           <p>
-            <strong>Онлайн:</strong> добавьте набор в корзину на alash-electronics.kz, укажите контактные данные и адрес доставки.
+            <strong>Онлайн:</strong> добавьте набор в корзину на croon.kz, укажите контактные данные и адрес доставки.
             После подтверждения заказа менеджер свяжется с вами в течение рабочего дня.
           </p>
           <p>
-            <strong>Доставка по Алматы</strong> — Яндекс Курьер, 1–2 рабочих дня. Стоимость рассчитывается при оформлении.
+            <strong>Доставка по Костанаю</strong> — Яндекс Курьер, 1–2 рабочих дня. Стоимость рассчитывается при оформлении.
             <strong>Доставка по Казахстану</strong> — через inDrive, 2–5 рабочих дней. Бесплатная доставка при заказе от 150 000 ₸.
-            <strong>Самовывоз:</strong> ул. Кыз Жибек, 104/1, Алматы, пн–сб 12:00–20:00.
+            <strong>Самовывоз:</strong> Костанай Г.А., Костанай, МИКРОРАЙОН 9, дом 7, кв/офис 9, пн–сб 12:00–20:00.
           </p>
           <p>
             <strong>Оплата</strong> — наличными или картой при получении, банковским переводом (для юридических лиц), Kaspi Pay.
             Телефон и WhatsApp: <a href="tel:+77009001790" className="text-brand hover:underline">+7 (700) 900-17-90</a>.
-            Telegram: <a href="https://t.me/alash_electronics" className="text-brand hover:underline" target="_blank" rel="noopener">@alash_electronics</a>.
+            Telegram: <a href="https://t.me/croon_kz" className="text-brand hover:underline" target="_blank" rel="noopener">@croon_kz</a>.
           </p>
 
         </article>

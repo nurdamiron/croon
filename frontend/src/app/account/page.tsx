@@ -540,7 +540,7 @@ export default function AccountPage() {
                   <label className="text-xs text-gray-500 mb-1 block">Город</label>
                   <input type="text" value={addrCity} onChange={e => setAddrCity(e.target.value)}
                     className="w-full border rounded px-2 py-1.5 text-sm outline-none focus:border-brand"
-                    placeholder="Алматы"/>
+                    placeholder="Костанай"/>
                 </div>
                 <div>
                   <label className="text-xs text-gray-500 mb-1 block">Адрес *</label>

@@ -51,14 +51,14 @@ export default function KaspiBuyBlock({ url }: { url: string }) {
         <div className="text-sm text-gray-600 leading-relaxed pl-[34px]">
           <strong>Kaspi.kz — альтернативный способ приобретения</strong> этого товара с дополнительными преимуществами:
           <ul className="mt-2.5 space-y-1.5 list-none">
-            <li><strong>🚚 Kaspi Экспресс в Алматы</strong> — получите заказ уже сегодня или завтра</li>
+            <li><strong>🚚 Kaspi Экспресс в Костанай</strong> — получите заказ уже сегодня или завтра</li>
             <li><strong>📦 Доставка по всему Казахстану</strong> — курьером до вашей двери</li>
             <li><strong>💳 Рассрочка Kaspi Red</strong> — оплата частями 0-0-12 без переплат</li>
             <li><strong>🛡️ Полная защита покупки</strong> — гарантия возврата от Kaspi</li>
             <li><strong>⭐ Отзывы покупателей</strong> — читайте мнения других клиентов</li>
           </ul>
           <p className="mt-3 italic">
-            💡 Для жителей Алматы: воспользуйтесь услугой Kaspi Экспресс для максимально быстрой доставки в день заказа!
+            💡 Для жителей Костанай: воспользуйтесь услугой Kaspi Экспресс для максимально быстрой доставки в день заказа!
           </p>
         </div>
       </div>

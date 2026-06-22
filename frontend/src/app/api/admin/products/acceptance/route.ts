@@ -8,7 +8,7 @@ async function checkAdmin() {
     return {
       user: {
         id: 'dev-admin-id',
-        email: 'admin@alash-electronics.kz',
+        email: 'admin@croon.kz',
         name: 'Dev Admin',
         role: 'ADMIN',
       }
@@ -53,7 +53,6 @@ export async function POST(request: NextRequest) {
         const updateData: any = {
           totalStock: newStock,
           inStock: newInStock,
-          satuDirty: true,
         }
 
         if (costPrice != null && costPrice > 0) {

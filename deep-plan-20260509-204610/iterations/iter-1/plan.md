@@ -163,7 +163,7 @@ cd frontend && npm install resend
 
 **Env vars to add:**
 - `RESEND_API_KEY` — get from resend.com
-- `EMAIL_FROM` — e.g. `noreply@alash-electronics.kz` (must be verified domain in Resend)
+- `EMAIL_FROM` — e.g. `noreply@croon.kz` (must be verified domain in Resend)
 
 **File:** `frontend/src/lib/email.ts` (new)
 
@@ -199,9 +199,9 @@ const resend = new Resend(process.env.RESEND_API_KEY)
 
 export async function sendOrderConfirmation(params) {
   await resend.emails.send({
-    from: process.env.EMAIL_FROM ?? 'noreply@alash-electronics.kz',
+    from: process.env.EMAIL_FROM ?? 'noreply@croon.kz',
     to: params.to,
-    subject: `Ваш заказ #${params.orderNumber} принят — Alash Electronics`,
+    subject: `Ваш заказ #${params.orderNumber} принят — ИП КРУН`,
     html: orderConfirmationHtml(params),
   })
 }

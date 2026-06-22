@@ -34,7 +34,7 @@ function parseOffers(xml: string) {
     const name = (modelMatch ? modelMatch[1].trim() : '')
     const availMatch = body.match(/<availability\s+available="([^"]+)"\s+storeId="([^"]+)"/)
     const available = availMatch ? availMatch[1] === 'yes' : false
-    const storeId = availMatch ? availMatch[2] : '30383258_PP1'
+    const storeId = availMatch ? availMatch[2] : (process.env.KASPI_STORE_ID || '30383258_PP1')
     const cpMatch = body.match(/<cityprice\s+cityId="([^"]+)">\s*([0-9.]+)\s*<\/cityprice>/)
     const cityId = cpMatch ? cpMatch[1] : '750000000'
     const priceTenge = cpMatch ? Math.round(parseFloat(cpMatch[2])) : 0

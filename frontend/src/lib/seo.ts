@@ -1,4 +1,4 @@
-export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://alash-electronics.kz'
+export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://croon.kz'
 
 export function stripMarkdown(text: string): string {
   return text

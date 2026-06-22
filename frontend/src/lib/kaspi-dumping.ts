@@ -18,7 +18,7 @@ import { kaspiPidFromSku } from '@/lib/kaspi-url'
 // фиде — там идентификатор магазина из кабинета). Выносим в env на всякий случай.
 const OUR_MERCHANT_ID = (process.env.KASPI_OFFERVIEW_MERCHANT_ID || '30383258').trim()
 
-// Город мониторинга/конкуренции (по умолчанию Алматы).
+// Город мониторинга/конкуренции (по умолчанию Костанай).
 const DUMPING_CITY = (process.env.KASPI_DUMPING_CITY || '750000000').trim()
 
 const UA =

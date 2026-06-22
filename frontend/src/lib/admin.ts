@@ -7,7 +7,7 @@ export async function requireAdmin() {
     return {
       user: {
         id: 'dev-admin-id',
-        email: 'admin@alash-electronics.kz',
+        email: 'admin@croon.kz',
         name: 'Dev Admin',
         role: 'ADMIN',
       }

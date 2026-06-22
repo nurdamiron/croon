@@ -1,17 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
-import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3'
+import { createClient } from '@supabase/supabase-js'
 
-const s3 = new S3Client({
-  region: 'eu-north-1',
-  ...(process.env.AWS_ACCESS_KEY_ID && process.env.AWS_SECRET_ACCESS_KEY
-    ? { credentials: { accessKeyId: process.env.AWS_ACCESS_KEY_ID, secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY } }
-    : {}),
-})
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY!
+)
 
-const BUCKET = 'alashed-media'
-const PREFIX = 'products/'
+const BUCKET = 'products'
 
 export async function POST(request: NextRequest) {
   const session = await getServerSession(authOptions)
@@ -32,17 +29,25 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'Invalid file type' }, { status: 400 })
   }
 
-  const key = `${PREFIX}${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`
+  const key = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`
   const buffer = Buffer.from(await file.arrayBuffer())
 
-  await s3.send(new PutObjectCommand({
-    Bucket: BUCKET,
-    Key: key,
-    Body: buffer,
-    ContentType: file.type,
-  }))
+  // Upload to Supabase Storage bucket 'products'
+  const { data, error } = await supabase.storage
+    .from(BUCKET)
+    .upload(key, buffer, {
+      contentType: file.type,
+      upsert: false
+    })
 
-  const url = `https://${BUCKET}.s3.eu-north-1.amazonaws.com/${key}`
+  if (error) {
+    console.error('Supabase Storage upload error:', error)
+    return NextResponse.json({ error: error.message }, { status: 500 })
+  }
 
-  return NextResponse.json({ url })
+  const { data: { publicUrl } } = supabase.storage
+    .from(BUCKET)
+    .getPublicUrl(key)
+
+  return NextResponse.json({ url: publicUrl })
 }

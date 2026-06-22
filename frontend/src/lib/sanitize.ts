@@ -52,7 +52,7 @@ export function sanitizeHtml(html: string): string {
       const href = hrefMatch?.[1] ?? ''
       if (href.startsWith('http')) {
         const base = filtered.replace(/ (target|rel|download)="[^"]*"/g, '')
-        const isSameDomain = /^https?:\/\/(?:shop\.alashed\.kz|alash-electronics\.kz|alashed\.kz)\b/i.test(href)
+        const isSameDomain = /^https?:\/\/(?:shop\.croon\.kz|croon\.kz)\b/i.test(href)
         const isFile = /\.(pdf|zip|rar|doc|docx|xls|xlsx|csv|dwg|dxf|stl|hex|bin|ino|py)(\?[^"]*)?$/i.test(href)
         if (isSameDomain) {
           // Internal absolute URL — no nofollow, just safe open

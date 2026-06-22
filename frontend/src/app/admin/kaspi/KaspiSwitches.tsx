@@ -116,7 +116,7 @@ export default function KaspiSwitches() {
         />
         <SwitchRow
           title="Блоки «Купить на Kaspi» на сайте"
-          desc="Выключить → убрать ссылки/кнопки Kaspi со всех карточек Alash. Включить → вернуть как было."
+          desc="Выключить → убрать ссылки/кнопки Kaspi со всех карточек сайта. Включить → вернуть как было."
           value={site}
           busy={busy === 'siteBlocksEnabled'}
           onToggle={(v) => toggle('siteBlocksEnabled', v, 'Блоки Kaspi на сайте')}

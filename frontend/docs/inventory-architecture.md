@@ -5,7 +5,7 @@
 ## Контекст
 
 Три канала продаж:
-- **alash-electronics.kz** — мастер каталога, Next.js 14 + Prisma + Postgres (Neon).
+- **croon.kz** — мастер каталога, Next.js 14 + Prisma + Postgres (Neon).
 - **kaspi.kz/shop/...** — маркетплейс. Сейчас заказы подтверждаются вручную в Merchant Cabinet. Особенность: один наш товар может иметь 3-4 разных карточки на Kaspi с разными `kaspi sku`.
 - **ba3ar.kz** — выкупленный конкурент, делается с нуля. Отдельный Next.js репозиторий, **общая БД с Alash**. Контент (фото/название/цена) свой, `sku` совпадает с Alash.
 
@@ -24,7 +24,7 @@
         ┌─────────────────────────┼─────────────────────────┐
         │                         │                         │
         ▼                         ▼                         ▼
-  alash-electronics.kz       ba3ar.kz                  Kaspi
+  croon.kz       ba3ar.kz                  Kaspi
   (этот репо, Next.js)       (отдельный репо)          XML feed + REST API
   ├── витрина                ├── витрина               ├── /api/kaspi/feed.xml
   ├── админка склада         └── чекаут                │    (Kaspi забирает)
@@ -234,7 +234,7 @@ UPDATE "Reservation"
 Мы публикуем на нашем хостинге XML по фиксированному URL, Kaspi приходит за ним **каждые 60 минут** и подхватывает изменения. Это основной способ обновлять остатки и цены.
 
 ```
-GET https://alash-electronics.kz/api/kaspi/feed.xml
+GET https://croon.kz/api/kaspi/feed.xml
 ```
 
 Формат:
@@ -245,7 +245,7 @@ GET https://alash-electronics.kz/api/kaspi/feed.xml
                xmlns="kaspiShopping"
                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                xsi:schemaLocation="kaspiShopping http://kaspi.kz/kaspishopping.xsd">
-  <company>Alash Electronics</company>
+  <company>ИП КРУН</company>
   <merchantid>ALASH_MERCHANT_ID</merchantid>
   <offers>
     <offer sku="635">
@@ -255,7 +255,7 @@ GET https://alash-electronics.kz/api/kaspi/feed.xml
         <availability available="yes" storeId="PP1" stockCount="49"/>
       </availabilities>
       <cityprices>
-        <cityprice cityId="750000000">500</cityprice>  <!-- Алматы -->
+        <cityprice cityId="750000000">500</cityprice>  <!-- Костанай -->
         <cityprice cityId="710000000">500</cityprice>  <!-- Астана -->
       </cityprices>
     </offer>
@@ -415,7 +415,7 @@ export async function getStock(productId: string) {
 ## Открытые вопросы
 
 1. **Storage points (PP)**: сколько у вас пунктов выдачи на Kaspi? От этого зависит `<availability storeId="...">`. Если один — всё просто.
-2. **Цены по городам**: разные ли цены в Алматы и Астане, или одна цена на всю страну? Если одна — используем `<price>` вместо `<cityprices>`.
+2. **Цены по городам**: разные ли цены в Костанай и Астане, или одна цена на всю страну? Если одна — используем `<price>` вместо `<cityprices>`.
 3. **Production Kaspi merchant ID** — другой от тестового? Когда планируется подключение?
 4. **Заказы с Kaspi: нужно ли автоматическое подтверждение** (через API) или сотрудник всё равно будет это делать в Merchant Cabinet? От этого зависит логика `commit`.
 5. **Бренд** в `<brand>`: у вас в `Product` нет поля `brand`. Добавлять или заполнять одним значением "Alash"/"Без бренда"?

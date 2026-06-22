@@ -1,4 +1,4 @@
-# SEO Action Plan — alash-electronics.kz — 2026-04-06
+# SEO Action Plan — croon.kz — 2026-04-06
 Score: 61/100 (Grade B)
 
 > **Инфра / индексация:** см. корневые `STATUS.md` и `CLAUDE.md` — на проде настроен ежедневный cron **Google Indexing API** (ключ и пути на EC2), режим повторного обхода sitemap.
@@ -26,7 +26,7 @@ Score: 61/100 (Grade B)
 
 - [ ] **og:type + Twitter Card на всех страницах**
   `app/layout.tsx`: добавить `openGraph.type = 'website'`,
-  `twitter: { card: 'summary_large_image', site: '@alash_electronics' }`
+  `twitter: { card: 'summary_large_image', site: '@croon_kz' }`
   effort: low
 
 - [ ] **Скрыть Server версию и X-Powered-By**
@@ -56,12 +56,12 @@ Score: 61/100 (Grade B)
 
 - [ ] **Meta description расширить до 150-160 символов**
   Текущая: 121 символ. Добавить CTA:
-  "Заказывай онлайн — самовывоз в Алматы (ул. Кыз Жибек 104/1) или доставка
+  "Заказывай онлайн — самовывоз в Костанае (ул. Кыз Жибек 104/1) или доставка
   по всему Казахстану. Более 3000 товаров в наличии."
   effort: low
 
 - [ ] **H2 секции на главной странице**
-  Добавить на homepage: «Популярные категории», «Почему Alash Electronics»,
+  Добавить на homepage: «Популярные категории», «Почему ИП КРУН»,
   «Доставка по Казахстану» — помогает поисковикам и LLM понять структуру.
   effort: medium
 
@@ -99,7 +99,7 @@ Score: 61/100 (Grade B)
   effort: low
 
 - [ ] **Favicon + apple-touch-icon OG-оптимизация**
-  Добавить `apple-mobile-web-app-title: "Alash Electronics"` (сейчас нет).
+  Добавить `apple-mobile-web-app-title: "ИП КРУН"` (сейчас нет).
   effort: low
 
 ---

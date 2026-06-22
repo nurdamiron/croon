@@ -113,7 +113,7 @@ export default function KaspiOffersClient({ offers }: { offers: Offer[] }) {
             <thead className="bg-gray-50 border-b border-gray-200">
               <tr>
                 <th className="text-left px-4 py-3 font-medium text-gray-700">Kaspi SKU</th>
-                <th className="text-left px-4 py-3 font-medium text-gray-700">Товар (Alash)</th>
+                <th className="text-left px-4 py-3 font-medium text-gray-700">Товар (сайт)</th>
                 <th className="text-right px-4 py-3 font-medium text-gray-700">Цена Kaspi</th>
                 <th className="text-center px-4 py-3 font-medium text-gray-700" title="<availability available>">available</th>
                 <th className="text-center px-4 py-3 font-medium text-gray-700" title="<availability preOrder>">preOrder</th>
@@ -259,7 +259,7 @@ function AddOfferForm({ onSaved }: { onSaved: () => void }) {
         <input value={kaspiSku} onChange={e => setKaspiSku(e.target.value)} required className="mt-1 w-full px-3 py-2 border border-gray-200 rounded-lg focus:border-admin focus:ring-1 focus:ring-admin/20 outline-none"/>
       </label>
       <label className="block">
-        <span className="text-xs text-gray-600">Product ID (Alash) *</span>
+        <span className="text-xs text-gray-600">Product ID (сайт) *</span>
         <input value={productId} onChange={e => setProductId(e.target.value)} required className="mt-1 w-full px-3 py-2 border border-gray-200 rounded-lg focus:border-admin focus:ring-1 focus:ring-admin/20 outline-none"/>
       </label>
       <label className="block">

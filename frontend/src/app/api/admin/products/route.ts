@@ -4,14 +4,13 @@ import { authOptions } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
 import { searchProducts } from '@/lib/data'
 import { pingIndexNow, productUrl } from '@/lib/indexnow'
-import { markSatuDirty } from '@/lib/satu-sync'
 
 async function checkAdmin() {
   if (process.env.NODE_ENV === 'development') {
     return {
       user: {
         id: 'dev-admin-id',
-        email: 'admin@alash-electronics.kz',
+        email: 'admin@croon.kz',
         name: 'Dev Admin',
         role: 'ADMIN',
       }
@@ -287,8 +286,6 @@ export async function PUT(request: NextRequest) {
       if ((current.oldPrice || 0) !== newOldPrice) logs.push({ productId: id, field: 'oldPrice', oldValue: current.oldPrice || 0, newValue: newOldPrice, source: 'admin', detail: `пользователем ${userName}` })
       if (current.totalStock !== newTotalStock) logs.push({ productId: id, field: 'totalStock', oldValue: current.totalStock, newValue: newTotalStock, source: 'admin', detail: `пользователем ${userName}` })
       if (logs.length > 0) await prisma.productChangeLog.createMany({ data: logs })
-      // Остаток правили вручную → синхронизировать с Satu.
-      if (current.totalStock !== newTotalStock) await markSatuDirty([id]).catch(() => {})
     }
 
     if (Array.isArray(images)) {
@@ -327,14 +324,10 @@ export async function DELETE(request: NextRequest) {
   if (!id) return NextResponse.json({ error: 'id обязателен' }, { status: 400 })
 
   try {
-    // По умолчанию «Удалить» = АРХИВ (для ЛЮБОГО товара): скрыть с сайта/Google/каналов,
-    // деактивировать офферы. Ничего физически не удаляется, всё можно вернуть.
-    // permanent:true (кнопка «удалить навсегда» в архиве) → физическое удаление.
     if (!permanent) {
       await prisma.$transaction([
         prisma.product.update({ where: { id }, data: { archived: true, inStock: false } }),
         prisma.kaspiOffer.updateMany({ where: { productId: id }, data: { active: false } }),
-        prisma.satuProduct.updateMany({ where: { productId: id }, data: { active: false } }),
       ])
       return NextResponse.json({
         ok: true,
@@ -355,12 +348,7 @@ export async function DELETE(request: NextRequest) {
     await prisma.$transaction([
       // обнуляем привязки в истории заказов каналов (productId nullable)
       prisma.kaspiOrderItem.updateMany({ where: { productId: id }, data: { productId: null } }),
-      prisma.satuOrderItem.updateMany({ where: { productId: id }, data: { productId: null } }),
-      prisma.ba3arOrderItem.updateMany({ where: { productId: id }, data: { productId: null } }),
-      prisma.ba3arOrderViewedProduct.updateMany({ where: { productId: id }, data: { productId: null } }),
       prisma.orderViewedProduct.deleteMany({ where: { productId: id } }),
-      // привязки-настройки каналов — удаляем
-      prisma.satuProduct.deleteMany({ where: { productId: id } }),
       // сам товар (каскад уберёт variants/images/changeLogs/kaspiOffers/favorites)
       prisma.product.delete({ where: { id } }),
     ])

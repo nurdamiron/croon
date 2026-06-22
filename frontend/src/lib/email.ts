@@ -14,7 +14,7 @@ function getTransporter() {
   })
 }
 
-const FROM = process.env.EMAIL_FROM ?? `Alash Electronics <${process.env.SMTP_USER}>`
+const FROM = process.env.EMAIL_FROM ?? `ИП КРУН <${process.env.SMTP_USER}>`
 
 async function sendEmail(params: {
   to: string
@@ -48,7 +48,7 @@ export async function sendOrderConfirmation(params: {
 }): Promise<void> {
   await sendEmail({
     to: params.to,
-    subject: `Ваш заказ #${params.orderNumber} принят — Alash Electronics`,
+    subject: `Ваш заказ #${params.orderNumber} принят — ИП КРУН`,
     html: orderConfirmationHtml(params),
     orderId: String(params.orderNumber),
   })
@@ -63,7 +63,7 @@ export async function sendOrderStatusUpdate(params: {
 }): Promise<void> {
   await sendEmail({
     to: params.to,
-    subject: `Статус заказа #${params.orderNumber} изменён — Alash Electronics`,
+    subject: `Статус заказа #${params.orderNumber} изменён — ИП КРУН`,
     html: orderStatusHtml(params),
     orderId: String(params.orderNumber),
   })
@@ -75,7 +75,7 @@ export async function sendPasswordReset(params: {
 }): Promise<void> {
   await sendEmail({
     to: params.to,
-    subject: 'Сброс пароля — Alash Electronics',
+    subject: 'Сброс пароля — ИП КРУН',
     html: passwordResetHtml(params),
   })
 }
@@ -111,7 +111,7 @@ function orderConfirmationHtml(params: {
 <body style="font-family:Arial,sans-serif;background:#f9f9f9;margin:0;padding:20px">
   <div style="max-width:560px;margin:0 auto;background:#fff;border-radius:8px;overflow:hidden">
     <div style="background:#006EBE;padding:24px 32px">
-      <h1 style="color:#fff;margin:0;font-size:20px">Alash Electronics</h1>
+      <h1 style="color:#fff;margin:0;font-size:20px">ИП КРУН</h1>
     </div>
     <div style="padding:32px">
       <h2 style="margin-top:0;font-size:18px">Заказ #${params.orderNumber} принят!</h2>
@@ -137,7 +137,7 @@ function orderConfirmationHtml(params: {
 
       <p><b>Доставка:</b> ${deliveryLabel(params.deliveryMethod)}</p>
 
-      <a href="https://alash-electronics.kz/account"
+      <a href="https://croon.kz/account"
          style="display:inline-block;background:#006EBE;color:#fff;padding:12px 24px;border-radius:6px;text-decoration:none;font-weight:bold;margin-top:8px">
         Мои заказы
       </a>
@@ -164,14 +164,14 @@ function orderStatusHtml(params: {
 <body style="font-family:Arial,sans-serif;background:#f9f9f9;margin:0;padding:20px">
   <div style="max-width:560px;margin:0 auto;background:#fff;border-radius:8px;overflow:hidden">
     <div style="background:#006EBE;padding:24px 32px">
-      <h1 style="color:#fff;margin:0;font-size:20px">Alash Electronics</h1>
+      <h1 style="color:#fff;margin:0;font-size:20px">ИП КРУН</h1>
     </div>
     <div style="padding:32px">
       <h2 style="margin-top:0;font-size:18px">Статус заказа #${params.orderNumber} изменён</h2>
       <p>Здравствуйте, ${params.name}!</p>
       <p>Статус вашего заказа обновлён: <b>${label}</b></p>
 
-      <a href="https://alash-electronics.kz/account"
+      <a href="https://croon.kz/account"
          style="display:inline-block;background:#006EBE;color:#fff;padding:12px 24px;border-radius:6px;text-decoration:none;font-weight:bold;margin-top:8px">
         Посмотреть заказ
       </a>
@@ -188,7 +188,7 @@ function passwordResetHtml(params: { resetUrl: string }): string {
 <body style="font-family:Arial,sans-serif;background:#f9f9f9;margin:0;padding:20px">
   <div style="max-width:560px;margin:0 auto;background:#fff;border-radius:8px;overflow:hidden">
     <div style="background:#006EBE;padding:24px 32px">
-      <h1 style="color:#fff;margin:0;font-size:20px">Alash Electronics</h1>
+      <h1 style="color:#fff;margin:0;font-size:20px">ИП КРУН</h1>
     </div>
     <div style="padding:32px">
       <h2 style="margin-top:0;font-size:18px">Сброс пароля</h2>

@@ -56,7 +56,7 @@ export const statusColorsLightBorder: Record<string, string> = {
 
 export const deliveryLabels: Record<string, string> = {
   pickup: 'Самовывоз',
-  yandex: 'Доставка по Алматы (Яндекс Курьер)',
+  yandex: 'Доставка по Костанаю (Яндекс Курьер)',
   indrive: 'Доставка по Казахстану (inDrive)',
   delivery: 'Доставка',
 }

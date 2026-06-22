@@ -117,7 +117,7 @@ function printOrder(order: Order, dateStr: string, timeStr: string) {
   const el = (t: string, tx?: string, css?: string) => { const e = doc.createElement(t); if (tx) e.textContent = tx; if (css) e.style.cssText = css; return e }
   const h = el('div', undefined, 'display:flex;justify-content:space-between;margin-bottom:20px')
   const hL = el('div'); hL.appendChild(el('h1', `Заказ #${order.orderNumber}`, 'font-size:20px;margin:0 0 4px')); hL.appendChild(el('p', `${dateStr} в ${timeStr}`, 'color:#666;font-size:12px'))
-  const hR = el('div', undefined, 'text-align:right'); hR.appendChild(el('strong', 'Alash Electronics')); hR.appendChild(doc.createElement('br')); hR.appendChild(el('span', '+7(700) 900-17-90', 'color:#666;font-size:12px'))
+  const hR = el('div', undefined, 'text-align:right'); hR.appendChild(el('strong', 'ИП КРУН')); hR.appendChild(doc.createElement('br')); hR.appendChild(el('span', '+7(700) 900-17-90', 'color:#666;font-size:12px'))
   h.append(hL, hR)
   const info = el('div', undefined, 'display:flex;gap:40px;margin:16px 0;background:#f9f9f9;padding:12px;border-radius:6px')
   const mb = (t: string, lines: string[]) => { const b = el('div'); b.appendChild(el('h3', t, 'font-size:11px;text-transform:uppercase;color:#999;margin:0 0 4px')); lines.filter(Boolean).forEach(l => b.appendChild(el('p', l, 'margin:2px 0'))); return b }

@@ -98,7 +98,7 @@ export default function KaspiClient({ rows, q, bound, commissionMult }: { rows: 
   const deleteCatalog = async () => {
     const ids = Array.from(selCat)
     if (!ids.length) return
-    if (!confirm(`Удалить ${ids.length} записей из каталога Kaspi? Это уберёт их из админки навсегда (товары Alash не затрагиваются). На самом Kaspi их нужно снять отдельно в кабинете.`)) return
+    if (!confirm(`Удалить ${ids.length} записей из каталога Kaspi? Это уберёт их из админки навсегда (товары сайта не затрагиваются). На самом Kaspi их нужно снять отдельно в кабинете.`)) return
     setBulkBusy(true)
     try {
       const res = await fetch('/api/admin/kaspi-catalog/bulk', {
@@ -319,7 +319,7 @@ export default function KaspiClient({ rows, q, bound, commissionMult }: { rows: 
             onClick={deleteCatalog}
             className="px-3 py-1 bg-white text-red-600 hover:bg-red-50 rounded text-sm font-medium transition"
           >✕ Удалить из каталога Kaspi</button>
-          <span className="text-xs text-white/80">товары Alash не затрагиваются · на Kaspi снять отдельно в кабинете</span>
+          <span className="text-xs text-white/80">товары сайта не затрагиваются · на Kaspi снять отдельно в кабинете</span>
           <button
             disabled={bulkBusy}
             onClick={() => setSelCat(new Set())}
@@ -628,7 +628,7 @@ export default function KaspiClient({ rows, q, bound, commissionMult }: { rows: 
                 </th>
                 <th className="px-3 py-2.5 font-medium text-gray-700">Kaspi</th>
                 <th className="px-3 py-2.5 font-medium text-gray-700">Kaspi URL</th>
-                <th className="px-3 py-2.5 font-medium text-gray-700">Товар Alash</th>
+                <th className="px-3 py-2.5 font-medium text-gray-700">Товар сайта</th>
                 <th className="px-3 py-2.5 font-medium text-gray-700 text-right">Цена</th>
                 <th className="px-3 py-2.5 font-medium text-gray-700 text-center" title="available">avl</th>
                 <th className="px-3 py-2.5 font-medium text-gray-700 text-center" title="preOrder (0–30 дней)">pre</th>
@@ -727,7 +727,7 @@ function KaspiRow({ row, checked, onCheck, catChecked, onCatCheck, commissionMul
 
   const removeOffer = async () => {
     if (!offer) return
-    if (!confirm(`Отвязать оффер ${catalog.kaspiSku} от товара Alash?`)) return
+    if (!confirm(`Отвязать оффер ${catalog.kaspiSku} от товара сайта?`)) return
     setBusy(true)
     try {
       const res = await fetch(`/api/admin/kaspi-offers/${offer.id}`, { method: 'DELETE' })
@@ -1235,7 +1235,7 @@ function AlashLinker({ onBind, disabled }: { onBind: (productId: string) => void
           onBlur={() => val && lookupUrl(val)}
           onKeyDown={e => { if (e.key === 'Enter') { e.preventDefault(); lookupUrl(val) } }}
           disabled={disabled}
-          placeholder="https://alash-electronics.kz/product/..."
+          placeholder="https://croon.kz/product/..."
           className="w-56 px-1.5 py-1 border border-gray-200 rounded text-[11px] outline-none focus:border-admin"
         />
       ) : (

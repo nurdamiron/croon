@@ -5,22 +5,22 @@ import NotificationSwitches from './NotificationSwitches'
 
 const DEFAULTS: Record<string, string> = {
   // Shop info
-  shopName:    'Alash Electronics',
+  shopName:    'ИП КРУН',
   shopPhone:   '+7(700) 900-17-90',
-  shopEmail:   'info@alash-electronics.kz',
-  shopAddress: 'ул. Кыз Жибек, 104/1, Алматы',
+  shopEmail:   'info@croon.kz',
+  shopAddress: 'Костанай Г.А., Костанай, МИКРОРАЙОН 9, дом 7, кв/офис 9',
   shopHours:   'Пн–Сб 12:00–20:00',
   // Social
   whatsapp:    '77009001790',
-  telegram:    'alash_electronics',
+  telegram:    'croon_kz',
   instagram:   '',
   // Delivery
   freeDelivery: '150000',
-  pickupAddress: 'ул. Кыз Жибек, 104/1, Кок-Тобе 2 м-н, Медеуский район, Алматы 050020',
+  pickupAddress: 'Костанай Г.А., Костанай, МИКРОРАЙОН 9, дом 7, кв/офис 9',
   // Notifications
   lowStock:    '5',
   // SEO
-  seoTitle:    'Alash Electronics — электронные компоненты и модули в Казахстане',
+  seoTitle:    'ИП КРУН — электронные компоненты и модули в Казахстане',
   seoDesc:     'Интернет-магазин электронных компонентов: Arduino, ESP32, датчики, модули, инструменты. Доставка по Казахстану.',
 }
 
@@ -51,10 +51,10 @@ const SECTIONS: Section[] = [
       </svg>
     ),
     fields: [
-      { key: 'shopName',    label: 'Название магазина', placeholder: 'Alash Electronics' },
+      { key: 'shopName',    label: 'Название магазина', placeholder: 'ИП КРУН' },
       { key: 'shopPhone',   label: 'Телефон', type: 'tel', placeholder: '+7 (___) ___-__-__' },
       { key: 'shopEmail',   label: 'Email', type: 'email', placeholder: 'info@example.com' },
-      { key: 'shopAddress', label: 'Адрес магазина', placeholder: 'ул. Кыз Жибек, 104/1, Алматы' },
+      { key: 'shopAddress', label: 'Адрес магазина', placeholder: 'Костанай Г.А., Костанай, МИКРОРАЙОН 9, дом 7, кв/офис 9' },
       { key: 'shopHours',   label: 'Часы работы', placeholder: 'Пн–Сб 12:00–20:00' },
     ],
   },
@@ -74,12 +74,12 @@ const SECTIONS: Section[] = [
         prefix: 'wa.me/',
       },
       {
-        key: 'telegram', label: 'Telegram', placeholder: 'alash_electronics',
+        key: 'telegram', label: 'Telegram', placeholder: 'croon_kz',
         hint: 'Username без @',
         prefix: 't.me/',
       },
       {
-        key: 'instagram', label: 'Instagram', placeholder: 'alash.electronics',
+        key: 'instagram', label: 'Instagram', placeholder: 'croon_engineer',
         hint: 'Username без @, необязательно',
         prefix: 'instagram.com/',
       },
@@ -103,7 +103,7 @@ const SECTIONS: Section[] = [
       },
       {
         key: 'pickupAddress', label: 'Адрес самовывоза (полный)',
-        placeholder: 'ул. Кыз Жибек, 104/1, Алматы',
+        placeholder: 'Костанай Г.А., Костанай, МИКРОРАЙОН 9, дом 7, кв/офис 9',
         hint: 'Показывается при оформлении заказа и на странице успеха',
       },
     ],
@@ -149,7 +149,7 @@ const SECTIONS: Section[] = [
     fields: [
       {
         key: 'seoTitle', label: 'Meta Title',
-        placeholder: 'Alash Electronics — электронные компоненты...',
+        placeholder: 'ИП КРУН — электронные компоненты...',
         hint: 'Оптимально 50–60 символов',
       },
       {

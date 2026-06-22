@@ -70,7 +70,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     : ''
   const description = trimmedBase
     ? `${trimmedBase} Арт. ${sku}.`
-    : `Купить «${name}» арт. ${sku} за ${product.price.toLocaleString('ru-RU')} ₸ в интернет-магазине Alash Electronics. Доставка по Казахстану.`
+    : `Купить «${name}» арт. ${sku} за ${product.price.toLocaleString('ru-RU')} ₸ в интернет-магазине ИП КРУН. Доставка по Казахстану.`
   // Title: full name + SKU; keep ≤55 chars (SEO: Title element is too long — 207 pages)
   const skuSuffix = ` (арт. ${sku})`
   const maxNameLen = 55 - skuSuffix.length
@@ -98,7 +98,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       },
     },
     openGraph: {
-      title: `${title} — Alash Electronics`,
+      title: `${title} — ИП КРУН`,
       description,
       url: `/product/${product.slug}`,
       type: 'website',
@@ -194,7 +194,7 @@ export default async function ProductPage({ params }: Props) {
     sku: artNumber,
     datePublished: product.createdAt.toISOString(),
     dateModified: product.updatedAt.toISOString(),
-    brand: { '@type': 'Brand', name: 'Alash Electronics' },
+    brand: { '@type': 'Brand', name: 'ИП КРУН' },
     speakable: {
       '@type': 'SpeakableSpecification',
       cssSelector: ['h1', '.product-description'],
@@ -219,7 +219,7 @@ export default async function ProductPage({ params }: Props) {
       url: `${SITE_URL}/product/${product.slug}`,
       seller: {
         '@type': 'Organization',
-        name: 'Alash Electronics',
+        name: 'ИП КРУН',
         '@id': `${SITE_URL}/#organization`,
       },
       priceValidUntil: new Date(new Date().getFullYear() + 1, 0, 1).toISOString().split('T')[0],
@@ -405,7 +405,7 @@ export default async function ProductPage({ params }: Props) {
             if (descParts.length === 0) return null
             return (
               <p className="text-sm text-gray-500 mb-3" data-variant-badge>
-                Характеристики варианта: {descParts.join(', ')}. Артикул: {artNumber}. В интернет-магазине Alash Electronics доступна доставка по Алматы и всему Казахстану.
+                Характеристики варианта: {descParts.join(', ')}. Артикул: {artNumber}. В интернет-магазине ИП КРУН доступна доставка по Костанаю и всему Казахстану.
               </p>
             )
           })()}
@@ -416,7 +416,7 @@ export default async function ProductPage({ params }: Props) {
         <div className="mt-10 bg-[#f5f5f5] rounded-lg p-6">
           <h2 className="text-lg font-bold mb-4">О товаре</h2>
           <p className="text-sm text-gray-700 leading-relaxed mb-3">
-            {product.name} — купить в интернет-магазине Alash Electronics с доставкой по Алматы и всему Казахстану.
+            {product.name} — купить в интернет-магазине ИП КРУН с доставкой по Костанаю и всему Казахстану.
             {product.category && (
               <> Товар из категории{' '}
                 <Link href={`/collection/${product.category.slug}`} className="text-brand hover:underline">
@@ -432,12 +432,12 @@ export default async function ProductPage({ params }: Props) {
             {` Артикул: ${artNumber}.`}
           </p>
           <p className="text-sm text-gray-700 leading-relaxed mb-3">
-            Alash Electronics — интернет-магазин электронных компонентов и модулей для DIY, робототехники и Arduino-проектов.
+            ИП КРУН — интернет-магазин электронных компонентов и модулей для DIY, робототехники и Arduino-проектов.
             В каталоге более 3 000 позиций: платы Arduino и ESP32, датчики и модули, силовые компоненты, инструменты и расходные материалы.
             Работаем с 2019 года, доставляем по всему Казахстану.
           </p>
           <p className="text-sm text-gray-700 leading-relaxed">
-            Оформите заказ онлайн — доставим курьером по Алматы (Яндекс Курьер), или воспользуйтесь самовывозом из нашего магазина по адресу ул. Кыз Жибек, 104/1 (пн–сб, 12:00–20:00).
+            Оформите заказ онлайн — доставим курьером по Костанаю (Яндекс Курьер), или воспользуйтесь самовывозом из нашего магазина по адресу Костанай Г.А., Костанай, МИКРОРАЙОН 9, дом 7, кв/офис 9 (пн–сб, 12:00–20:00).
             Доставка по всему Казахстану через inDrive. Бесплатная доставка при заказе от 150 000 ₸.
             Оплата при получении наличными или картой, а также онлайн-переводом.
           </p>
@@ -486,7 +486,7 @@ export default async function ProductPage({ params }: Props) {
       <div className="mt-8 pt-6 border-t text-sm text-gray-600 space-y-3">
         <h3 className="font-semibold text-gray-800">Доставка и оплата</h3>
         <p>
-          Купить {product.name} можно с доставкой по Алматы курьером Яндекс или самовывозом из магазина по адресу ул. Кыз Жибек, 104/1.
+          Купить {product.name} можно с доставкой по Костанаю курьером Яндекс или самовывозом из магазина по адресу Костанай Г.А., Костанай, МИКРОРАЙОН 9, дом 7, кв/офис 9.
           По Казахстану доставляем через inDrive. Бесплатная доставка при заказе от 150 000 ₸. Оплата наличными, картой или переводом.
         </p>
         <p>

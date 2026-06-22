@@ -6,7 +6,7 @@
  *   --all             Все товары (включая inStock=false)
  *   --merchant-id=ID  Merchant ID из Kaspi-кабинета (для XML-фида)
  *   --store-id=ID     Store ID из Kaspi-кабинета (для XML-фида)
- *   --city=CODE       Код города (по умолчанию 750000000 — Алматы)
+ *   --city=CODE       Код города (по умолчанию 750000000 — Костанай)
  *
  * Запуск (тест 10 штук):
  *   node scripts/export-for-kaspi.js --test --merchant-id=30383258 --store-id=1

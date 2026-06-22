@@ -10,27 +10,27 @@ export const revalidate = 600 // ISR: rebuild homepage every 10 min
 
 export const metadata: Metadata = {
   // Use absolute to bypass the layout template — homepage gets the full brand title
-  title: { absolute: 'Alash Electronics — Электронные компоненты в Казахстане' },
-  description: 'Интернет-магазин электронных компонентов в Казахстане: Arduino, ESP32, Raspberry Pi, датчики и модули. 1896 товаров в наличии. Доставка по Алматы, самовывоз.',
+  title: { absolute: 'ИП КРУН — Электронные компоненты в Казахстане' },
+  description: 'Интернет-магазин электронных компонентов в Казахстане: Arduino, ESP32, Raspberry Pi, датчики и модули. 1896 товаров в наличии. Доставка по Костанаю, самовывоз.',
   alternates: {
-    canonical: 'https://alash-electronics.kz',
+    canonical: 'https://croon.kz',
     languages: {
-      'ru-KZ': 'https://alash-electronics.kz',
-      'x-default': 'https://alash-electronics.kz',
+      'ru-KZ': 'https://croon.kz',
+      'x-default': 'https://croon.kz',
     },
   },
   openGraph: {
-    title: 'Alash Electronics — Электронные компоненты в Казахстане',
-    description: 'Интернет-магазин электронных компонентов в Казахстане: Arduino, ESP32, Raspberry Pi, датчики и модули. 1896 товаров в наличии. Доставка по Алматы, самовывоз.',
+    title: 'ИП КРУН — Электронные компоненты в Казахстане',
+    description: 'Интернет-магазин электронных компонентов в Казахстане: Arduino, ESP32, Raspberry Pi, датчики и модули. 1896 товаров в наличии. Доставка по Костанаю, самовывоз.',
     url: '/',
     locale: 'ru_KZ',
     type: 'website',
-    siteName: 'Alash Electronics',
-    images: [{ url: '/images/og-cover.png', width: 1200, height: 630, alt: 'Alash Electronics — Электронные компоненты в Казахстане' }],
+    siteName: 'ИП КРУН',
+    images: [{ url: '/images/og-cover.png', width: 1200, height: 630, alt: 'ИП КРУН — Электронные компоненты в Казахстане' }],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Alash Electronics — Электронные компоненты в Казахстане',
+    title: 'ИП КРУН — Электронные компоненты в Казахстане',
     description: 'Интернет-магазин электронных компонентов в Казахстане. Arduino, Raspberry Pi, датчики, модули.',
     images: ['/images/og-cover.png'],
   },
@@ -40,7 +40,7 @@ const localBusinessJsonLd = {
   '@context': 'https://schema.org',
   '@type': 'LocalBusiness',
   '@id': `${SITE_URL}/#organization`,
-  name: 'Alash Electronics',
+  name: 'ИП КРУН',
   url: SITE_URL,
   logo: {
     '@type': 'ImageObject',
@@ -52,8 +52,8 @@ const localBusinessJsonLd = {
   telephone: '+7-700-900-17-90',
   address: {
     '@type': 'PostalAddress',
-    streetAddress: 'ул. Кыз Жибек, 104/1',
-    addressLocality: 'Алматы',
+    streetAddress: 'Костанай Г.А., Костанай, МИКРОРАЙОН 9, дом 7, кв/офис 9',
+    addressLocality: 'Костанай',
     postalCode: '050020',
     addressCountry: 'KZ',
   },
@@ -75,11 +75,9 @@ const localBusinessJsonLd = {
     { '@type': 'City', name: 'Almaty' },
   ],
   sameAs: [
-    'https://t.me/alash_electronics',
-    'https://www.instagram.com/alash_engineer/',
-    'https://wiki.alashed.kz',
-    'https://2gis.kz/almaty/firm/70000001085099296',
-    'https://kaspi.kz/shop/shop/alashelectronics/',
+    'https://t.me/croon_kz',
+    'https://www.instagram.com/croon_engineer/',
+    'https://wiki.croon.kz',
   ],
   dateModified: new Date().toISOString().split('T')[0],
 }
@@ -93,7 +91,7 @@ const faqJsonLd = {
       name: 'Где купить Arduino в Казахстане?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'Arduino можно купить в интернет-магазине Alash Electronics (alash-electronics.kz) с доставкой по всему Казахстану или самовывозом в Алматы.',
+        text: 'Arduino можно купить в интернет-магазине ИП КРУН (croon.kz) с доставкой по всему Казахстану или самовывозом в Костанай.',
       },
     },
     {
@@ -101,7 +99,7 @@ const faqJsonLd = {
       name: 'Есть ли готовые наборы для начинающих?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'Да, Alash Electronics предлагает готовые стартовые наборы Arduino: Зелёный, Синий и Красный набор с компонентами и платой для начального обучения электронике.',
+        text: 'Да, ИП КРУН предлагает готовые стартовые наборы Arduino: Зелёный, Синий и Красный набор с компонентами и платой для начального обучения электронике.',
       },
     },
     {
@@ -109,7 +107,7 @@ const faqJsonLd = {
       name: 'Как быстро доставляют заказы?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'Доставка по Алматы — 1-2 дня. По всему Казахстану — 3-7 дней. Доступен самовывоз из офиса в Алматы.',
+        text: 'Доставка по Костанаю — 1-2 дня. По всему Казахстану — 3-7 дней. Доступен самовывоз из офиса в Костанае.',
       },
     },
   ],
@@ -151,7 +149,7 @@ export default async function Home() {
       <main className="flex-1 min-w-0">
         <h1 className="text-xl font-semibold text-gray-800 mb-2">Электронные компоненты в Казахстане</h1>
         <p className="text-gray-600 text-sm mb-6 leading-relaxed">
-          Купить Arduino, ESP32, Raspberry Pi, датчики, модули и комплектующие с доставкой по Казахстану. Самовывоз в Алматы — ул. Кыз Жибек, 104/1. Бесплатная доставка от 150 000 ₸. Работаем с 2019 года, доставка Яндекс Курьер по Алматы и inDrive по всей стране.
+          Купить Arduino, ESP32, Raspberry Pi, датчики, модули и комплектующие с доставкой по Казахстану. Самовывоз в Костанай — Костанай Г.А., Костанай, МИКРОРАЙОН 9, дом 7, кв/офис 9. Бесплатная доставка от 150 000 ₸. Работаем с 2019 года, доставка Яндекс Курьер по Костанаю и inDrive по всей стране.
         </p>
         <HomeTabs
           popularProducts={mapProducts(popularProducts)}
@@ -174,12 +172,12 @@ export default async function Home() {
         <div className="mt-10 border-t pt-8">
           <h2 className="text-base font-semibold text-gray-800 mb-3">Интернет-магазин электронных компонентов</h2>
           <p className="text-sm text-gray-600 leading-relaxed mb-3">
-            <strong>Alash Electronics</strong> — интернет-магазин электронных компонентов в Алматы и по всему Казахстану.
+            <strong>ИП КРУН</strong> — интернет-магазин электронных компонентов в Костанай и по всему Казахстану.
             Большой выбор Arduino, ESP32, Raspberry Pi, датчиков, модулей, аккумуляторов, двигателей и готовых наборов для робототехники.
-            Доставка курьером по Алматы и транспортными компаниями по всему Казахстану.
+            Доставка курьером по Костанаю и транспортными компаниями по всему Казахстану.
           </p>
           <p className="text-sm text-gray-600 leading-relaxed mb-4">
-            Закажите онлайн или заберите самовывозом по адресу ул. Кыз Жибек, 104/1. Оплата при получении картой или наличными. Бесплатная доставка от 150 000 ₸. Работаем с 2019 года.
+            Закажите онлайн или заберите самовывозом по адресу Костанай Г.А., Костанай, МИКРОРАЙОН 9, дом 7, кв/офис 9. Оплата при получении картой или наличными. Бесплатная доставка от 150 000 ₸. Работаем с 2019 года.
           </p>
           <h3 className="text-sm font-semibold text-gray-700 mb-2">Популярные категории</h3>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-sm">
@@ -207,15 +205,15 @@ export default async function Home() {
           <div className="space-y-4">
             <div>
               <p className="text-sm font-medium text-gray-800 mb-1">Где купить Arduino в Казахстане?</p>
-              <p className="text-sm text-gray-600 leading-relaxed">Arduino можно купить в интернет-магазине Alash Electronics (alash-electronics.kz) с доставкой по всему Казахстану или самовывозом в Алматы.</p>
+              <p className="text-sm text-gray-600 leading-relaxed">Arduino можно купить в интернет-магазине ИП КРУН (croon.kz) с доставкой по всему Казахстану или самовывозом в Костанай.</p>
             </div>
             <div>
               <p className="text-sm font-medium text-gray-800 mb-1">Есть ли готовые наборы для начинающих?</p>
-              <p className="text-sm text-gray-600 leading-relaxed">Да, Alash Electronics предлагает готовые стартовые наборы Arduino: Зелёный, Синий и Красный набор с компонентами и платой для начального обучения электронике.</p>
+              <p className="text-sm text-gray-600 leading-relaxed">Да, ИП КРУН предлагает готовые стартовые наборы Arduino: Зелёный, Синий и Красный набор с компонентами и платой для начального обучения электронике.</p>
             </div>
             <div>
               <p className="text-sm font-medium text-gray-800 mb-1">Как быстро доставляют заказы?</p>
-              <p className="text-sm text-gray-600 leading-relaxed">Доставка по Алматы — 1-2 дня. По всему Казахстану — 3-7 дней. Доступен самовывоз из офиса в Алматы.</p>
+              <p className="text-sm text-gray-600 leading-relaxed">Доставка по Костанаю — 1-2 дня. По всему Казахстану — 3-7 дней. Доступен самовывоз из офиса в Костанае.</p>
             </div>
           </div>
         </div>

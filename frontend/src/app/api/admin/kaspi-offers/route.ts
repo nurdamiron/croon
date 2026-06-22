@@ -43,7 +43,7 @@ export async function POST(request: NextRequest) {
   const catalog = await prisma.kaspiCatalogEntry.findUnique({ where: { kaspiSku: sku } })
 
   // Защита от дублей: одна Kaspi-карточка (kaspi product-id) не может быть
-  // привязана к нескольким товарам Alash. Несколько РАЗНЫХ карточек на один
+  // привязана к нескольким товарам Сайт. Несколько РАЗНЫХ карточек на один
   // товар — разрешены. Сравниваем по product-id (часть SKU до "_").
   //
   // ВАЖНО: только для СОСТАВНЫХ SKU вида "PID_storeId". Короткий числовой
@@ -71,7 +71,7 @@ export async function POST(request: NextRequest) {
     }, { status: 409 })
   }
 
-  // Цена: переданная → из каталога → из товара Alash (для офферов без цены в XML).
+  // Цена: переданная → из каталога → из товара Сайт (для офферов без цены в XML).
   const finalPrice = priceTenge
     ? Math.round(Number(priceTenge))
     : (catalog?.priceTenge && catalog.priceTenge > 0 ? catalog.priceTenge : Math.round(product.price || 0))
@@ -85,7 +85,7 @@ export async function POST(request: NextRequest) {
       kaspiSku: sku,
       productId: product.id,
       priceTenge: finalPrice,
-      kaspiStoreId: kaspiStoreId || catalog?.storeId || '30383258_PP1',
+      kaspiStoreId: kaspiStoreId || catalog?.storeId || (process.env.KASPI_STORE_ID || '30383258_PP1'),
       cityId: cityId || catalog?.cityId || '750000000',
       kaspiName: kaspiName ?? catalog?.name ?? null,
       kaspiBrand: kaspiBrand ?? catalog?.brand ?? null,

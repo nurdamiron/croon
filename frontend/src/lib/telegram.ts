@@ -58,7 +58,7 @@ export function tgNewOrder(params: {
     `<b>Товаров:</b> ${itemCount} шт`,
     `<b>Доставка:</b> ${delivery}`,
     ``,
-    `<a href="https://alash-electronics.kz${url}">Открыть заказ</a>`,
+    `<a href="https://croon.kz${url}">Открыть заказ</a>`,
   ].join('\n')
 }
 
@@ -77,7 +77,7 @@ export function tgNewPreorderQuick(params: {
     `<b>Телефон:</b> ${esc(phone)}`,
     `<b>Товар:</b> ${esc(productName)}`,
     ``,
-    `<a href="https://alash-electronics.kz${url}">Открыть заказ</a>`,
+    `<a href="https://croon.kz${url}">Открыть заказ</a>`,
   ].join('\n')
 }
 

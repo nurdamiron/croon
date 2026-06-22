@@ -95,7 +95,7 @@ export async function POST(request: NextRequest) {
     if (!name) {
       const t = html.match(/<title>([^<]+)<\/title>/i)
       if (t) {
-        // Kaspi title: "Название купить в Алматы, цены — Kaspi.kz"
+        // Kaspi title: "Название купить в Костанай, цены — Kaspi.kz"
         name = decodeEntities(t[1]).replace(/\s*[-—]\s*Kaspi\.kz.*$/i, '').replace(/\s*купить\s+в\s+.*$/i, '').trim()
       }
     }

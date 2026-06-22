@@ -1,5 +1,5 @@
 const INDEXNOW_KEY = '4bb2949a7737b479b3c93be2474b352c'
-const SITE_URL = (process.env.SITE_URL || 'https://alash-electronics.kz').replace(/\/$/, '')
+const SITE_URL = (process.env.SITE_URL || 'https://croon.kz').replace(/\/$/, '')
 
 const ENDPOINTS = [
   'https://api.indexnow.org/indexnow',

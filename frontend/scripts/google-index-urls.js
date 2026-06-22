@@ -7,7 +7,7 @@
  *   — Квота по умолчанию ~200 URL/сутки (планируйте --max и повторные запуски)
  *
  * Использование:
- *   GOOGLE_INDEXING_KEY_PATH=/path/to/key.json SITE_URL=https://alash-electronics.kz \
+ *   GOOGLE_INDEXING_KEY_PATH=/path/to/key.json SITE_URL=https://croon.kz \
  *     node scripts/google-index-urls.js --max=200 --start=0
  *
  *   node scripts/google-index-urls.js --dry-run   # только список URL из sitemap, без API
@@ -38,7 +38,7 @@ function parseArgs() {
 }
 
 function siteUrl() {
-  const u = process.env.SITE_URL || process.env.NEXTAUTH_URL || 'https://alash-electronics.kz'
+  const u = process.env.SITE_URL || process.env.NEXTAUTH_URL || 'https://croon.kz'
   return u.replace(/\/$/, '')
 }
 

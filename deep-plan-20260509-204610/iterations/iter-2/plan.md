@@ -192,7 +192,7 @@ cd frontend && npm install resend
 
 **Env vars to add:**
 - `RESEND_API_KEY` — get from resend.com
-- `EMAIL_FROM` — e.g. `noreply@alash-electronics.kz` (must be verified domain in Resend)
+- `EMAIL_FROM` — e.g. `noreply@croon.kz` (must be verified domain in Resend)
 
 **File:** `frontend/src/lib/email.ts` (new)
 
@@ -203,7 +203,7 @@ import { Resend } from 'resend'
 import { sendTelegram } from '@/lib/telegram'
 
 const resend = new Resend(process.env.RESEND_API_KEY)
-const FROM = process.env.EMAIL_FROM ?? 'noreply@alash-electronics.kz'
+const FROM = process.env.EMAIL_FROM ?? 'noreply@croon.kz'
 
 async function sendEmail(params: {
   to: string
@@ -238,7 +238,7 @@ export async function sendOrderConfirmation(params: {
 }): Promise<void> {
   await sendEmail({
     to: params.to,
-    subject: `Ваш заказ #${params.orderNumber} принят — Alash Electronics`,
+    subject: `Ваш заказ #${params.orderNumber} принят — ИП КРУН`,
     html: orderConfirmationHtml(params),
     orderId: String(params.orderNumber),
   })
@@ -253,7 +253,7 @@ export async function sendOrderStatusUpdate(params: {
 }): Promise<void> {
   await sendEmail({
     to: params.to,
-    subject: `Статус заказа #${params.orderNumber} изменён — Alash Electronics`,
+    subject: `Статус заказа #${params.orderNumber} изменён — ИП КРУН`,
     html: orderStatusHtml(params),
     orderId: String(params.orderNumber),
   })
@@ -265,7 +265,7 @@ export async function sendPasswordReset(params: {
 }): Promise<void> {
   await sendEmail({
     to: params.to,
-    subject: 'Сброс пароля — Alash Electronics',
+    subject: 'Сброс пароля — ИП КРУН',
     html: passwordResetHtml(params),
   })
 }

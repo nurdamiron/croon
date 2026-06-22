@@ -2,8 +2,6 @@ import { NextRequest, NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
-import { markSatuDirty } from '@/lib/satu-sync'
-import { triggerBa3arStockSync } from '@/lib/ba3ar-sync-trigger'
 
 export async function GET(
   request: NextRequest,
@@ -88,11 +86,6 @@ export async function PATCH(
     select: { id: true, costPrice: true, archived: true, totalStock: true, inStock: true },
   })
 
-  // если менялся остаток — синхронизировать с каналами (Satu push + витрина ba3ar)
-  if ('totalStock' in body) {
-    await markSatuDirty([params.id]).catch(() => {})
-    await triggerBa3arStockSync().catch(() => {})
-  }
 
   return NextResponse.json({ ok: true, ...updated })
 }

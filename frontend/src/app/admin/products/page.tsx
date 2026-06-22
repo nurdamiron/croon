@@ -66,7 +66,7 @@ export default function AdminProductsPage() {
   const [bulkCatModal, setBulkCatModal] = useState<'add' | 'remove' | null>(null)
   const [bulkCatIds, setBulkCatIds] = useState<Set<string>>(new Set())
   const [bulkLoading, setBulkLoading] = useState(false)
-  const [satuProgress, setSatuProgress] = useState<string | null>(null)
+
   const [showSidebar, setShowSidebar] = useState(false)
   const [editingStock, setEditingStock] = useState<string | null>(null)
   const [editingStockVal, setEditingStockVal] = useState('')
@@ -249,51 +249,6 @@ export default function AdminProductsPage() {
     } else if (action === 'removeCategories') {
       setBulkCatIds(new Set())
       setBulkCatModal('remove')
-    } else if (action === 'exportToSatu') {
-      const ids = Array.from(selectedIds)
-      if (!confirm(`Выложить ${ids.length} товар(ов) на Satu? Создадутся карточки (название, артикул, цена, фото, описание, остаток). Уже выложенные пропустятся.`)) return
-      setBulkLoading(true)
-      // Бьём на батчи по 20 — Satu разрешает 1 импорт за раз + защита от таймаута.
-      const BATCH = 20
-      let imported = 0, enriched = 0, mirrored = 0
-      const errs: string[] = []
-      try {
-        for (let i = 0; i < ids.length; i += BATCH) {
-          const chunk = ids.slice(i, i + BATCH)
-          setSatuProgress(`${Math.min(i + chunk.length, ids.length)} / ${ids.length}`)
-          const res = await fetch('/api/admin/satu/export', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ ids: chunk }),
-          })
-          // ответ может быть HTML (504/таймаут шлюза) — не парсим вслепую
-          const ct = res.headers.get('content-type') || ''
-          if (!ct.includes('application/json')) {
-            if (res.status === 504 || res.status === 502) {
-              errs.push('Satu занят (импорт другого процесса) — попробуйте позже')
-            } else {
-              errs.push(`Сервер вернул не JSON (HTTP ${res.status})`)
-            }
-            break
-          }
-          const d = await res.json()
-          if (!res.ok && res.status !== 207) { errs.push(d.error || `HTTP ${res.status}`); break }
-          imported += d.imported ?? 0
-          enriched += d.enriched ?? 0
-          mirrored += d.mirrored ?? 0
-          if (d.errors?.length) errs.push(...d.errors)
-        }
-        alert(
-          `Выгрузка на Satu:\nимпорт ${imported}, дозалив ${enriched}, зеркало +${mirrored}` +
-          (errs.length ? `\n\nОшибки (${errs.length}):\n` + errs.slice(0, 3).join('\n') : '')
-        )
-      } catch (e) {
-        alert('Ошибка выгрузки на Satu: ' + (e as Error).message)
-      }
-      setSatuProgress(null)
-      setSelectedIds(new Set())
-      setBulkLoading(false)
-      loadProducts()
     }
   }
 
@@ -692,7 +647,7 @@ export default function AdminProductsPage() {
                   className="bg-admin text-white px-3 py-1 rounded text-[12px] font-medium hover:bg-admin-hover transition-colors flex items-center gap-1"
                   disabled={bulkLoading}
                 >
-                  {bulkLoading ? (satuProgress ? `Satu ${satuProgress}…` : 'Выполняем...') : 'Действия'}
+                  {bulkLoading ? 'Выполняем...' : 'Действия'}
                   <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M6 9l6 6 6-6"/></svg>
                 </button>
                 {bulkMenuOpen && (
@@ -702,11 +657,6 @@ export default function AdminProductsPage() {
                     </button>
                     <button onClick={() => handleBulkAction('removeCategories')} className="w-full text-left px-3 py-1.5 text-[12px] text-[#333] hover:bg-gray-50">
                       Убрать из категории
-                    </button>
-                    <div className="border-t border-gray-100 my-0.5" />
-                    <button onClick={() => handleBulkAction('exportToSatu')} className="w-full text-left px-3 py-1.5 text-[12px] text-[#333] hover:bg-gray-50 flex items-center gap-1.5">
-                      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
-                      Выложить на Satu
                     </button>
                     <div className="border-t border-gray-100 my-0.5" />
                     <button onClick={() => handleBulkAction('delete')} className={`w-full text-left px-3 py-1.5 text-[12px] hover:bg-red-50 ${archivedView ? 'text-red-600 font-medium' : 'text-amber-600'}`}>
@@ -812,7 +762,7 @@ export default function AdminProductsPage() {
                             {product.totalStock} шт
                           </button>
                         )}
-                        {/* Бронь под незавершённые заказы (Kaspi/Satu): доступно = склад − бронь */}
+                        {/* Бронь под незавершённые заказы (Kaspi): доступно = склад − бронь */}
                         {!!product.reservedStock && product.reservedStock > 0 && (
                           <div className="text-[10px] text-amber-600 leading-tight mt-0.5"
                             title="В брони под незавершённые заказы. На сайте доступно = склад − бронь.">

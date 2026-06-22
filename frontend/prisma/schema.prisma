@@ -4,8 +4,9 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
 model User {
@@ -79,10 +80,6 @@ model Product {
   // totalStock уменьшается, reservedStock тоже; при отмене/возврате reservedStock
   // возвращается. Ручные правки склада трогают только totalStock.
   reservedStock   Int        @default(0)
-  // Очередь синхронизации остатков с Satu: ставится true при любом изменении
-  // остатка (заказ сайта/Kaspi/Satu, ручная правка). Воркер пушит в Satu только
-  // товары с satuDirty=true и снимает флаг. См. lib/satu-sync.ts pushSatuDirty.
-  satuDirty       Boolean    @default(false)
   costPrice       Float?
   costPriceDate   DateTime?
   weight          Float?
@@ -108,16 +105,11 @@ model Product {
   viewedInOrders OrderViewedProduct[]
   kaspiOffers    KaspiOffer[]
   kaspiOrderItems KaspiOrderItem[]
-  satuProducts   SatuProduct[]
-  satuOrderItems SatuOrderItem[]
-  ba3arOrderItems Ba3arOrderItem[]
-  ba3arViewedInOrders Ba3arOrderViewedProduct[]
   createdAt   DateTime       @default(now())
   updatedAt   DateTime       @updatedAt
 
   @@index([categoryId])
   @@index([slug])
-  @@index([satuDirty])
 }
 
 model KaspiCatalogEntry {
@@ -247,179 +239,7 @@ model KaspiOrderItem {
   @@index([kaspiSku])
 }
 
-// Зеркало товара на Satu.kz (импорт из products/list). Связь с товаром Alash
-// через productId (авто по sku=артикул, либо вручную в /admin/satu).
-// Используется для push остатков Alash → Satu (products/edit).
-model SatuProduct {
-  id          String   @id @default(cuid())
-  satuId      String   @unique          // id товара в Satu (products/list .id)
-  sku         String?                    // артикул на Satu («Код») — совпадает с артикулом Alash
-  name        String
-  presence    String?                    // available | order | not_available (последнее известное на Satu)
-  price       Float?
-  productId   String?                    // привязка к Product Alash (null = не сопоставлено)
-  product     Product? @relation(fields: [productId], references: [id])
-  active      Boolean  @default(true)    // участвует в push остатков
-  lastPushedAt DateTime?                 // когда последний раз отправляли остаток в Satu
-  raw         Json?
-  importedAt  DateTime @default(now())
-  updatedAt   DateTime @updatedAt
 
-  @@index([productId])
-  @@index([sku])
-}
-
-// Заказ с Satu.kz (импорт из orders/list). Read-only зеркало. Логика остатков
-// та же, что у Kaspi (reserved/completed/released через stockApplied).
-model SatuOrder {
-  id            String   @id @default(cuid())
-  satuOrderId   String   @unique          // orders/list .id
-  status        String                     // статус заказа Satu
-  stockApplied  String?                    // null|reserved|completed|released (идемпотентность)
-  totalPrice    Float    @default(0)
-  customerName  String?
-  customerPhone String?
-  email         String?
-  deliveryName  String?
-  creationDate  DateTime?
-  raw           Json?
-  items         SatuOrderItem[]
-  statusLogs    SatuOrderStatusLog[]
-  syncedAt      DateTime @default(now())
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
-
-  @@index([status])
-  @@index([creationDate])
-}
-
-// История смены статусов заказа Satu (для карточки заказа).
-model SatuOrderStatusLog {
-  id          String    @id @default(cuid())
-  satuOrderId String
-  order       SatuOrder @relation(fields: [satuOrderId], references: [id], onDelete: Cascade)
-  fromStatus  String?
-  toStatus    String
-  note        String?
-  createdAt   DateTime  @default(now())
-
-  @@index([satuOrderId])
-}
-
-model SatuOrderItem {
-  id          String    @id @default(cuid())
-  satuOrderId String
-  order       SatuOrder @relation(fields: [satuOrderId], references: [id], onDelete: Cascade)
-  satuItemId  String?                      // id позиции/товара в Satu
-  sku         String?
-  name        String?
-  productId   String?                      // привязка к Product Alash
-  product     Product?  @relation(fields: [productId], references: [id])
-  quantity    Int       @default(1)
-  price       Float     @default(0)
-
-  @@index([satuOrderId])
-  @@index([productId])
-  @@index([sku])
-}
-
-// Заказы с ba3ar.kz (единый склад с Alash). ba3ar — та же БД, отдельный канал.
-// Бронь/списание остатков по статусу (как Satu): stockApplied для идемпотентности.
-model Ba3arOrder {
-  id            String   @id @default(cuid())
-  ba3arOrderId  String   @unique          // id заказа в ba3ar (uuid, ключ идемпотентности)
-  orderNumber   Int      @unique @default(autoincrement()) // человекочитаемый № (старт 10000)
-  status        String   @default("new")  // new|confirmed|processing|shipped|delivered|picked_up|canceled|returned
-  stockApplied  String?                    // null|reserved|completed|released
-  isPreorder    Boolean  @default(false)   // заказ содержит товар не в наличии (предзаказ)
-  totalPrice    Float    @default(0)
-  customerName  String?
-  customerPhone String?
-  email         String?
-  deliveryName  String?                    // способ доставки
-  paymentName   String?                    // способ оплаты
-  address       String?
-  comment       String?
-  raw           Json?
-  items         Ba3arOrderItem[]
-  statusLogs    Ba3arOrderStatusLog[]
-  viewedProducts Ba3arOrderViewedProduct[]
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
-
-  @@index([status])
-  @@index([createdAt])
-}
-
-// Товары, которые клиент смотрел перед заказом на витрине ba3ar (как у Alash).
-model Ba3arOrderViewedProduct {
-  id           String     @id @default(cuid())
-  ba3arOrderId String
-  order        Ba3arOrder @relation(fields: [ba3arOrderId], references: [id], onDelete: Cascade)
-  sku          String?
-  name         String?
-  productId    String?                     // привязка к Product Alash (по sku)
-  product      Product?   @relation(fields: [productId], references: [id])
-
-  @@index([ba3arOrderId])
-  @@index([productId])
-}
-
-// История смены статусов заказа ba3ar (для карточки заказа, как у Alash).
-model Ba3arOrderStatusLog {
-  id           String     @id @default(cuid())
-  ba3arOrderId String
-  order        Ba3arOrder @relation(fields: [ba3arOrderId], references: [id], onDelete: Cascade)
-  fromStatus   String?
-  toStatus     String
-  note         String?
-  createdAt    DateTime   @default(now())
-
-  @@index([ba3arOrderId])
-}
-
-model Ba3arOrderItem {
-  id           String     @id @default(cuid())
-  ba3arOrderId String
-  order        Ba3arOrder @relation(fields: [ba3arOrderId], references: [id], onDelete: Cascade)
-  sku          String?                     // артикул (связь с Alash)
-  name         String?
-  productId    String?                     // привязка к Product Alash (по sku)
-  product      Product?   @relation(fields: [productId], references: [id])
-  quantity     Int        @default(1)
-  price        Float      @default(0)
-
-  @@index([ba3arOrderId])
-  @@index([productId])
-  @@index([sku])
-}
-
-// Результат сопоставления каталога ba3ar.kz с товарами Alash (разовый матчинг).
-// kind: matched (есть пара) | only_ba3ar (нет в Alash) | only_alash (нет в ba3ar).
-// status: pending | confirmed | rejected — для ручной проверки в /admin/ba3ar-match.
-model Ba3arMatch {
-  id          String   @id @default(cuid())
-  kind        String                       // matched | only_ba3ar | only_alash
-  ba3arSku    String?                       // SKU товара в ba3ar
-  ba3arTitle  String?                       // название в ba3ar
-  ba3arImage  String?                       // URL фото ba3ar (S3)
-  ba3arPrice  Int?                          // цена ba3ar, тг
-  ba3arDesc   String?  @db.Text             // короткое описание ba3ar
-  alashId     String?                       // Product.id в Alash (если matched/only_alash)
-  alashName   String?                       // название в Alash
-  alashImage  String?                       // URL фото Alash
-  alashPrice  Int?                          // цена Alash, тг
-  alashDesc   String?  @db.Text             // описание Alash
-  score       Float?                        // уверенность матча 0..1
-  status      String   @default("pending")  // pending | confirmed | rejected | not_in_alash
-  stockQty    Int?                          // фактическое наличие на складе (вводит админ вручную)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-
-  @@index([kind])
-  @@index([status])
-  @@index([ba3arSku])
-}
 
 model ProductImage {
   id        String  @id @default(cuid())

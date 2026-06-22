@@ -19,7 +19,7 @@ export default function Sidebar({ categories, currentSlug }: { categories: Categ
     <aside className="hidden lg:block w-[280px] shrink-0">
       <h2 className="font-semibold text-lg mb-3">Каталог</h2>
       <p className="text-xs text-gray-500 mb-4 leading-relaxed">
-        Электронные компоненты с доставкой по Казахстану. Самовывоз: Алматы, ул. Кыз Жибек, 104/1. Пн–сб 12:00–20:00.
+        Электронные компоненты с доставкой по Казахстану. Самовывоз: Костанай, Костанай Г.А., Костанай, МИКРОРАЙОН 9, дом 7, кв/офис 9. Пн–сб 12:00–20:00.
       </p>
       <ul>
         {topLevel.map(cat => (

@@ -5,11 +5,11 @@
  * Usage:
  *   node scripts/indexnow-submit.js             # submit all sitemap URLs
  *   node scripts/indexnow-submit.js --dry-run   # show URLs, don't submit
- *   SITE_URL=https://alash-electronics.kz node scripts/indexnow-submit.js
+ *   SITE_URL=https://croon.kz node scripts/indexnow-submit.js
  *
  * Cron (weekly, e.g. Sunday 10:00):
  *   0 10 * * 0 . /home/ubuntu/.profile; cd /home/ubuntu/alashed-shop/frontend && \
- *     SITE_URL=https://alash-electronics.kz /usr/bin/node scripts/indexnow-submit.js \
+ *     SITE_URL=https://croon.kz /usr/bin/node scripts/indexnow-submit.js \
  *     >> /home/ubuntu/logs/indexnow.log 2>&1
  */
 
@@ -17,7 +17,7 @@ const https = require('https')
 const http = require('http')
 
 const KEY = '4bb2949a7737b479b3c93be2474b352c'
-const SITE_URL = (process.env.SITE_URL || 'https://alash-electronics.kz').replace(/\/$/, '')
+const SITE_URL = (process.env.SITE_URL || 'https://croon.kz').replace(/\/$/, '')
 const DRY_RUN = process.argv.includes('--dry-run')
 
 const ENDPOINTS = [

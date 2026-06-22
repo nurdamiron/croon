@@ -124,7 +124,7 @@ async function main() {
         return;
       }
 
-      const url = `https://alash-electronics.kz/product/${product.slug}`;
+      const url = `https://croon.kz/product/${product.slug}`;
 
       try {
         const html = await fetchPage(url);

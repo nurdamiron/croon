@@ -11,7 +11,7 @@
 
 | База | Где | Для чего | Строка подключения |
 |------|-----|----------|--------------------|
-| `alash-electronics` | AWS RDS `alashed-db` (eu-north-1) | **Прод БД alash-electronics.kz** | `postgresql://alashed_user:alashed01@alashed-db.cde42ec8m1u7.eu-north-1.rds.amazonaws.com:5432/alash-electronics?sslmode=require` |
+| `alash-electronics` | AWS RDS `alashed-db` (eu-north-1) | **Прод БД croon.kz** | `postgresql://alashed_user:alashed01@alashed-db.cde42ec8m1u7.eu-north-1.rds.amazonaws.com:5432/alash-electronics?sslmode=require` |
 | `alashed-biz` | AWS RDS `alashed-db` (eu-north-1) | Внутренняя ERP/CRM система | — |
 | `learning_alashed` | AWS RDS `alashed-db` (eu-north-1) | AlashEd образовательная платформа | — |
 | Neon (neondb) | neon.tech (us-east-1) | **УСТАРЕЛА** — была прод БД до 2026-03-08, теперь резервная копия | `postgresql://neondb_owner:...@ep-polished-forest-aiug4wcd-pooler.c-4.us-east-1.aws.neon.tech/neondb` |
@@ -22,11 +22,11 @@
 
 | Сервер | IP | Что крутится |
 |--------|-----|-------------|
-| EC2 **`alash-electronics`** (магазин) | **13.51.198.130** | Только **alash-electronics.kz**: PM2 `alash-electronics` → порт **5000**, nginx 80/443. Код: `/home/ubuntu/alashed-shop/frontend/`. См. `CLAUDE.md` → Infrastructure. |
+| EC2 **`alash-electronics`** (магазин) | **13.51.198.130** | Только **croon.kz**: PM2 `alash-electronics` → порт **5000**, nginx 80/443. Код: `/home/ubuntu/alashed-shop/frontend/`. См. `CLAUDE.md` → Infrastructure. |
 | EC2 `alashed-services` (сервисы) | 13.62.193.249 | PM2: `biz-api`, `edu-api`, `tendon-api`, `tendon-web`, `it-site`, `unitree` — **без** `alash-electronics`, если магазин уже на отдельном инстансе (см. ниже). |
 | EC2 `CodeStudio` | 16.170.207.59 | Dev окружение |
 
-> **Сверка с AWS:** **магазин** — EC2 `i-06e2d5837c24c75f3` (**13.51.198.130**). **alashed-services** — `i-08eb56616ddb569bc` (**13.62.193.249**). A-запись `alash-electronics.kz` должна указывать на **13.51.198.130**. Workflow `deploy-ec2.yml` / `diagnose-ec2.yml` настроены на **`i-06e2d5837c24c75f3`** (не на alashed-services).
+> **Сверка с AWS:** **магазин** — EC2 `i-06e2d5837c24c75f3` (**13.51.198.130**). **alashed-services** — `i-08eb56616ddb569bc` (**13.62.193.249**). A-запись `croon.kz` должна указывать на **13.51.198.130**. Workflow `deploy-ec2.yml` / `diagnose-ec2.yml` настроены на **`i-06e2d5837c24c75f3`** (не на alashed-services).
 
 #### Разово: снять дубликат магазина с `alashed-services` (13.62.193.249)
 
@@ -37,7 +37,7 @@
 pm2 list
 pm2 delete alash-electronics
 pm2 save
-# убедись, что в nginx нет server_name alash-electronics.kz с proxy на 127.0.0.1:5000; при необходимости удали/закомментируй site и: sudo nginx -t && sudo systemctl reload nginx
+# убедись, что в nginx нет server_name croon.kz с proxy на 127.0.0.1:5000; при необходимости удали/закомментируй site и: sudo nginx -t && sudo systemctl reload nginx
 ```
 
 #### Не путать workflow
@@ -132,11 +132,11 @@ pm2 save
 
 ### Инфраструктура
 
-- **Git remote** на сервере: обновлён на `git@github.com:Alashed/alash-electronics.kz.git` (deploy key ещё не добавлен в новый репо — деплой через S3+SSM)
+- **Git remote** на сервере: обновлён на `git@github.com:Alashed/croon.kz.git` (deploy key ещё не добавлен в новый репо — деплой через S3+SSM)
 - **Deploy процесс**: `tar` изменённых файлов → S3 (`alashed-media/deploys/`) → SSM download → `npm run build` → `pm2 restart alash-electronics`
 - **PM2 процесс**: `alash-electronics` (id=37), порт 5000
 - **VAPID ключи**: добавлены в `.env` на сервере, ребилд выполнен
-- **NEXTAUTH_URL**: исправлен на `https://alash-electronics.kz`
+- **NEXTAUTH_URL**: исправлен на `https://croon.kz`
 - **Node.js на сервере**: v20.20.0 / npm 10.8.2
 
 ### БД (после синка)
@@ -172,7 +172,7 @@ pm2 save
 
 ## Что ещё планируется
 
-- [ ] Добавить deploy key сервера в репо `Alashed/alash-electronics.kz` (чтобы `git pull` работал)
+- [ ] Добавить deploy key сервера в репо `Alashed/croon.kz` (чтобы `git pull` работал)
 - [ ] Продолжить переименование дублей товаров (KCD3, KCD4, и др.)
 - [ ] Удалить Neon базу (резервная копия с 2026-03-08)
 - [ ] SEMrush повторный аудит

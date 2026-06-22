@@ -44,9 +44,9 @@ export default function ForgotPasswordPage() {
       <div className="max-w-md mx-auto">
         <div className="flex flex-col items-center mb-8">
           <Link href="/">
-            <img src="/icons/icon-192x192.png" alt="Alash Electronics" className="w-16 h-16 rounded-2xl object-contain mb-3" />
+            <img src="/icons/icon-192x192.png" alt="ИП КРУН" className="w-16 h-16 rounded-2xl object-contain mb-3" />
           </Link>
-          <span className="text-lg font-bold text-gray-900">Alash Electronics</span>
+          <span className="text-lg font-bold text-gray-900">ИП КРУН</span>
         </div>
 
         <h1 className="text-xl font-bold mb-2 text-center">Восстановление пароля</h1>

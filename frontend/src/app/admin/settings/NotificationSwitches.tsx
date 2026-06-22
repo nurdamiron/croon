@@ -2,17 +2,15 @@
 
 import { useEffect, useState } from 'react'
 
-type Channels = { alash: boolean; kaspi: boolean; satu: boolean; ba3ar: boolean }
+type Channels = { croon: boolean; kaspi: boolean }
 
 const CHANNELS: { key: keyof Channels; label: string; desc: string; color: string }[] = [
-  { key: 'alash', label: 'Alash сайт', desc: 'Заказы и предзаказы с alash-electronics.kz', color: 'bg-blue-500' },
+  { key: 'croon', label: 'Сайт', desc: 'Заказы и предзаказы с croon.kz', color: 'bg-blue-500' },
   { key: 'kaspi', label: 'Kaspi.kz', desc: 'Заказы с Kaspi Маркета (проверяются каждые 15 мин)', color: 'bg-red-500' },
-  { key: 'satu', label: 'Satu.kz', desc: 'Заказы с Satu (проверяются каждые 15 мин)', color: 'bg-emerald-500' },
-  { key: 'ba3ar', label: 'Ba3ar.kz', desc: 'Заказы с ba3ar.kz (моментально через webhook)', color: 'bg-violet-500' },
 ]
 
 export default function NotificationSwitches() {
-  const [vals, setVals] = useState<Channels>({ alash: true, kaspi: true, satu: true, ba3ar: true })
+  const [vals, setVals] = useState<Channels>({ croon: true, kaspi: true })
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState<keyof Channels | null>(null)
 

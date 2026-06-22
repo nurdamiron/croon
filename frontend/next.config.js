@@ -36,8 +36,8 @@ const nextConfig = {
               "script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com https://mc.yandex.ru",
               "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
               "font-src 'self' data: https://fonts.gstatic.com",
-              "img-src 'self' data: blob: https://alashed-media.s3.eu-north-1.amazonaws.com https://www.google-analytics.com https://www.googletagmanager.com https://mc.yandex.ru",
-              "connect-src 'self' https://www.google-analytics.com https://analytics.google.com https://region1.google-analytics.com https://mc.yandex.ru wss://mc.yandex.ru https://alashed-media.s3.eu-north-1.amazonaws.com",
+              "img-src 'self' data: blob: https://yhcnncpvjjpqmbagvowd.supabase.co https://www.google-analytics.com https://www.googletagmanager.com https://mc.yandex.ru",
+              "connect-src 'self' https://www.google-analytics.com https://analytics.google.com https://region1.google-analytics.com https://mc.yandex.ru wss://mc.yandex.ru https://yhcnncpvjjpqmbagvowd.supabase.co",
               "frame-src https://www.googletagmanager.com",
               "worker-src 'self' blob:",
               "frame-ancestors 'none'",
@@ -112,24 +112,24 @@ const nextConfig = {
   },
   async redirects() {
     return [
-      // www -> non-www (alash-electronics.kz)
+      // www -> non-www (croon.kz)
       {
         source: '/:path*',
-        has: [{ type: 'host', value: 'www.alash-electronics.kz' }],
-        destination: 'https://alash-electronics.kz/:path*',
+        has: [{ type: 'host', value: 'www.croon.kz' }],
+        destination: 'https://croon.kz/:path*',
         permanent: true,
       },
       // Old domain -> new canonical domain
       {
         source: '/:path*',
         has: [{ type: 'host', value: 'shop.alashed.kz' }],
-        destination: 'https://alash-electronics.kz/:path*',
+        destination: 'https://croon.kz/:path*',
         permanent: true,
       },
       {
         source: '/:path*',
         has: [{ type: 'host', value: 'www.shop.alashed.kz' }],
-        destination: 'https://alash-electronics.kz/:path*',
+        destination: 'https://croon.kz/:path*',
         permanent: true,
       },
       // InSales product URLs: /collection/{category}/product/{slug} -> /product/{slug}

@@ -25,7 +25,7 @@ self.addEventListener('push', (event) => {
   if (!event.data) return
   const data = event.data.json()
   event.waitUntil(
-    self.registration.showNotification(data.title || 'Alash Electronics', {
+    self.registration.showNotification(data.title || 'ИП КРУН', {
       body: data.body || '',
       icon: '/icons/icon-192x192.png',
       badge: '/icons/badge-96x96.png',

@@ -12,8 +12,8 @@ export interface CartItem {
   sku?: string
 }
 
-const CART_KEY = 'alash_cart'
-const FAVORITES_KEY = 'alash_favorites'
+const CART_KEY = 'croon_cart'
+const FAVORITES_KEY = 'croon_favorites'
 
 // Unique key per product+variant combination
 function cartKey(productId: string, variantId?: string): string {
@@ -87,7 +87,7 @@ export function decrementItem(productId: string, variantId?: string) {
 }
 
 // Viewed products
-const VIEWED_KEY = 'alash_viewed'
+const VIEWED_KEY = 'croon_viewed'
 const MAX_VIEWED = 20
 
 export function trackViewed(productId: string) {
@@ -132,7 +132,7 @@ export function isFavorite(productId: string): boolean {
 }
 
 // Search query tracking
-const SEARCHES_KEY = 'alash_searches'
+const SEARCHES_KEY = 'croon_searches'
 const MAX_SEARCHES = 20
 
 export function trackSearch(query: string) {
@@ -156,7 +156,7 @@ export function clearSearches() {
 }
 
 // Traffic source tracking (referrer + UTM)
-const SOURCE_KEY = 'alash_source'
+const SOURCE_KEY = 'croon_source'
 
 export function trackSource() {
   if (typeof window === 'undefined') return

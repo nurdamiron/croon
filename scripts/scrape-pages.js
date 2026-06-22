@@ -6,20 +6,20 @@ const ROOT = path.join(__dirname, '..');
 const DATA = path.join(ROOT, 'data');
 
 const STATIC_PAGES = [
-  { slug: 'contacts', url: 'https://alash-electronics.kz/page/contacts' },
-  { slug: 'payment', url: 'https://alash-electronics.kz/page/payment' },
-  { slug: 'payment-2', url: 'https://alash-electronics.kz/page/payment-2' },
-  { slug: 'delivery', url: 'https://alash-electronics.kz/page/delivery' },
-  { slug: 'about-us', url: 'https://alash-electronics.kz/page/about-us' },
-  { slug: 'oferta', url: 'https://alash-electronics.kz/page/oferta' },
-  { slug: 'feedback', url: 'https://alash-electronics.kz/page/feedback' },
-  { slug: 'alashed', url: 'https://alash-electronics.kz/page/alashed' },
+  { slug: 'contacts', url: 'https://croon.kz/page/contacts' },
+  { slug: 'payment', url: 'https://croon.kz/page/payment' },
+  { slug: 'payment-2', url: 'https://croon.kz/page/payment-2' },
+  { slug: 'delivery', url: 'https://croon.kz/page/delivery' },
+  { slug: 'about-us', url: 'https://croon.kz/page/about-us' },
+  { slug: 'oferta', url: 'https://croon.kz/page/oferta' },
+  { slug: 'feedback', url: 'https://croon.kz/page/feedback' },
+  { slug: 'alashed', url: 'https://croon.kz/page/alashed' },
 ];
 
 const BLOG_POSTS = [
-  { slug: '4wdsmartcarkitv2', blog: 'kits', url: 'https://alash-electronics.kz/blogs/kits/4wdsmartcarkitv2' },
-  { slug: 'advanced-kit', blog: 'kits', url: 'https://alash-electronics.kz/blogs/kits/advanced-kit' },
-  { slug: 'iotgreenhouse', blog: 'kits', url: 'https://alash-electronics.kz/blogs/kits/iotgreenhouse' },
+  { slug: '4wdsmartcarkitv2', blog: 'kits', url: 'https://croon.kz/blogs/kits/4wdsmartcarkitv2' },
+  { slug: 'advanced-kit', blog: 'kits', url: 'https://croon.kz/blogs/kits/advanced-kit' },
+  { slug: 'iotgreenhouse', blog: 'kits', url: 'https://croon.kz/blogs/kits/iotgreenhouse' },
 ];
 
 function fetchPage(url) {
@@ -65,7 +65,7 @@ function extractMainContent(html) {
 
   // Extract title
   const titleMatch = html.match(/<title>([^<]+)<\/title>/i);
-  const title = titleMatch ? titleMatch[1].replace(/ - Alash electronics.*$/, '').trim() : '';
+  const title = titleMatch ? titleMatch[1].replace(/ - ИП КРУН.*$/, '').trim() : '';
 
   // Extract h1
   const h1Match = html.match(/<h1[^>]*>([^<]+)<\/h1>/i);

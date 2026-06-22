@@ -72,10 +72,10 @@ export default function AdminProductEditPage() {
     sku: '',
     variantId: '' as string, // id существующего тех-варианта (если есть)
   })
-  // Бронь под незавершённые заказы маркетплейсов (Kaspi + Satu). Только для показа:
+  // Бронь под незавершённые заказы маркетплейсов (Kaspi). Только для показа:
   // «доступно = склад − бронь». Не редактируется и не отправляется на сохранение —
-  // управляется синками каналов (kaspi-sync / satu-sync). Ba3ar и сайт списывают
-  // totalStock напрямую, в reservedStock не пишут.
+  // управляется синками каналов (kaspi-sync). Сайт списывает
+  // totalStock напрямую, в reservedStock не пишет.
   const [reservedStock, setReservedStock] = useState(0)
 
   useEffect(() => {
@@ -613,7 +613,7 @@ export default function AdminProductEditPage() {
                   <label className="block text-[12px] text-[#999] mb-1">Остаток</label>
                   <input type="number" name="totalStock" value={form.totalStock} onChange={handleChange}
                     className="w-full border border-gray-200 rounded px-3 py-2 text-[14px] outline-none focus:border-admin transition-colors" />
-                  {/* Бронь под незавершённые заказы маркетплейсов (Kaspi/Satu):
+                  {/* Бронь под незавершённые заказы маркетплейсов (Kaspi):
                       на сайте доступно = склад − бронь. Поле выше = физический склад. */}
                   {reservedStock > 0 && (
                     <p className="mt-1 text-[12px] text-amber-600">

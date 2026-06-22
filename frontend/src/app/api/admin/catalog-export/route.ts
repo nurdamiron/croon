@@ -19,7 +19,7 @@ async function authorized(req: NextRequest): Promise<boolean> {
   return false
 }
 
-// GET — ПОЛНЫЙ каталог Alash (вкл. не в наличии) для внешних каналов (ba3ar).
+// GET — ПОЛНЫЙ каталог Сайт (вкл. не в наличии) для внешних каналов (ba3ar).
 // Поля: id, sku (артикул), name, price, available (totalStock−reservedStock),
 // inStock, images[]. По SKU строится единый склад.
 export async function GET(req: NextRequest) {

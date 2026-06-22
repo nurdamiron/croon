@@ -65,30 +65,6 @@ const NAV_GROUPS = [
         ),
       },
       {
-        label: 'Satu заказы',
-        href: '/admin/satu-orders',
-        badge: true,
-        badgeKey: 'satu',
-        icon: (
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75">
-            <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
-            <path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/>
-          </svg>
-        ),
-      },
-      {
-        label: 'Ba3ar заказы',
-        href: '/admin/ba3ar-orders',
-        badge: true,
-        badgeKey: 'ba3ar',
-        icon: (
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75">
-            <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
-            <path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/>
-          </svg>
-        ),
-      },
-      {
         label: 'Клиенты',
         href: '/admin/clients',
         icon: (
@@ -163,25 +139,6 @@ const NAV_GROUPS = [
         ),
       },
       {
-        label: 'Satu',
-        href: '/admin/satu',
-        icon: (
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75">
-            <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
-            <path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/>
-          </svg>
-        ),
-      },
-      {
-        label: 'Ba3ar матчинг',
-        href: '/admin/ba3ar-match',
-        icon: (
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75">
-            <path d="M8 7h12M8 7l-4 4 4 4M16 17H4M16 17l4-4-4-4"/>
-          </svg>
-        ),
-      },
-      {
         label: 'Категории',
         href: '/admin/categories',
         icon: (
@@ -231,15 +188,13 @@ const NAV_GROUPS = [
 
 export default function AdminNav({ newOrderCount }: { newOrderCount?: number }) {
   const pathname = usePathname()
-  // счётчики активных заказов по каналам: сайт / kaspi / satu / ba3ar
-  const [counts, setCounts] = useState<Record<string, number>>({ orders: newOrderCount || 0, kaspi: 0, satu: 0, ba3ar: 0 })
+  // счётчики активных заказов по каналам: сайт / kaspi
+  const [counts, setCounts] = useState<Record<string, number>>({ orders: newOrderCount || 0, kaspi: 0 })
 
   const fetchCount = useCallback(() => {
     const endpoints: Record<string, string> = {
       orders: '/api/admin/orders/count',
       kaspi: '/api/admin/kaspi-orders/count',
-      satu: '/api/admin/satu-orders/count',
-      ba3ar: '/api/admin/ba3ar-orders/count',
     }
     Object.entries(endpoints).forEach(([key, url]) => {
       fetch(url)

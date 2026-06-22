@@ -13,7 +13,7 @@
  *   0 9 * * * . /home/ubuntu/.profile; cd /home/ubuntu/alashed-shop/frontend && \
  *     GOOGLE_INDEXING_KEY_PATH=/home/ubuntu/.secrets/google-indexing.json \
  *     GOOGLE_INDEXING_STATE_PATH=/home/ubuntu/.local/google-indexing-state.json \
- *     SITE_URL=https://alash-electronics.kz /usr/bin/node scripts/google-index-daily.js \
+ *     SITE_URL=https://croon.kz /usr/bin/node scripts/google-index-daily.js \
  *     >> /home/ubuntu/logs/google-indexing.log 2>&1
  *
  * Опции: --no-loop (не начинать круг заново), --stats, --dry-run, --max=200, --reset
@@ -50,7 +50,7 @@ function parseArgs() {
 }
 
 function siteUrl() {
-  const u = process.env.SITE_URL || process.env.NEXTAUTH_URL || 'https://alash-electronics.kz'
+  const u = process.env.SITE_URL || process.env.NEXTAUTH_URL || 'https://croon.kz'
   return u.replace(/\/$/, '')
 }
 

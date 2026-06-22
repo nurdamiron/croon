@@ -60,7 +60,7 @@ function fmtPrice(n: number) {
 }
 function fmtDate(iso: string | null) {
   if (!iso) return '—'
-  // Явная таймзона Алматы — иначе сервер (UTC) и браузер дают разный текст
+  // Явная таймзона Костанай — иначе сервер (UTC) и браузер дают разный текст
   // и React падает с hydration mismatch (#418/#423/#425).
   return new Date(iso).toLocaleString('ru-RU', {
     day: '2-digit', month: '2-digit', year: '2-digit',
@@ -222,7 +222,7 @@ export default function KaspiOrdersClient({
                                     → {it.product.name}
                                   </Link>
                                 ) : (
-                                  <span className="text-red-500 w-48">не привязан к товару Alash</span>
+                                  <span className="text-red-500 w-48">не привязан к товару сайта</span>
                                 )}
                               </div>
                             ))}

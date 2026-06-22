@@ -11,14 +11,14 @@ interface Props {
 }
 
 const PAGE_DESCRIPTIONS: Record<string, string> = {
-  'about-us': 'Alash Electronics — интернет-магазин электронных компонентов в Алматы с 2019 года. Arduino, ESP32, датчики и модули. Доставка по Казахстану, самовывоз.',
-  'contacts': 'Контакты Alash Electronics: ул. Кыз Жибек, 104/1, Алматы. Тел. +7 (700) 900-17-90. Telegram, WhatsApp. Режим работы: пн–сб 12:00–20:00.',
-  'delivery': 'Доставка Alash Electronics: Яндекс Курьер по Алматы, inDrive по Казахстану. Самовывоз — ул. Кыз Жибек, 104/1. Бесплатная доставка от 150 000 ₸.',
-  'feedback': 'Форма обратной связи Alash Electronics. Задайте вопрос или оставьте отзыв — ответим в течение рабочего дня.',
-  'oferta': 'Публичная оферта Alash Electronics: условия покупки, доставки и возврата товаров в интернет-магазине.',
-  'alashed': 'AlashEd — электронные компоненты для государственных закупок. Реквизиты и условия работы с юридическими лицами.',
-  'payment': 'Оплата в Alash Electronics: наличные, карта Visa/Mastercard, Kaspi Pay и банковский перевод. Оплата при получении.',
-  'payment-2': 'Условия оплаты Alash Electronics: наличными, картой или банковским переводом. Оплата при получении или онлайн.',
+  'about-us': 'ИП КРУН — интернет-магазин электронных компонентов в Костанай с 2019 года. Arduino, ESP32, датчики и модули. Доставка по Казахстану, самовывоз.',
+  'contacts': 'Контакты ИП КРУН: Костанай Г.А., Костанай, МИКРОРАЙОН 9, дом 7, кв/офис 9. Тел. +7 (700) 900-17-90. Telegram, WhatsApp. Режим работы: пн–сб 12:00–20:00.',
+  'delivery': 'Доставка ИП КРУН: Яндекс Курьер по Костанаю, inDrive по Казахстану. Самовывоз — Костанай Г.А., Костанай, МИКРОРАЙОН 9, дом 7, кв/офис 9. Бесплатная доставка от 150 000 ₸.',
+  'feedback': 'Форма обратной связи ИП КРУН. Задайте вопрос или оставьте отзыв — ответим в течение рабочего дня.',
+  'oferta': 'Публичная оферта ИП КРУН: условия покупки, доставки и возврата товаров в интернет-магазине.',
+  'alashed': 'Государственные закупки — электронные компоненты для государственных учреждений. Реквизиты и условия работы с юридическими лицами.',
+  'payment': 'Оплата в ИП КРУН: наличные, карта Visa/Mastercard, Kaspi Pay и банковский перевод. Оплата при получении.',
+  'payment-2': 'Условия оплаты ИП КРУН: наличными, картой или банковским переводом. Оплата при получении или онлайн.',
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -31,10 +31,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     description,
     alternates: { canonical: `/page/${page.slug}` },
     openGraph: {
-      title: `${page.title} — Alash Electronics`,
+      title: `${page.title} — ИП КРУН`,
       locale: 'ru_KZ',
       url: `/page/${page.slug}`,
-      images: [{ url: '/og-image.jpg', width: 1200, height: 630, alt: `${page.title} — Alash Electronics` }],
+      images: [{ url: '/og-image.jpg', width: 1200, height: 630, alt: `${page.title} — ИП КРУН` }],
     },
   }
 }
@@ -43,8 +43,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 const FAQ_SCHEMAS: Record<string, { question: string; answer: string }[]> = {
   delivery: [
     {
-      question: 'Как осуществляется доставка по Алматы?',
-      answer: 'Доставка по Алматы осуществляется через Яндекс Курьер. Бесплатная доставка при заказе от 150 000 ₸.',
+      question: 'Как осуществляется доставка по Костанаю?',
+      answer: 'Доставка по Костанаю осуществляется через Яндекс Курьер. Бесплатная доставка при заказе от 150 000 ₸.',
     },
     {
       question: 'Как осуществляется доставка по Казахстану?',
@@ -52,7 +52,7 @@ const FAQ_SCHEMAS: Record<string, { question: string; answer: string }[]> = {
     },
     {
       question: 'Можно ли забрать заказ самовывозом?',
-      answer: 'Да, самовывоз доступен из нашего магазина по адресу: ул. Кыз Жибек, 104/1, Алматы. Часы работы: пн–сб, 12:00–20:00.',
+      answer: 'Да, самовывоз доступен из нашего магазина по адресу: Костанай Г.А., Костанай, МИКРОРАЙОН 9, дом 7, кв/офис 9. Часы работы: пн–сб, 12:00–20:00.',
     },
     {
       question: 'Сколько стоит доставка?',
@@ -84,7 +84,7 @@ const FAQ_SCHEMAS: Record<string, { question: string; answer: string }[]> = {
     },
     {
       question: 'Как оплатить наличными?',
-      answer: 'Наличными можно оплатить курьеру при получении или в магазине при самовывозе по адресу ул. Кыз Жибек, 104/1.',
+      answer: 'Наличными можно оплатить курьеру при получении или в магазине при самовывозе по адресу Костанай Г.А., Костанай, МИКРОРАЙОН 9, дом 7, кв/офис 9.',
     },
   ],
 }
@@ -143,7 +143,7 @@ export default async function StaticPage({ params }: Props) {
 
         <div className="mt-8 pt-6 border-t space-y-3">
           <p className="text-sm text-gray-600 leading-relaxed">
-            Alash Electronics — интернет-магазин электронных компонентов в Алматы. Доставка по Казахстану, самовывоз по адресу ул. Кыз Жибек, 104/1. Тел.: +7 (700) 900-17-90.
+            ИП КРУН — интернет-магазин электронных компонентов в Костанай. Доставка по Казахстану, самовывоз по адресу Костанай Г.А., Костанай, МИКРОРАЙОН 9, дом 7, кв/офис 9. Тел.: +7 (700) 900-17-90.
           </p>
           <p className="text-sm text-gray-600 leading-relaxed">
             Оплата при получении картой или наличными. Бесплатная доставка от 150 000 ₸. Режим работы: пн–сб 12:00–20:00.
@@ -156,7 +156,7 @@ export default async function StaticPage({ params }: Props) {
           <Link href="/page/contacts" className="text-gray-600 hover:text-brand">Контакты</Link>
           <Link href="/page/about-us" className="text-gray-600 hover:text-brand">О компании</Link>
           <Link href="/page/feedback" className="text-gray-600 hover:text-brand">Обратная связь</Link>
-          <Link href="/page/alashed" className="text-gray-600 hover:text-brand">AlashEd — Гос.закуп</Link>
+          <Link href="/page/alashed" className="text-gray-600 hover:text-brand">Гос.закуп</Link>
           <Link href="/karta-sayta" className="text-gray-600 hover:text-brand">Карта сайта</Link>
           </div>
         </div>

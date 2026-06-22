@@ -45,7 +45,7 @@ export default function LoginPage() {
     if (result?.error) {
       setError('Неверный email или пароль')
     } else {
-      const localFavs: string[] = JSON.parse(localStorage.getItem('alash_favorites') || '[]')
+      const localFavs: string[] = JSON.parse(localStorage.getItem('croon_favorites') || '[]')
       if (localFavs.length > 0) {
         await fetch('/api/account/favorites/sync', {
           method: 'POST',
@@ -111,9 +111,9 @@ export default function LoginPage() {
         {/* Logo */}
         <div className="flex flex-col items-center mb-8">
           <Link href="/">
-            <img src="/icons/icon-192x192.png" alt="Alash Electronics" className="w-16 h-16 rounded-2xl object-contain mb-3" />
+            <img src="/icons/icon-192x192.png" alt="ИП КРУН" className="w-16 h-16 rounded-2xl object-contain mb-3" />
           </Link>
-          <span className="text-lg font-bold text-gray-900">Alash Electronics</span>
+          <span className="text-lg font-bold text-gray-900">ИП КРУН</span>
         </div>
 
         {/* Tabs */}

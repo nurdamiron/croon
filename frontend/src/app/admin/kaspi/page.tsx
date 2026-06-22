@@ -311,7 +311,7 @@ export default async function KaspiPage({ searchParams }: {
         <div>
           <h1 className="text-2xl font-bold text-gray-900">Kaspi</h1>
           <p className="text-sm text-gray-500 mt-1">
-            Каталог Kaspi и привязка к товарам Alash. Фид: <code className="bg-gray-100 px-1.5 py-0.5 rounded">/api/kaspi/feed.xml</code>
+            Каталог Kaspi и привязка к товарам сайта. Фид: <code className="bg-gray-100 px-1.5 py-0.5 rounded">/api/kaspi/feed.xml</code>
           </p>
         </div>
       </div>
@@ -322,7 +322,7 @@ export default async function KaspiPage({ searchParams }: {
           <div className="text-2xl font-bold mt-1">{total}</div>
         </div>
         <div className="bg-white rounded-xl border border-gray-200 p-4">
-          <div className="text-xs text-gray-500 uppercase tracking-wide">Привязано к Alash</div>
+          <div className="text-xs text-gray-500 uppercase tracking-wide">Привязано к сайту</div>
           <div className="text-2xl font-bold mt-1 text-green-600">{totalOffers}</div>
         </div>
         <div className="bg-white rounded-xl border border-gray-200 p-4">

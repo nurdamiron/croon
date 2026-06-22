@@ -61,7 +61,7 @@ function fmtNum(n: number) {
   return n.toLocaleString('ru-RU')
 }
 
-// Название товара: ссылка на карточку в админке Alash (по productId) + иконка-ссылка на Kaspi (по kaspiUrl).
+// Название товара: ссылка на карточку в админке сайта (по productId) + иконка-ссылка на Kaspi (по kaspiUrl).
 function ProductNameLink({ row }: { row: ProductRow }) {
   if (!row.productId) return <span className="text-gray-400">{row.name}</span>
   return (
@@ -192,7 +192,7 @@ const PRESETS: { label: string; days: PresetKey }[] = [
   { label: 'Всё время', days: 'all' },
 ]
 
-// Какую дату «С» дал бы пресет при «По» = today (Алматы). Для подсветки активного.
+// Какую дату «С» дал бы пресет при «По» = today (Костанай). Для подсветки активного.
 // allFromStr — дата первой продажи (для пресета «Всё время»): сервер поджимает к ней.
 function presetFrom(days: PresetKey, today: string, allFromStr: string): string {
   if (days === 'month') return today.slice(0, 8) + '01'
@@ -228,7 +228,7 @@ export default function KaspiAnalyticsClient({
     router.push(`/admin/kaspi-analytics?from=${f}&to=${t}`)
   }
 
-  // YYYY-MM-DD текущий бизнес-день: Алматы (UTC+5) + отсечка 17:00 (сдвиг +7ч).
+  // YYYY-MM-DD текущий бизнес-день: Костанай (UTC+5) + отсечка 17:00 (сдвиг +7ч).
   // После 17:00 «сегодня» = уже следующая дата — как считает сервер.
   const todayAlmaty = () => new Date(Date.now() + 5 * 3600_000 + 7 * 3600_000).toISOString().slice(0, 10)
   const applyPreset = (days: PresetKey) => {
@@ -445,7 +445,7 @@ export default function KaspiAnalyticsClient({
           </Section>
 
           {/* Когда покупают: часы × дни недели */}
-          <Section title="Когда покупают" subtitle="заказы по часам и дням недели (время Алматы)">
+          <Section title="Когда покупают" subtitle="заказы по часам и дням недели (время Костанай)">
             {data.orderTiming.total > 0 ? (
               <TimingHeatmap timing={data.orderTiming} />
             ) : (
@@ -717,11 +717,9 @@ function TimingHeatmap({ timing }: { timing: OrderTiming }) {
 }
 
 // Вкладка «Каналы»: сравнение продаж/маржи одного товара по Kaspi/Satu/Ba3ar/сайту.
-const CHANNEL_ORDER: ChannelKey[] = ['kaspi', 'satu', 'ba3ar', 'site']
+const CHANNEL_ORDER: ChannelKey[] = ['kaspi', 'site']
 const CHANNEL_DOT: Record<ChannelKey, string> = {
   kaspi: 'bg-red-500',
-  satu: 'bg-emerald-500',
-  ba3ar: 'bg-violet-500',
   site: 'bg-blue-500',
 }
 function ChannelsTab({ channels }: { channels: ChannelComparison }) {
@@ -813,7 +811,7 @@ function ChannelsTab({ channels }: { channels: ChannelComparison }) {
       </div>
       <p className="text-[11px] text-gray-400">
         Зелёным — канал с самой высокой маржой по товару. Маржа Kaspi учитывает комиссию + Kaspi Pay + налог;
-        Satu/Ba3ar/сайт — только налог (нет маркетплейс-комиссии). Нужна себестоимость, иначе маржа пустая.
+        сайт — только налог (нет маркетплейс-комиссии). Нужна себестоимость, иначе маржа пустая.
       </p>
     </div>
   )

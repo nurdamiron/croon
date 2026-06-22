@@ -6,8 +6,6 @@ import { orderLimiter } from '@/lib/rate-limit'
 import { notifyAdmins } from '@/lib/push'
 import { sendTelegram, tgNewOrder } from '@/lib/telegram'
 import { sendOrderConfirmation } from '@/lib/email'
-import { markSatuDirty } from '@/lib/satu-sync'
-import { triggerBa3arStockSync } from '@/lib/ba3ar-sync-trigger'
 
 class StockError extends Error {
   constructor(message: string) {
@@ -138,13 +136,6 @@ export async function POST(request: NextRequest) {
       })
     })
 
-    // Остаток изменился (для обычного заказа) → пометить товары на синхронизацию
-    // остатка с Satu + сразу обновить витрину ba3ar (единый склад). Предзаказ
-    // сток не трогает — не помечаем.
-    if (!order.isPreorder) {
-      await markSatuDirty(order.items.map(it => it.productId)).catch(() => {})
-      await triggerBa3arStockSync().catch(() => {})
-    }
 
     const label = order.isPreorder ? 'Новый предзаказ' : 'Новый заказ'
     const adminUrl = `/admin/orders/${order.id}`
@@ -154,7 +145,7 @@ export async function POST(request: NextRequest) {
         `${label} #${order.orderNumber}`,
         `${name} — ${order.total.toLocaleString('ru-RU')} тг`,
         adminUrl,
-        'alash',
+        'croon',
       ).catch(err => console.error('Push notification error:', err)),
 
       sendTelegram(tgNewOrder({

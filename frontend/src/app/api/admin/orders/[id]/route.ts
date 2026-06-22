@@ -4,8 +4,6 @@ import { authOptions } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
 import { mirrorSingleVariantStock } from '@/lib/variant-stock'
 import { sendOrderStatusUpdate } from '@/lib/email'
-import { markSatuDirty } from '@/lib/satu-sync'
-import { triggerBa3arStockSync } from '@/lib/ba3ar-sync-trigger'
 
 const ORDER_ITEMS_LOCKED_STATUSES = new Set(['CANCELLED', 'SHIPPED', 'DELIVERED', 'PICKED_UP'])
 
@@ -211,9 +209,6 @@ export async function PATCH(request: NextRequest, { params }: { params: Promise<
       return NextResponse.json({ error: 'Не удалось обновить состав заказа' }, { status: 500 })
     }
 
-    // Состав заказа изменён админом → сток затронут, синхронизировать Satu + ba3ar.
-    await markSatuDirty(merged.map((m) => m.productId)).catch(() => {})
-    await triggerBa3arStockSync().catch(() => {})
 
     return NextResponse.json({ ok: true })
   }
@@ -239,10 +234,6 @@ export async function PATCH(request: NextRequest, { params }: { params: Promise<
       `
       await mirrorSingleVariantStock(item.productId)
     }
-    // остаток вернулся → синхронизировать Satu + витрину ba3ar (единый склад)
-    const pids = current.items.map((it: any) => it.productId)
-    await markSatuDirty(pids).catch(() => {})
-    await triggerBa3arStockSync().catch(() => {})
   }
 
   const data: any = {}

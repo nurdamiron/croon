@@ -11,7 +11,7 @@ async function checkAdmin() {
   return session
 }
 
-// Извлечь slug из URL вида https://alash-electronics.kz/product/arduino-uno-r3/ или /product/arduino-uno-r3
+// Извлечь slug из URL вида https://croon.kz/product/arduino-uno-r3/ или /product/arduino-uno-r3
 function extractSlug(input: string): string | null {
   const s = input.trim()
   const m = s.match(/\/product\/([a-z0-9-]+)/i)
@@ -71,7 +71,7 @@ export async function GET(request: NextRequest) {
   return NextResponse.json({ products: [] })
 }
 
-const S3IMG = 'https://alashed-media.s3.eu-north-1.amazonaws.com'
+const S3IMG = process.env.NEXT_PUBLIC_S3_URL || 'https://yhcnncpvjjpqmbagvowd.supabase.co/storage/v1/object/public/products'
 function withImage(p: any) {
   let img = p.images?.[0]?.url || null
   if (img && !img.startsWith('http')) img = `${S3IMG}/${img.replace(/^\//, '')}`

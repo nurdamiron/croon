@@ -11,7 +11,7 @@
 Два независимых потока:
 
 1. **Остатки → Kaspi (исходящий).** Динамический XML-фид
-   `https://alash-electronics.kz/api/kaspi/feed.xml`. Kaspi тянет его раз в час
+   `https://croon.kz/api/kaspi/feed.xml`. Kaspi тянет его раз в час
    и обновляет наличие/цены наших товаров на маркетплейсе.
 2. **Заказы Kaspi → мы (входящий).** Cron раз в 15 мин дёргает
    `/api/cron/kaspi-sync` → тянет заказы из Kaspi Merchant API, кладёт в БД,
@@ -181,7 +181,7 @@ Alash (вызывало «зависшие» офферы). Проверка в 
   > ⚠️ Если правишь deploy.sh — синхронизируй и репо-копию, и серверный файл.
 
 ### Серверные env (.env на EC2, НЕ в git)
-`DATABASE_URL`, `NEXTAUTH_SECRET`, **`NEXTAUTH_URL=https://alash-electronics.kz`**
+`DATABASE_URL`, `NEXTAUTH_SECRET`, **`NEXTAUTH_URL=https://croon.kz`**
 (без него signOut редиректит на localhost!), `AWS_*`, `KASPI_API_TOKEN`,
 `KASPI_FEED_USER/PASS`, `CRON_SECRET`, VAPID-ключи. См. `.env.example`.
 

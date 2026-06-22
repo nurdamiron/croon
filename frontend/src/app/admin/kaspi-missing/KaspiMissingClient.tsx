@@ -225,7 +225,7 @@ function MissingRow({ row, view }: { row: Row; view: 'active' | 'postponed' }) {
           <Link href={`/admin/products/${row.id}`} className="hover:text-admin">{row.name}</Link>
           {row.slug && (
             <a
-              href={`https://alash-electronics.kz/product/${row.slug}`}
+              href={`https://croon.kz/product/${row.slug}`}
               target="_blank"
               rel="noreferrer"
               title="Открыть на сайте"

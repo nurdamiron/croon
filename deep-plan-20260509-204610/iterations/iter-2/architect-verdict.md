@@ -126,7 +126,7 @@ Addressed above. The plan's choice (await sync, then navigate) is the correct tr
 
 **Tension 3: Review purchase gate strictness vs. review volume**
 
-Requiring `DELIVERED` or `PICKED_UP` status is strict — a customer whose order is `SHIPPED` cannot yet review. This is intentional and correct (prevent unverified reviews), but means the review feature will have very low initial adoption since most Alash Electronics orders may stay in `CONFIRMED` or `PROCESSING` for extended periods. Not an architectural issue, but a business outcome worth noting.
+Requiring `DELIVERED` or `PICKED_UP` status is strict — a customer whose order is `SHIPPED` cannot yet review. This is intentional and correct (prevent unverified reviews), but means the review feature will have very low initial adoption since most ИП КРУН orders may stay in `CONFIRMED` or `PROCESSING` for extended periods. Not an architectural issue, but a business outcome worth noting.
 
 ---
 

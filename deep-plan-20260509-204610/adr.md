@@ -109,7 +109,7 @@ The architect (iter-2) explicitly noted the remaining tension: "the Telegram fal
 
 ### Open Questions
 
-1. **Resend domain verification:** Must complete DNS verification for `alash-electronics.kz` in Resend dashboard before deploying Phase 2. This is a deployment-time step separate from API key creation — failure causes 100% silent email drops that surface only as Telegram alerts.
+1. **Resend domain verification:** Must complete DNS verification for `croon.kz` in Resend dashboard before deploying Phase 2. This is a deployment-time step separate from API key creation — failure causes 100% silent email drops that surface only as Telegram alerts.
 2. **`emailSentAt` timestamp on `Order`:** Not implemented in this plan. If Resend incidents increase, consider adding to enable passive recovery monitoring in admin dashboard.
 3. **`OrderItem.productId` index:** Add when review volume grows or purchase gate query latency becomes observable.
 4. **`PICKED_UP` email notification:** Deferred; add to `NOTIFY_STATUSES` in a subsequent iteration if customer confusion is reported.

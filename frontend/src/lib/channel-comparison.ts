@@ -1,25 +1,20 @@
-// Сравнение каналов продаж по товарам: Kaspi / Satu / Ba3ar / сайт.
+// Сравнение каналов продаж по товарам: Kaspi / сайт.
 // Для каждого товара — сколько продано и какая маржа на каждом канале за период.
 //
 // «Продажа» = завершённый заказ канала:
 //   Kaspi → COMPLETED
-//   Satu  → delivered
-//   Ba3ar → delivered | picked_up
 //   Сайт  → DELIVERED | PICKED_UP
 //
 // Маржа: (выручка − закуп − комиссии)/выручка.
 //   Kaspi удерживает комиссию + Kaspi Pay + (налог) — берём из KaspiEconomics.
-//   Satu/Ba3ar/сайт — свои каналы, маркетплейс-комиссии нет (0). Налог применяем
-//   ко всем каналам одинаково (это налог продавца, а не канала).
+//   Сайт — свой канал, маркетплейс-комиссии нет (0). Налог применяем к каналам одинаково.
 
 import { prisma } from './prisma'
 import { getKaspiEconomics } from './app-settings'
 
-export type ChannelKey = 'kaspi' | 'satu' | 'ba3ar' | 'site'
+export type ChannelKey = 'kaspi' | 'site'
 export const CHANNEL_LABELS: Record<ChannelKey, string> = {
   kaspi: 'Kaspi',
-  satu: 'Satu',
-  ba3ar: 'Ba3ar',
   site: 'Сайт',
 }
 
@@ -54,21 +49,12 @@ const emptyCell = (): ChannelCell => ({ qty: 0, revenue: 0, profit: null, margin
 export async function computeChannelComparison({ from, to }: { from: Date; to: Date }): Promise<ChannelComparison> {
   const econ = await getKaspiEconomics()
 
-  const [kaspiOrders, satuOrders, ba3arOrders, siteOrders] = await Promise.all([
-    // «Продажа» = заказ поступил и не отменён/не возвращён (считаем сразу).
+  const [kaspiOrders, siteOrders] = await Promise.all([
     prisma.kaspiOrder.findMany({
       where: {
         status: { notIn: ['CANCELLED', 'CANCELLING', 'KASPI_DELIVERY_RETURN_REQUESTED', 'RETURN_ACCEPTED_BY_MERCHANT', 'RETURNED', 'SIGN_REQUIRED'] },
         creationDate: { gte: from, lt: to },
       },
-      select: { id: true, items: { select: { productId: true, quantity: true, price: true } } },
-    }),
-    prisma.satuOrder.findMany({
-      where: { status: { notIn: ['canceled', 'cancelled', 'returned', 'refunded'] }, creationDate: { gte: from, lt: to } },
-      select: { id: true, items: { select: { productId: true, quantity: true, price: true } } },
-    }),
-    prisma.ba3arOrder.findMany({
-      where: { status: { notIn: ['canceled', 'cancelled', 'returned'] }, createdAt: { gte: from, lt: to } },
       select: { id: true, items: { select: { productId: true, quantity: true, price: true } } },
     }),
     prisma.order.findMany({
@@ -89,7 +75,7 @@ export async function computeChannelComparison({ from, to }: { from: Date; to: D
         name: productId,
         sku: null,
         costPrice: null,
-        byChannel: { kaspi: emptyCell(), satu: emptyCell(), ba3ar: emptyCell(), site: emptyCell() },
+        byChannel: { kaspi: emptyCell(), site: emptyCell() },
         totalQty: 0,
         totalRevenue: 0,
         bestChannel: null,
@@ -101,8 +87,6 @@ export async function computeChannelComparison({ from, to }: { from: Date; to: D
 
   const totals: ChannelTotals = {
     kaspi: { qty: 0, revenue: 0, profit: 0, orders: 0 },
-    satu: { qty: 0, revenue: 0, profit: 0, orders: 0 },
-    ba3ar: { qty: 0, revenue: 0, profit: 0, orders: 0 },
     site: { qty: 0, revenue: 0, profit: 0, orders: 0 },
   }
 
@@ -117,16 +101,13 @@ export async function computeChannelComparison({ from, to }: { from: Date; to: D
         productIds.add(it.productId)
         const row = ensureRow(it.productId)
         const cell = row.byChannel[channel]
-        const line = it.price * it.quantity
         cell.qty += it.quantity
-        cell.revenue += line
+        cell.revenue += it.price * it.quantity
       }
     }
   }
 
   ingest('kaspi', kaspiOrders)
-  ingest('satu', satuOrders)
-  ingest('ba3ar', ba3arOrders)
   ingest('site', siteOrders)
 
   // Подтянуть имя/sku/себес товаров.
@@ -140,7 +121,7 @@ export async function computeChannelComparison({ from, to }: { from: Date; to: D
   const channelFeePct = (channel: ChannelKey): number => {
     const tax = econ.taxPct
     if (channel === 'kaspi') return (econ.commissionPct + econ.payPct + tax) / 100
-    return tax / 100 // Satu/Ba3ar/сайт — нет маркетплейс-комиссии, только налог
+    return tax / 100 // сайт — нет маркетплейс-комиссии, только налог
   }
 
   for (const row of Array.from(map.values())) {

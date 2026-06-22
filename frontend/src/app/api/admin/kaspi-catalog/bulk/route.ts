@@ -1,6 +1,6 @@
 // Массовые операции над каталожными записями Kaspi (KaspiCatalogEntry).
 // Нужно, чтобы удалять записи БЕЗ оффера (которые не удаляются через kaspi-offers/bulk).
-// Удаление каталожной записи НЕ трогает товар Alash — только справочную запись Kaspi.
+// Удаление каталожной записи НЕ трогает товар Сайт — только справочную запись Kaspi.
 import { NextRequest, NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'

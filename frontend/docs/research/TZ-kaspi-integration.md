@@ -1,6 +1,6 @@
 # ТЗ: интеграция склада Alash → Kaspi (долгосрочная архитектура)
 
-> Документ для нового чата в репозитории `alash-electronics.kz/frontend`.
+> Документ для нового чата в репозитории `croon.kz/frontend`.
 > Цель: один остаток на товар во всех каналах, синхронизация Alash → Kaspi через динамический XML price-feed.
 > Этот файл — полное ТЗ. Все упомянутые артефакты лежат в репо `~/SheetsAlashBa3arKaspi/`.
 
@@ -9,7 +9,7 @@
 ## 0. Контекст
 
 Три канала продаж:
-- **alash-electronics.kz** — мастер каталога. Next.js 14 + Prisma + Postgres (Neon `eu-north-1`). 1895 SKU.
+- **croon.kz** — мастер каталога. Next.js 14 + Prisma + Postgres (Neon `eu-north-1`). 1895 SKU.
 - **kaspi.kz** — тестовый аккаунт `30233309` (логин `beks.aiten@mail.ru`), 14 активных офферов, заказов нет. Один товар может иметь N карточек на Kaspi (видим: SKU 826 имеет два Kaspi-оффера `121012404_271787064` и `155617325_500472011`).
 - **ba3ar.kz** — отдельный Next-репо (создаётся с нуля), общая БД с Alash. Контент свой, SKU совпадает.
 
@@ -21,7 +21,7 @@
 
 ## 1. Цель этого этапа
 
-Поднять **динамический endpoint** `https://alash-electronics.kz/api/kaspi/feed.xml`, который при каждом запросе Kaspi:
+Поднять **динамический endpoint** `https://croon.kz/api/kaspi/feed.xml`, который при каждом запросе Kaspi:
 
 1. Читает из БД активные Kaspi-офферы и их связь с нашими `Product`.
 2. Считает доступный остаток (`qtyOnHand - qtyReserved`).
@@ -71,7 +71,7 @@ model KaspiOffer {
   productId    String                       // FK Product.id (наш мастер-SKU)
   kaspiStoreId String                       // "30233309_PP1"
   priceTenge   Int                          // цена в тенге, целое (Kaspi не принимает дробные)
-  cityId       String   @default("750000000") // Алматы; список см. exports/kaspi-cities.json
+  cityId       String   @default("750000000") // Костанай; список см. exports/kaspi-cities.json
   active       Boolean  @default(true)
   kaspiName    String?                      // как Kaspi назвал — для отладки
   kaspiBrand   String?
@@ -90,7 +90,7 @@ model KaspiOffer {
 - `kaspiSku` — уникальный, по нему Kaspi матчит наши офферы со своими карточками.
 - `productId` без unique — один Product может иметь несколько `KaspiOffer` (3-4 карточки на товар).
 - `priceTenge` хранится **на Kaspi-оффере**, а не на `Product`, потому что на Kaspi цены отличаются от сайта (комиссия маркетплейса, акции). Цена на сайте — это `Product.price` как сейчас.
-- `cityId` пока всегда `750000000` (Алматы). В будущем — расширение на города через отдельную модель `KaspiOfferCityPrice` если понадобится разная цена по городам.
+- `cityId` пока всегда `750000000` (Костанай). В будущем — расширение на города через отдельную модель `KaspiOfferCityPrice` если понадобится разная цена по городам.
 
 ### 2.3. Команды миграции
 
@@ -352,9 +352,9 @@ curl http://localhost:3000/api/kaspi/feed.xml | xmllint --format -
 
 ### После деплоя
 
-1. `curl https://alash-electronics.kz/api/kaspi/feed.xml` — должен отдать тот же XML.
+1. `curl https://croon.kz/api/kaspi/feed.xml` — должен отдать тот же XML.
 2. В Kaspi MC → Магазин → **Загрузка прайс-листа → Автоматическая загрузка**:
-   - URL: `https://alash-electronics.kz/api/kaspi/feed.xml`
+   - URL: `https://croon.kz/api/kaspi/feed.xml`
    - Логин/пароль: пусто (или те что в env если закрыли auth).
    - **Проверить** → должно сказать "Найдено N офферов, ошибок 0".
    - Включить тумблер, **Сохранить**.
@@ -401,7 +401,7 @@ curl http://localhost:3000/api/kaspi/feed.xml | xmllint --format -
 - [ ] Локально `npm run dev` → `curl localhost:3000/api/kaspi/feed.xml | xmllint --format -` → валидный XML.
 - [ ] Создать `src/app/admin/kaspi-offers/page.tsx` (минимальная таблица + форма).
 - [ ] Деплой через GitHub Actions.
-- [ ] `curl https://alash-electronics.kz/api/kaspi/feed.xml` → проверить.
+- [ ] `curl https://croon.kz/api/kaspi/feed.xml` → проверить.
 - [ ] В Kaspi MC прописать URL фида, нажать "Проверить", включить автозагрузку.
 - [ ] Через час сверить остатки в Kaspi-кабинете и в БД.
 
@@ -445,8 +445,8 @@ curl http://localhost:3000/api/kaspi/feed.xml | xmllint --format -
 ```
 KASPI_API_TOKEN=<из Merchant Cabinet, отдельно>
 KASPI_MERCHANT_ID=30233309
-# storeId = "30233309_PP1" — Алматы, один пункт выдачи
-# cityId  = "750000000"    — Алматы
+# storeId = "30233309_PP1" — Костанай, один пункт выдачи
+# cityId  = "750000000"    — Костанай
 ```
 
 Логин Merchant Cabinet: `beks.aiten@mail.ru` (тестовый).
@@ -466,7 +466,7 @@ KASPI_MERCHANT_ID=30233309
 
 - [ ] `GET /api/kaspi/feed.xml` возвращает 200 + валидный XML с N офферов (N = число `KaspiOffer.active=true`).
 - [ ] Изменение `Product.qtyOnHand` через прямой UPDATE в БД отражается в следующем запросе фида.
-- [ ] Kaspi MC по URL `https://alash-electronics.kz/api/kaspi/feed.xml` отвечает "найдено N офферов, ошибок 0".
+- [ ] Kaspi MC по URL `https://croon.kz/api/kaspi/feed.xml` отвечает "найдено N офферов, ошибок 0".
 - [ ] Через ≤2 часа после включения автозагрузки остатки в кабинете Kaspi совпадают с БД для всех 12 (или 14) офферов.
 - [ ] Админка `/admin/kaspi-offers` позволяет: видеть все офферы, добавить новый, переключить `active`.
 - [ ] В Telegram прилетает алерт при 5xx на эндпоинте.

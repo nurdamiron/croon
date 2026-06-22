@@ -14,7 +14,7 @@ const MERCHANT_ID = process.env.KASPI_MERCHANT_ID || '30233309';
 // Коды городов согласно официальной таблице Kaspi:
 // https://guide.kaspi.kz/partner/ru/shop/api/general/q3200
 const DEFAULT_CITY_IDS = (process.env.KASPI_FEED_CITY_IDS || [
-  '750000000', // Алматы
+  '750000000', // Костанай
   '710000000', // Астана
   '511010000', // Шымкент
   '351010000', // Караганда
@@ -97,7 +97,7 @@ export async function GET(request: NextRequest) {
   const date = `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())} ${pad(now.getHours())}:${pad(now.getMinutes())}`;
 
   // В фид отправляем офферы с именем: kaspiName (имена на Kaspi отличаются от сайта),
-  // а если оно пустое — берём название товара Alash (fallback). Так оффер с пустым
+  // а если оно пустое — берём название товара Сайт (fallback). Так оффер с пустым
   // kaspiName больше НЕ выпадает из фида (Kaspi требует <model> непустым).
   // Бренд опционален — Kaspi сам принимает карточки без бренда (generic-товары, наборы).
   //

@@ -17,7 +17,7 @@ function fetchPage(url) {
 
 (async () => {
   const slug = process.argv[2] || 'arduino-starter-kit-krasnyy-nabor';
-  const html = await fetchPage(`https://alash-electronics.kz/product/${slug}`);
+  const html = await fetchPage(`https://croon.kz/product/${slug}`);
 
   // Find all divs with description-related classes
   const matches = html.matchAll(/<div[^>]*class="([^"]*(?:description|static)[^"]*)"[^>]*>/gi);

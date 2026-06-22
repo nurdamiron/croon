@@ -92,7 +92,7 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
       continue
     }
     // Защита от дублей: одна Kaspi-карточка (product-id) не может висеть на
-    // нескольких товарах Alash. Разные карточки на один товар — ок.
+    // нескольких товарах Сайт. Разные карточки на один товар — ок.
     const conflict = await prisma.kaspiOffer.findFirst({
       where: {
         productId: { not: product.id },

@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 
 // Server-to-server revenue summary for the Biz platform. Auth via shared INTERNAL_API_KEY.
-// Aggregates ALL FOUR sales channels (Alash site, Kaspi, Satu, Ba3ar) over the last 12 months,
+// Aggregates ALL FOUR sales channels (Сайт site, Kaspi, Satu, Ba3ar) over the last 12 months,
 // excluding cancelled/returned orders. Each channel reports its own revenue + monthly series;
 // `byMonth`/`totalRevenue` are the combined cross-channel totals.
 
@@ -24,7 +24,7 @@ export async function GET(request: NextRequest) {
 
   // One monthly-aggregate query per channel. Status filters drop cancelled/returned orders.
   // No user input is interpolated — all SQL is static.
-  const [alash, kaspi, satu, ba3ar] = await Promise.all([
+  const [site, kaspi, satu, ba3ar] = await Promise.all([
     prisma.$queryRaw<MonthRow[]>`
       SELECT to_char(date_trunc('month', "createdAt"), 'YYYY-MM') AS month,
              COALESCE(SUM("total"), 0)::float AS revenue, COUNT(*) AS count
@@ -54,7 +54,7 @@ export async function GET(request: NextRequest) {
       GROUP BY 1 ORDER BY 1`,
   ])
 
-  const byChannel = { alash: rollUp(alash), kaspi: rollUp(kaspi), satu: rollUp(satu), ba3ar: rollUp(ba3ar) }
+  const byChannel = { site: rollUp(site), kaspi: rollUp(kaspi), satu: rollUp(satu), ba3ar: rollUp(ba3ar) }
 
   // Combined cross-channel monthly series
   const combined = new Map<string, { revenue: number; count: number }>()

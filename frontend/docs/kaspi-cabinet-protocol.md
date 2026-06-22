@@ -35,7 +35,7 @@ availabilities[storeId,stockCount], sku, model) — но не файл раз в
 JSON-POST**. Применяется сразу (не ждём 60 мин перечитки фида). Вот вся суть
 «суб-минутности» AlgaTop.
 
-- `cityPrices[]` — цена ПО ГОРОДАМ (можно разные цены на город). Алматы = 750000000.
+- `cityPrices[]` — цена ПО ГОРОДАМ (можно разные цены на город). Костанай = 750000000.
 - `availabilities[]` — остатки по складам (storeId формата `{merchantUid}_PP1`).
 - `sku` — merchant SKU (наш `kaspiSku` из KaspiOffer / составной PID_xxx).
 - `model` — название (как kaspiName).

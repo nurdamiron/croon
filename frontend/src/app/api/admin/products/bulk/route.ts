@@ -62,7 +62,6 @@ export async function POST(request: NextRequest) {
         if (!permanent) {
           const r = await prisma.product.updateMany({ where: { id: { in: productIds } }, data: { archived: true, inStock: false } })
           await prisma.kaspiOffer.updateMany({ where: { productId: { in: productIds } }, data: { active: false } })
-          await prisma.satuProduct.updateMany({ where: { productId: { in: productIds } }, data: { active: false } })
           return NextResponse.json({ ok: true, archived: r.count })
         }
 
@@ -81,11 +80,7 @@ export async function POST(request: NextRequest) {
           try {
             await prisma.$transaction([
               prisma.kaspiOrderItem.updateMany({ where: { productId: id }, data: { productId: null } }),
-              prisma.satuOrderItem.updateMany({ where: { productId: id }, data: { productId: null } }),
-              prisma.ba3arOrderItem.updateMany({ where: { productId: id }, data: { productId: null } }),
-              prisma.ba3arOrderViewedProduct.updateMany({ where: { productId: id }, data: { productId: null } }),
               prisma.orderViewedProduct.deleteMany({ where: { productId: id } }),
-              prisma.satuProduct.deleteMany({ where: { productId: id } }),
               prisma.product.delete({ where: { id } }),
             ])
             deleted++

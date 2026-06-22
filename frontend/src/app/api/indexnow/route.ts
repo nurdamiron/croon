@@ -3,7 +3,7 @@ import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 
 const INDEXNOW_KEY = '4bb2949a7737b479b3c93be2474b352c'
-const SITE_URL = process.env.SITE_URL || 'https://alash-electronics.kz'
+const SITE_URL = process.env.SITE_URL || 'https://croon.kz'
 
 const INDEXNOW_ENDPOINTS = [
   'https://api.indexnow.org/indexnow',

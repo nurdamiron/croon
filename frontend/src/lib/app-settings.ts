@@ -188,9 +188,9 @@ export const NOTIFY_KASPI = 'notify_kaspi_enabled'
 export const NOTIFY_SATU = 'notify_satu_enabled'
 export const NOTIFY_BA3AR = 'notify_ba3ar_enabled'
 
-export type NotifyChannel = 'alash' | 'kaspi' | 'satu' | 'ba3ar'
+export type NotifyChannel = 'croon' | 'kaspi'
 export function notifyFlagKey(ch: NotifyChannel): string {
-  return ({ alash: NOTIFY_ALASH, kaspi: NOTIFY_KASPI, satu: NOTIFY_SATU, ba3ar: NOTIFY_BA3AR } as const)[ch]
+  return ({ croon: NOTIFY_ALASH, kaspi: NOTIFY_KASPI } as const)[ch]
 }
 
 // Прочитать булев флаг. По умолчанию true (если записи нет — всё включено).

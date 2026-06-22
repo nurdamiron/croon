@@ -1,7 +1,7 @@
 {
-  "name": "Alash Electronics — Админ",
+  "name": "ИП КРУН — Админ",
   "short_name": "Alash Admin",
-  "description": "Панель управления Alash Electronics",
+  "description": "Панель управления ИП КРУН",
   "start_url": "/admin",
   "scope": "/admin",
   "display": "standalone",

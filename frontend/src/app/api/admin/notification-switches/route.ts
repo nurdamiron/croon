@@ -16,10 +16,8 @@ async function checkAdmin() {
 
 async function readAll() {
   return {
-    alash: await getFlag(NOTIFY_ALASH),
+    croon: await getFlag(NOTIFY_ALASH),
     kaspi: await getFlag(NOTIFY_KASPI),
-    satu: await getFlag(NOTIFY_SATU),
-    ba3ar: await getFlag(NOTIFY_BA3AR),
   }
 }
 
@@ -28,14 +26,12 @@ export async function GET() {
   return NextResponse.json(await readAll())
 }
 
-// PATCH { alash?: boolean, kaspi?: boolean, satu?: boolean, ba3ar?: boolean }
+// PATCH { croon?: boolean, kaspi?: boolean }
 export async function PATCH(req: NextRequest) {
   if (!(await checkAdmin())) return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
   let body: any
   try { body = await req.json() } catch { return NextResponse.json({ error: 'Некорректное тело' }, { status: 400 }) }
-  if (typeof body.alash === 'boolean') await setFlag(NOTIFY_ALASH, body.alash)
+  if (typeof body.croon === 'boolean') await setFlag(NOTIFY_ALASH, body.croon)
   if (typeof body.kaspi === 'boolean') await setFlag(NOTIFY_KASPI, body.kaspi)
-  if (typeof body.satu === 'boolean') await setFlag(NOTIFY_SATU, body.satu)
-  if (typeof body.ba3ar === 'boolean') await setFlag(NOTIFY_BA3AR, body.ba3ar)
   return NextResponse.json(await readAll())
 }

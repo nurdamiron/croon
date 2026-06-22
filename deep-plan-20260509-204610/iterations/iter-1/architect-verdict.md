@@ -24,7 +24,7 @@ The plan's fire-and-forget `.catch(console.error)` means failures are **invisibl
 
 The existing `notifyAdmins` / `sendTelegram` pattern is appropriate for admin alerts (fire-and-forget is fine if one channel is down — the other compensates). Applying that same pattern to customer-facing transactional email is a category error.
 
-**Concrete failure mode not in pre-mortem:** Resend's free tier rejects emails when the sending domain is not verified (returns 403, not retried). In the Resend dashboard, domain verification is separate from API key creation. If the developer creates the API key but never completes DNS verification of `alash-electronics.kz`, every email silently fails. This is a deployment-time error that the plan's test plan cannot catch until go-live.
+**Concrete failure mode not in pre-mortem:** Resend's free tier rejects emails when the sending domain is not verified (returns 403, not retried). In the Resend dashboard, domain verification is separate from API key creation. If the developer creates the API key but never completes DNS verification of `croon.kz`, every email silently fails. This is a deployment-time error that the plan's test plan cannot catch until go-live.
 
 ---
 

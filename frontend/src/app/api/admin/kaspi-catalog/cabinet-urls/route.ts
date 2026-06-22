@@ -73,7 +73,7 @@ export async function POST(req: NextRequest) {
         productId: prod.id,
         priceTenge: Math.max(1, price),
         kaspiUrl: url,
-        kaspiStoreId: cat?.storeId || '30383258_PP1',
+        kaspiStoreId: cat?.storeId || (process.env.KASPI_STORE_ID || '30383258_PP1'),
         cityId: cat?.cityId || '750000000',
         kaspiName: cat?.name || prod.name || null,
         kaspiBrand: cat?.brand ?? null,

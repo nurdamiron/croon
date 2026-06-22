@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
+import { createClient } from '@/utils/supabase/middleware'
 
 export function middleware(request: NextRequest) {
   const { pathname, searchParams } = request.nextUrl
@@ -29,7 +30,7 @@ export function middleware(request: NextRequest) {
     return NextResponse.redirect(url, { status: 301 })
   }
 
-  return NextResponse.next()
+  return createClient(request)
 }
 
 export const config = {

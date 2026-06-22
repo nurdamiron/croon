@@ -13,7 +13,7 @@ async function forwardToBiz(type: string, title: string, body: string): Promise<
     await fetch(`${base.replace(/\/$/, '')}/api/internal/activity`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'x-internal-key': key },
-      body: JSON.stringify({ serviceId: 'alash-electronics', type, title, description: body }),
+      body: JSON.stringify({ serviceId: 'croon', type, title, description: body }),
       signal: AbortSignal.timeout(5000),
     })
   } catch {
@@ -38,7 +38,7 @@ export async function notifyAdmins(title: string, body: string, url?: string, ch
     return
   }
 
-  webpush.setVapidDetails('mailto:info@alash-electronics.kz', publicKey, privateKey)
+  webpush.setVapidDetails('mailto:info@croon.kz', publicKey, privateKey)
 
   const subs = await prisma.pushSubscription.findMany({
     where: { user: { role: 'ADMIN' } },

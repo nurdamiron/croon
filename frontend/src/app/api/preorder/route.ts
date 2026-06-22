@@ -43,7 +43,7 @@ export async function POST(request: NextRequest) {
         `Новый предзаказ #${order.orderNumber}`,
         `${name} — ${product.name}`,
         adminUrl,
-        'alash',
+        'croon',
       ).catch(err => console.error('Push notification error:', err)),
 
       sendTelegram(tgNewPreorderQuick({

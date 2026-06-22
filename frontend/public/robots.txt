@@ -38,5 +38,5 @@ Disallow: /favorites
 Disallow: /api/
 Disallow: /_next/
 
-Sitemap: https://alash-electronics.kz/sitemap.xml
-IndexNow: https://alash-electronics.kz/4bb2949a7737b479b3c93be2474b352c.txt
+Sitemap: https://croon.kz/sitemap.xml
+IndexNow: https://croon.kz/4bb2949a7737b479b3c93be2474b352c.txt

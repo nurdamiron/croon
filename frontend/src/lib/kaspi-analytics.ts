@@ -35,25 +35,25 @@ const RETURN_MIN_UNITS = 2 // минимум всего единиц (sold+retur
 const LOW_MARKUP_THRESHOLD = 10 // наценка < 10% → проблемный товар
 const MARGIN_MIN_REVENUE = 5000 // порог выручки для ТОП по марже (отсечь 1-штучные выбросы)
 
-// Алматы = UTC+5 без DST (фиксированный офсет с 2024). Хардкодим, чтобы не тянуть tz-либу.
+// Костанай = UTC+5 без DST (фиксированный офсет с 2024). Хардкодим, чтобы не тянуть tz-либу.
 const ALMATY_OFFSET = '+05:00'
 
-// Бизнес-сутки начинаются в 17:00 Алматы: заказы до 17:00 — «сегодня», с 17:00 —
+// Бизнес-сутки начинаются в 17:00 Костанай: заказы до 17:00 — «сегодня», с 17:00 —
 // уже «следующий день» (так Kaspi режет рабочий день/отгрузку). День D охватывает
-// реальное время [D-1 17:00, D 17:00) Алматы. Технически это сдвиг на (24−17)=7 часов:
-// дата(t + 7ч в Алматы) даёт нужный бизнес-день.
+// реальное время [D-1 17:00, D 17:00) Костанай. Технически это сдвиг на (24−17)=7 часов:
+// дата(t + 7ч в Костанай) даёт нужный бизнес-день.
 const BUSINESS_CUTOFF_HOUR = 17
 const BUSINESS_SHIFT_MS = (24 - BUSINESS_CUTOFF_HOUR) * 3600_000 // +7ч
-// Время начала суток Алматы в ISO для конструирования границ (17:00 предыдущего дня).
+// Время начала суток Костанай в ISO для конструирования границ (17:00 предыдущего дня).
 const CUTOFF_HHMM = `${String(BUSINESS_CUTOFF_HOUR).padStart(2, '0')}:00:00`
 
-// Текущий бизнес-день (YYYY-MM-DD) в Алматы с учётом отсечки 17:00.
+// Текущий бизнес-день (YYYY-MM-DD) в Костанай с учётом отсечки 17:00.
 function currentBusinessDay(): string {
   return new Date(Date.now() + 5 * 3600_000 + BUSINESS_SHIFT_MS).toISOString().slice(0, 10)
 }
 
 // Разбор диапазона из строк YYYY-MM-DD (как в <input type="date">) в UTC-границы.
-// Граница дня D — 17:00 Алматы дня (D-1): бизнес-день D = [D-1 17:00, D 17:00).
+// Граница дня D — 17:00 Костанай дня (D-1): бизнес-день D = [D-1 17:00, D 17:00).
 // `to` эксклюзивно — 17:00 выбранного дня `toDay`. Без/при битом вводе — последние 30 дней.
 export function resolveRange(fromStr?: string | null, toStr?: string | null): {
   from: Date
@@ -76,10 +76,10 @@ export function resolveRange(fromStr?: string | null, toStr?: string | null): {
   }
   if (fromDay > toDay) [fromDay, toDay] = [toDay, fromDay]
 
-  // Бизнес-день F начинается в (F-1) 17:00 Алматы.
+  // Бизнес-день F начинается в (F-1) 17:00 Костанай.
   const from = new Date(`${fromDay}T${CUTOFF_HHMM}${ALMATY_OFFSET}`)
   from.setUTCDate(from.getUTCDate() - 1)
-  // Бизнес-день toDay заканчивается в toDay 17:00 Алматы (эксклюзивно).
+  // Бизнес-день toDay заканчивается в toDay 17:00 Костанай (эксклюзивно).
   const toExclusive = new Date(`${toDay}T${CUTOFF_HHMM}${ALMATY_OFFSET}`)
 
   return { from, to: toExclusive, fromStr: fromDay, toStr: toDay }
@@ -176,7 +176,7 @@ export type RevenueStructure = {
 
 // Точка дневной динамики (для графиков «Выручка по дням» / «Маржа и прибыль по дням»).
 export type DailyPoint = {
-  date: string // YYYY-MM-DD (день Алматы)
+  date: string // YYYY-MM-DD (день Костанай)
   revenue: number
   profit: number // полная прибыль (по позициям с себестоимостью)
   marginPct: number | null
@@ -231,7 +231,7 @@ export type StatusFunnel = {
   buyoutRate: number | null // % выкупа = Выдан / (Оплачен или дальше)
 }
 
-// Распределение заказов по времени (часы дня × дни недели), время Алматы.
+// Распределение заказов по времени (часы дня × дни недели), время Костанай.
 // matrix[weekday][hour] = число заказов. weekday: 0=Пн … 6=Вс. hour: 0..23.
 export type OrderTiming = {
   matrix: number[][] // [7][24]
@@ -383,7 +383,7 @@ function computeKpi(orders: SoldOrder[], returnOrderCount: number, econ: KaspiEc
   }
 }
 
-// Бизнес-день (YYYY-MM-DD) для даты заказа: Алматы + сдвиг отсечки 17:00.
+// Бизнес-день (YYYY-MM-DD) для даты заказа: Костанай + сдвиг отсечки 17:00.
 // Заказ до 17:00 → текущая дата, с 17:00 → следующая (см. BUSINESS_CUTOFF_HOUR).
 function almatyDay(d: Date | null): string | null {
   if (!d) return null
@@ -742,7 +742,7 @@ export async function computeKaspiAnalytics({
   }
 
   // Дневная динамика + денежный поток: непрерывный ряд по всем дням диапазона (пустые дни — нули).
-  // from/to — UTC-инстанты начала суток Алматы; день берём через almatyDay (как при агрегации),
+  // from/to — UTC-инстанты начала суток Костанай; день берём через almatyDay (как при агрегации),
   // иначе UTC-срез даст предыдущий календарный день и ряд не сойдётся с dailyMap.
   const daily: DailyPoint[] = []
   const cashflow: CashflowPoint[] = []
@@ -862,7 +862,7 @@ export async function computeKaspiAnalytics({
     deadStockTotalFrozen,
   }
 
-  // --- Распределение заказов по времени (часы × дни недели, время Алматы) ----
+  // --- Распределение заказов по времени (часы × дни недели, время Костанай) ----
   const matrix: number[][] = Array.from({ length: 7 }, () => new Array(24).fill(0))
   const byWeekday = new Array(7).fill(0)
   const byHour = new Array(24).fill(0)
@@ -870,7 +870,7 @@ export async function computeKaspiAnalytics({
   let peak: OrderTiming['peak'] = null
   for (const o of timingOrders) {
     if (!o.creationDate) continue
-    // в Алматы (UTC+5): сдвигаем инстант и читаем UTC-поля сдвинутой даты
+    // в Костанай (UTC+5): сдвигаем инстант и читаем UTC-поля сдвинутой даты
     const almaty = new Date(o.creationDate.getTime() + 5 * 3600_000)
     const hour = almaty.getUTCHours()
     // getUTCDay: 0=Вс..6=Сб → переводим в 0=Пн..6=Вс

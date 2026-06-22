@@ -41,7 +41,7 @@ export default function KaspiCatalogClient({ rows, q, bound }: { rows: Row[]; q:
       const dry = await fetch('/api/admin/kaspi-catalog/autolink').then(r => r.json())
       if (dry.error) throw new Error(dry.error)
       if (dry.linked === 0) {
-        setLinkMsg(`Привязывать нечего: совпадений по артикулу нет (без товара Alash: ${dry.noProduct}).`)
+        setLinkMsg(`Привязывать нечего: совпадений по артикулу нет (без товара сайта: ${dry.noProduct}).`)
         return
       }
       const ok = confirm(
@@ -111,7 +111,7 @@ export default function KaspiCatalogClient({ rows, q, bound }: { rows: Row[]; q:
                 <th className="text-left px-4 py-3 font-medium text-gray-700">Бренд</th>
                 <th className="text-right px-4 py-3 font-medium text-gray-700">Цена</th>
                 <th className="text-left px-4 py-3 font-medium text-gray-700">URL Kaspi</th>
-                <th className="text-left px-4 py-3 font-medium text-gray-700">Товар Alash</th>
+                <th className="text-left px-4 py-3 font-medium text-gray-700">Товар сайта</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-100">

@@ -176,7 +176,7 @@ The plan is architecturally sound and all four prior rejections are correctly re
 
 1. **AC-22 `verification_command`:** Replace prose with executable shell. Example replacement:
    ```
-   RESEND_API_KEY=invalid_key_test node -e "const {Resend}=require('resend');const r=new Resend('invalid_key_test');r.emails.send({from:'noreply@alash-electronics.kz',to:'test@test.com',subject:'T',html:'<p>T</p>'}).then(()=>console.log('no-error')).catch(e=>{const {sendTelegram}=require('./src/lib/telegram');sendTelegram('⚠️ Email failed: '+e.message).catch(()=>{});console.log('caught:',e.message)})" 2>&1 | grep -E "caught:|⚠️"
+   RESEND_API_KEY=invalid_key_test node -e "const {Resend}=require('resend');const r=new Resend('invalid_key_test');r.emails.send({from:'noreply@croon.kz',to:'test@test.com',subject:'T',html:'<p>T</p>'}).then(()=>console.log('no-error')).catch(e=>{const {sendTelegram}=require('./src/lib/telegram');sendTelegram('⚠️ Email failed: '+e.message).catch(()=>{});console.log('caught:',e.message)})" 2>&1 | grep -E "caught:|⚠️"
    ```
 
 2. **AC-09 `verification_command`:** Replace `...get productId from NEW order items...` and `...get Product.totalStock...` placeholders with actual Prisma client node invocations (as used in AC-05, AC-06, AC-18).

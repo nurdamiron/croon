@@ -67,7 +67,7 @@ async function main() {
     const batch = missing.slice(i, i + CONCURRENCY);
     const promises = batch.map(async (product) => {
       // Build URL from slug
-      const url = `https://alash-electronics.kz/product/${product.slug}`;
+      const url = `https://croon.kz/product/${product.slug}`;
       if (!product.slug) {
         failed++;
         done++;

@@ -123,4 +123,4 @@ Allow: /
 Disallow: /admin/
 Disallow: /api/
 
-Sitemap: https://alash-electronics.kz/sitemap.xml
+Sitemap: https://croon.kz/sitemap.xml

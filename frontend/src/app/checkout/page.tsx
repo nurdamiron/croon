@@ -91,7 +91,7 @@ export default function CheckoutPage() {
       }
 
       const data = await res.json()
-      localStorage.removeItem('alash_cart')
+      localStorage.removeItem('croon_cart')
       clearViewed()
       clearSearches()
       window.dispatchEvent(new Event('cart-updated'))
@@ -186,7 +186,7 @@ export default function CheckoutPage() {
                     className="accent-brand mt-1"
                   />
                   <div>
-                    <span className="font-medium text-sm">Доставка по Алматы — Яндекс Курьер</span>
+                    <span className="font-medium text-sm">Доставка по Костанаю — Яндекс Курьер</span>
                     <p className="text-xs text-gray-500 mt-0.5">Бесплатно от 150 000 тг. При меньшей сумме стоимость рассчитывается при подтверждении.</p>
                   </div>
                 </label>
@@ -209,20 +209,7 @@ export default function CheckoutPage() {
               {form.deliveryMethod === 'pickup' && (
                 <div className="mt-4 bg-gray-50 rounded-lg p-4 text-sm text-gray-600">
                   <p className="font-medium text-gray-800 mb-1">Пункт выдачи:</p>
-                  <p>ул. Кыз Жибек, 104/1</p>
-                  <p className="text-gray-500">Кок-Тобе 2 м-н, Медеуский район, Алматы 050020</p>
-                  <a
-                    href="https://2gis.kz/almaty/search/alash%20electronics/firm/70000001086917700/76.97348%2C43.214927?m=76.97348%2C43.214927%2F10.86"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1.5 text-brand hover:underline font-medium mt-2"
-                  >
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="shrink-0">
-                      <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z" />
-                      <circle cx="12" cy="10" r="3" />
-                    </svg>
-                    Открыть в 2ГИС
-                  </a>
+                  <p>Костанай Г.А., Костанай, МИКРОРАЙОН 9, дом 7, кв/офис 9</p>
                 </div>
               )}
 

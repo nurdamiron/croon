@@ -39,7 +39,7 @@ One-off DB/data migration scripts live in `scripts/` and run on prod via SSM (`s
 
 ## Delivery Options
 
-Three methods in checkout: Самовывоз (pickup with 2GIS link), Яндекс Курьер (Алматы only), inDrive (all Kazakhstan). Free delivery threshold: 150,000 tg. Labels in `lib/constants.ts`.
+Three methods in checkout: Самовывоз (pickup with 2GIS link), Яндекс Курьер (Костанай only), inDrive (all Kazakhstan). Free delivery threshold: 150,000 tg. Labels in `lib/constants.ts`.
 
 ## Rate Limiting (`lib/rate-limit.ts`)
 

@@ -36,9 +36,9 @@ jobs:
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
           NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET }}
-          NEXTAUTH_URL: https://alash-electronics.kz
+          NEXTAUTH_URL: https://croon.kz
           NEXT_PUBLIC_VAPID_PUBLIC_KEY: ${{ secrets.NEXT_PUBLIC_VAPID_PUBLIC_KEY }}
-          NEXT_PUBLIC_SITE_URL: https://alash-electronics.kz
+          NEXT_PUBLIC_SITE_URL: https://croon.kz
           NEXT_TELEMETRY_DISABLED: '1'
         run: npm run build
 

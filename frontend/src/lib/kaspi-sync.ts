@@ -151,13 +151,6 @@ async function applyItemTransition(
   }
   // totalStock изменился → зеркалим остаток на единственный вариант.
   if (ops.some(o => o.field === 'totalStock')) await mirrorSingleVariantStock(productId)
-  // Остаток Kaspi-заказом изменён → пометить товар на синхронизацию с Satu.
-  if (ops.length) {
-    await prisma.product.updateMany({
-      where: { id: productId, satuProducts: { some: { active: true } } },
-      data: { satuDirty: true },
-    }).catch(() => {})
-  }
 }
 
 // Главная функция: тянет заказы за период, обновляет KaspiOrder/Items и остатки.

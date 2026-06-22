@@ -85,8 +85,8 @@ export default function Header({ categories }: { categories: Category[] }) {
     { label: 'Блог', href: '/blogs/kits' },
     { label: 'Контакты', href: '/page/contacts' },
     { label: 'Личный кабинет', href: accountHref },
-    { label: 'Вики', href: 'https://wiki.alashed.kz/', external: true, own: true },
-    { label: 'AlashEd-Товары для Гос.закупа', href: '/page/alashed' },
+    { label: 'Вики', href: 'https://wiki.croon.kz/', external: true, own: true },
+    { label: 'Государственные закупки', href: '/page/alashed' },
   ]
 
   // Build category tree
@@ -213,8 +213,8 @@ export default function Header({ categories }: { categories: Category[] }) {
       {/* Main header */}
       <div className="max-w-[1400px] mx-auto px-4 flex items-center gap-2 md:gap-4 h-14 md:h-16">
         {/* Logo */}
-        <Link href="/" aria-label="Alash Electronics — Главная" className="shrink-0 hidden md:block">
-          <Image src="/images/logo.png" alt="Alash electronics" width={110} height={55} className="object-contain" />
+        <Link href="/" aria-label="ИП КРУН — Главная" className="shrink-0 hidden md:block">
+          <Image src="/images/logo.png" alt="ИП КРУН" width={110} height={55} className="object-contain" />
         </Link>
 
         {/* Catalog button — only on mobile (desktop has sidebar) */}
@@ -387,8 +387,8 @@ export default function Header({ categories }: { categories: Category[] }) {
           <div className="fixed top-0 left-0 bottom-0 w-[min(300px,85vw)] bg-white z-50 overflow-y-auto shadow-xl">
             {/* Drawer header */}
             <div className="flex items-center justify-between px-4 h-14 border-b">
-              <Link href="/" aria-label="Alash Electronics — Главная" onClick={() => setMenuOpen(false)}>
-                <Image src="/images/logo.png" alt="Alash electronics" width={110} height={50} className="object-contain" />
+              <Link href="/" aria-label="ИП КРУН — Главная" onClick={() => setMenuOpen(false)}>
+                <Image src="/images/logo.png" alt="ИП КРУН" width={110} height={50} className="object-contain" />
               </Link>
               <button onClick={() => setMenuOpen(false)} className="text-gray-500 hover:text-gray-700 p-2">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -502,8 +502,8 @@ export default function Header({ categories }: { categories: Category[] }) {
               {[
                 { label: 'Главная', href: '/' },
                 { label: 'Контакты', href: '/page/contacts' },
-                { label: 'Вики', href: 'https://wiki.alashed.kz/', external: true, own: true },
-                { label: 'AlashEd — Гос.закуп', href: '/page/alashed' },
+                { label: 'Вики', href: 'https://wiki.croon.kz/', external: true, own: true },
+                { label: 'Гос.закуп', href: '/page/alashed' },
               ].map(link => (
                 <li key={link.href} className="border-b border-gray-100 last:border-0">
                   <Link

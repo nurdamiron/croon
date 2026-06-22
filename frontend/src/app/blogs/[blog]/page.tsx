@@ -17,11 +17,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const title = BLOG_TITLES[params.blog] ?? 'Блог'
   return {
     title,
-    description: `Статьи и обзоры по теме «${title}» в интернет-магазине Alash Electronics.`,
+    description: `Статьи и обзоры по теме «${title}» в интернет-магазине ИП КРУН.`,
     alternates: { canonical: `/blogs/${params.blog}` },
     openGraph: {
-      title: `${title} — Alash Electronics`,
-      description: `Статьи и обзоры по теме «${title}» в интернет-магазине Alash Electronics.`,
+      title: `${title} — ИП КРУН`,
+      description: `Статьи и обзоры по теме «${title}» в интернет-магазине ИП КРУН.`,
       url: `/blogs/${params.blog}`,
       locale: 'ru_KZ',
     },
@@ -60,8 +60,8 @@ export default async function BlogIndexPage({ params }: Props) {
         <h1 className="text-2xl font-bold mb-6">{blogTitle}</h1>
         <p className="text-gray-600 mb-6 leading-relaxed">
           {params.blog === 'kits'
-            ? 'Обзоры готовых наборов для робототехники, Arduino-проекты и инструкции по сборке. Пошаговые руководства, схемы подключения и рекомендации по компонентам от интернет-магазина Alash Electronics.'
-            : `Статьи и материалы по теме «${blogTitle}» — обзоры, инструкции и практические советы от Alash Electronics.`}
+            ? 'Обзоры готовых наборов для робототехники, Arduino-проекты и инструкции по сборке. Пошаговые руководства, схемы подключения и рекомендации по компонентам от интернет-магазина ИП КРУН.'
+            : `Статьи и материалы по теме «${blogTitle}» — обзоры, инструкции и практические советы от ИП КРУН.`}
         </p>
         <div className="space-y-6">
           {posts.map(post => (
@@ -86,7 +86,7 @@ export default async function BlogIndexPage({ params }: Props) {
           ))}
         </div>
         <p className="mt-6 text-sm text-gray-600 leading-relaxed">
-          Компоненты для проектов из статей можно заказать в каталоге. Доставка по Алматы и Казахстану, самовывоз из магазина.
+          Компоненты для проектов из статей можно заказать в каталоге. Доставка по Костанаю и Казахстану, самовывоз из магазина.
         </p>
         <div className="mt-8 pt-6 border-t flex flex-wrap gap-3 text-sm">
           <Link href="/collection/gotovye-nabory-dlya-robototehniki" className="text-brand hover:text-brand-hover font-medium">

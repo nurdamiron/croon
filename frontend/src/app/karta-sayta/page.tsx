@@ -7,7 +7,7 @@ export const dynamic = 'force-dynamic'
 
 export const metadata: Metadata = {
   title: 'Карта сайта',
-  description: 'Карта сайта Alash Electronics — все разделы, категории, товары и статьи. Доставка по Алматы и всему Казахстану.',
+  description: 'Карта сайта ИП КРУН — все разделы, категории, товары и статьи. Доставка по Костанаю и всему Казахстану.',
   alternates: { canonical: '/karta-sayta' },
 }
 
@@ -34,10 +34,10 @@ export default async function SitemapPage() {
     <div className="max-w-[1400px] mx-auto px-4 py-8">
       <h1 className="text-2xl font-bold mb-4">Карта сайта</h1>
       <p className="text-gray-600 text-sm mb-4 leading-relaxed">
-        Полный перечень разделов интернет-магазина Alash Electronics: каталог электронных компонентов, Arduino, датчиков и модулей, информационные страницы о доставке и оплате, блог с обзорами и инструкциями.
+        Полный перечень разделов интернет-магазина ИП КРУН: каталог электронных компонентов, Arduino, датчиков и модулей, информационные страницы о доставке и оплате, блог с обзорами и инструкциями.
       </p>
       <p className="text-gray-500 text-sm mb-8 leading-relaxed">
-        Доставка по Алматы и Казахстану. Самовывоз: ул. Кыз Жибек, 104/1. Тел. +7 (700) 900-17-90.
+        Доставка по Костанаю и Казахстану. Самовывоз: Костанай Г.А., Костанай, МИКРОРАЙОН 9, дом 7, кв/офис 9. Тел. +7 (700) 900-17-90.
       </p>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -53,7 +53,7 @@ export default async function SitemapPage() {
             <li><Link href="/page/contacts" className="hover:text-brand">Контакты</Link></li>
             <li><Link href="/page/oferta" className="hover:text-brand">Оферта и конфиденциальность</Link></li>
             <li><Link href="/page/payment-2" className="hover:text-brand">Оплата</Link></li>
-            <li><Link href="/page/alashed" className="hover:text-brand">AlashEd — Гос.закуп</Link></li>
+            <li><Link href="/page/alashed" className="hover:text-brand">Гос.закуп</Link></li>
           </ul>
 
           {pages.length > 0 && (

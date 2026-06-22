@@ -77,10 +77,10 @@ export default async function InvoicePage({ params }: { params: Promise<{ id: st
       <body>
         <div className="header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', borderBottom: '2px solid #006EBE', paddingBottom: '16px', marginBottom: '24px' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-            <img src="/icons/icon-192x192.png" alt="Alash Electronics" style={{ width: '48px', height: '48px', borderRadius: '10px', objectFit: 'contain' }} />
+            <img src="/icons/icon-192x192.png" alt="ИП КРУН" style={{ width: '48px', height: '48px', borderRadius: '10px', objectFit: 'contain' }} />
             <div>
-              <div style={{ fontSize: '22px', fontWeight: 'bold', color: '#006EBE' }}>Alash Electronics</div>
-              <div style={{ fontSize: '11px', color: '#888', marginTop: '2px' }}>alash-electronics.kz</div>
+              <div style={{ fontSize: '22px', fontWeight: 'bold', color: '#006EBE' }}>ИП КРУН</div>
+              <div style={{ fontSize: '11px', color: '#888', marginTop: '2px' }}>croon.kz</div>
             </div>
           </div>
           <div style={{ textAlign: 'right' }}>
@@ -141,7 +141,7 @@ export default async function InvoicePage({ params }: { params: Promise<{ id: st
         )}
 
         <div style={{ marginTop: '32px', paddingTop: '16px', borderTop: '1px solid #e5e5e5', fontSize: '12px', color: '#888', display: 'flex', justifyContent: 'space-between' }}>
-          <span>Alash Electronics — ул. Кыз Жибек, 104/1, Алматы</span>
+          <span>ИП КРУН — Костанай Г.А., Костанай, МИКРОРАЙОН 9, дом 7, кв/офис 9</span>
           <span>Документ сформирован {new Date().toLocaleDateString('ru-RU')}</span>
         </div>
 

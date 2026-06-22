@@ -60,7 +60,7 @@ function SuccessContent() {
               <div>
                 <a href="https://wa.me/77009001790" target="_blank" rel="noopener noreferrer" className="text-brand hover:underline font-medium">WhatsApp</a>
                 <span className="text-gray-400 mx-1.5">·</span>
-                <a href="https://t.me/alash_electronics" target="_blank" rel="noopener noreferrer" className="text-brand hover:underline font-medium">Telegram</a>
+                <a href="https://t.me/croon_kz" target="_blank" rel="noopener noreferrer" className="text-brand hover:underline font-medium">Telegram</a>
               </div>
               <p className="text-gray-500">Время работы: 12:00 — 20:00 (Пн — Сб)</p>
             </div>
@@ -69,21 +69,7 @@ function SuccessContent() {
           <div className="border rounded-lg p-6">
             <h2 className="font-bold text-lg mb-4">Самовывоз</h2>
             <div className="text-sm text-gray-600 space-y-1">
-              <p>ул. Кыз Жибек, 104/1</p>
-              <p>Кок-Тобе 2 м-н, Медеуский район</p>
-              <p>Алматы 050020</p>
-              <a
-                href="https://2gis.kz/almaty/search/alash%20electronics/firm/70000001086917700/76.97348%2C43.214927?m=76.97348%2C43.214927%2F10.86"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 text-brand hover:underline font-medium mt-2"
-              >
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="shrink-0">
-                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z" />
-                  <circle cx="12" cy="10" r="3" />
-                </svg>
-                Открыть в 2ГИС
-              </a>
+              <p>Костанай Г.А., Костанай, МИКРОРАЙОН 9, дом 7, кв/офис 9</p>
             </div>
           </div>
         </div>

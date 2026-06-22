@@ -89,7 +89,7 @@ export default async function KaspiCatalogPage({ searchParams }: { searchParams:
           <div className="text-2xl font-bold mt-1">{total}</div>
         </div>
         <div className="bg-white rounded-xl border border-gray-200 p-4">
-          <div className="text-xs text-gray-500 uppercase tracking-wide">Привязано к Alash</div>
+          <div className="text-xs text-gray-500 uppercase tracking-wide">Привязано к сайту</div>
           <div className="text-2xl font-bold mt-1 text-green-600">{totalBound}</div>
         </div>
         <div className="bg-white rounded-xl border border-gray-200 p-4">
