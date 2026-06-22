@@ -1,207 +1,106 @@
-const { PrismaClient } = require('@prisma/client');
-const fs = require('fs');
-const path = require('path');
+const { PrismaClient } = require('@prisma/client')
+const bcrypt = require('bcryptjs')
+const crypto = require('crypto')
 
-const prisma = new PrismaClient();
-const DATA = path.join(__dirname, '..', '..', 'data');
-const PAGES_DIR = path.join(__dirname, '..', '..', '.firecrawl', 'pages');
+const prisma = new PrismaClient()
+const cuid = () => crypto.randomUUID()
+const slug = (s) => s.toLowerCase().replace(/[^a-z0-9а-яё]+/gi, '-').replace(/^-|-$/g, '').slice(0, 80)
 
 async function main() {
-  console.log('Starting seed...\n');
+  console.log('=== Croon Seed ===\n')
 
-  // 1. Seed categories
-  console.log('Seeding categories...');
-  const categories = JSON.parse(fs.readFileSync(path.join(DATA, 'categories.json'), 'utf-8'));
+  // 1. Admin
+  console.log('1. Admin...')
+  const hash = await bcrypt.hash('admin123', 10)
+  await prisma.user.upsert({
+    where: { email: 'admin@croon.kz' },
+    update: { role: 'ADMIN', passwordHash: hash },
+    create: { email: 'admin@croon.kz', passwordHash: hash, name: 'Администратор', role: 'ADMIN' },
+  })
+  console.log('   admin@croon.kz / admin123')
 
-  // First pass: create all categories without parent references
-  for (const cat of categories) {
-    if (!cat.slug) continue;
-    await prisma.category.upsert({
-      where: { id: cat.id },
-      update: {
-        name: cat.name,
-        slug: cat.slug,
-        imageUrl: cat.imageUrl || null,
-        description: cat.description || null,
-        isHidden: cat.isHidden || false,
-      },
-      create: {
-        id: cat.id,
-        name: cat.name,
-        slug: cat.slug,
-        imageUrl: cat.imageUrl || null,
-        description: cat.description || null,
-        isHidden: cat.isHidden || false,
-      },
-    });
+  // 2. Root category
+  console.log('2. Categories...')
+  let root = await prisma.category.findUnique({ where: { slug: 'catalog' } })
+  if (!root) {
+    root = await prisma.category.create({ data: { id: cuid(), name: 'Каталог', slug: 'catalog', isHidden: true } })
   }
 
-  // Second pass: set parent relationships
-  for (const cat of categories) {
-    if (!cat.slug || !cat.parentId) continue;
-    // Check if parent exists
-    const parent = await prisma.category.findUnique({ where: { id: cat.parentId } });
-    if (parent) {
-      await prisma.category.update({
-        where: { id: cat.id },
-        data: { parentId: cat.parentId },
-      });
-    }
+  const cats = [
+    { name: 'Arduino', slug: 'arduino' },
+    { name: 'ESP32 / ESP8266', slug: 'esp32-esp8266' },
+    { name: 'Raspberry Pi', slug: 'raspberry-pi' },
+    { name: 'Датчики', slug: 'datchiki' },
+    { name: 'Модули', slug: 'moduli' },
+    { name: 'Компоненты', slug: 'komponenty' },
+    { name: 'Инструмент', slug: 'instrument' },
+    { name: 'Кабели и разъёмы', slug: 'kabeli-i-razemy' },
+  ]
+
+  const catMap = {}
+  for (const c of cats) {
+    const row = await prisma.category.upsert({
+      where: { slug: c.slug },
+      update: { name: c.name, parentId: root.id },
+      create: { id: cuid(), name: c.name, slug: c.slug, parentId: root.id },
+    })
+    catMap[c.slug] = row.id
+  }
+  console.log(`   ${cats.length} categories`)
+
+  // 3. Products (createMany)
+  console.log('3. Products...')
+  const existing = await prisma.product.count()
+  if (existing > 0) {
+    console.log(`   ${existing} already exist, skipping`)
+  } else {
+    const products = [
+      { name: 'Arduino UNO R3', cat: 'arduino', price: 4500, oldPrice: 5500, stock: 25, cost: 2800, sku: 'A001' },
+      { name: 'Arduino NANO V3', cat: 'arduino', price: 2800, stock: 40, cost: 1500, sku: 'A002' },
+      { name: 'Arduino MEGA 2560', cat: 'arduino', price: 8500, stock: 10, cost: 5500, sku: 'A003' },
+      { name: 'ESP32 DevKit V1', cat: 'esp32-esp8266', price: 3200, oldPrice: 4000, stock: 30, cost: 1800, sku: 'E001' },
+      { name: 'ESP8266 NodeMCU V3', cat: 'esp32-esp8266', price: 2200, stock: 50, cost: 1100, sku: 'E002' },
+      { name: 'ESP32-CAM', cat: 'esp32-esp8266', price: 4800, stock: 15, cost: 2500, sku: 'E003' },
+      { name: 'Raspberry Pi 5 (4GB)', cat: 'raspberry-pi', price: 38000, stock: 8, cost: 28000, sku: 'R001' },
+      { name: 'Raspberry Pi Pico W', cat: 'raspberry-pi', price: 3500, stock: 20, cost: 1800, sku: 'R002' },
+      { name: 'DHT22 датчик температуры', cat: 'datchiki', price: 1200, stock: 100, cost: 400, sku: 'D001' },
+      { name: 'HC-SR04 ультразвуковой дальномер', cat: 'datchiki', price: 800, stock: 60, cost: 250, sku: 'D002' },
+      { name: 'MQ-2 датчик газа', cat: 'datchiki', price: 900, stock: 45, cost: 300, sku: 'D003' },
+      { name: 'BMP280 датчик давления', cat: 'datchiki', price: 1500, stock: 35, cost: 600, sku: 'D004' },
+      { name: 'Модуль реле 1 канал 5В', cat: 'moduli', price: 600, stock: 80, cost: 180, sku: 'M001' },
+      { name: 'Драйвер мотора L298N', cat: 'moduli', price: 1800, stock: 25, cost: 700, sku: 'M002' },
+      { name: 'Модуль RTC DS3231', cat: 'moduli', price: 1400, stock: 30, cost: 500, sku: 'M003' },
+      { name: 'Набор резисторов 1/4W (600шт)', cat: 'komponenty', price: 2500, stock: 15, cost: 800, sku: 'K001' },
+      { name: 'Набор конденсаторов (300шт)', cat: 'komponenty', price: 2000, stock: 12, cost: 600, sku: 'K002' },
+      { name: 'Светодиоды 5мм (100шт)', cat: 'komponenty', price: 800, stock: 50, cost: 200, sku: 'K003' },
+      { name: 'Паяльник 60W с регулировкой', cat: 'instrument', price: 8500, stock: 12, cost: 4500, sku: 'I001' },
+      { name: 'Мультиметр DT830B', cat: 'instrument', price: 3200, stock: 18, cost: 1500, sku: 'I002' },
+      { name: 'USB кабель Type-C 1м', cat: 'kabeli-i-razemy', price: 500, stock: 200, cost: 150, sku: 'C001' },
+      { name: 'Джамперы M-M 20см (40шт)', cat: 'kabeli-i-razemy', price: 600, stock: 100, cost: 180, sku: 'C002' },
+      { name: 'Макетная плата 830 точек', cat: 'kabeli-i-razemy', price: 1200, stock: 40, cost: 400, sku: 'C003' },
+    ]
+
+    const rows = products.map(p => ({
+      id: cuid(), name: p.name, slug: slug(p.name), price: p.price,
+      oldPrice: p.oldPrice || null, inStock: p.stock > 0, totalStock: p.stock,
+      costPrice: p.cost || null, sku: p.sku || null, categoryId: catMap[p.cat],
+    }))
+    await prisma.product.createMany({ data: rows })
+    console.log(`   ${rows.length} products`)
   }
 
-  const catCount = await prisma.category.count();
-  console.log(`  Categories: ${catCount}\n`);
-
-  // 2. Seed products
-  console.log('Seeding products...');
-  const products = JSON.parse(fs.readFileSync(path.join(DATA, 'products.json'), 'utf-8'));
-
-  // Load image URL map
-  let imageUrlMap = {};
-  const mapPath = path.join(DATA, 'image-url-map.json');
-  if (fs.existsSync(mapPath)) {
-    imageUrlMap = JSON.parse(fs.readFileSync(mapPath, 'utf-8'));
+  // 4. AppSettings
+  console.log('4. Settings...')
+  for (const [key, value] of Object.entries({
+    kaspi_feed_enabled: 'true', kaspi_site_blocks_enabled: 'true',
+    kaspi_dumping_enabled: 'false', kaspi_commission_mult: '1.41',
+  })) {
+    await prisma.appSetting.upsert({ where: { key }, update: { value }, create: { key, value } })
   }
+  console.log('   4 settings')
 
-  let productCount = 0;
-  let skipped = 0;
-
-  for (const product of products) {
-    if (!product.slug) {
-      skipped++;
-      continue;
-    }
-
-    // Check if category exists
-    let categoryId = null;
-    if (product.categoryId) {
-      const cat = await prisma.category.findUnique({ where: { id: product.categoryId } });
-      if (cat) categoryId = product.categoryId;
-    }
-
-    try {
-      await prisma.product.upsert({
-        where: { id: product.groupId },
-        update: {
-          name: product.name,
-          slug: product.slug,
-          description: product.description || null,
-          price: product.price || 0,
-          oldPrice: product.oldPrice || null,
-          inStock: product.inStock || false,
-          totalStock: product.totalStock || 0,
-          weight: product.weight || null,
-          categoryId,
-        },
-        create: {
-          id: product.groupId,
-          name: product.name,
-          slug: product.slug,
-          description: product.description || null,
-          price: product.price || 0,
-          oldPrice: product.oldPrice || null,
-          inStock: product.inStock || false,
-          totalStock: product.totalStock || 0,
-          weight: product.weight || null,
-          categoryId,
-        },
-      });
-
-      // Upsert images
-      await prisma.productImage.deleteMany({ where: { productId: product.groupId } });
-      for (let i = 0; i < product.pictures.length; i++) {
-        const originalUrl = product.pictures[i];
-        const localUrl = imageUrlMap[originalUrl] || originalUrl;
-        await prisma.productImage.create({
-          data: {
-            productId: product.groupId,
-            url: localUrl,
-            alt: product.name,
-            sortOrder: i,
-          },
-        });
-      }
-
-      // Upsert variants
-      await prisma.productVariant.deleteMany({ where: { productId: product.groupId } });
-      for (const variant of product.variants) {
-        await prisma.productVariant.create({
-          data: {
-            id: variant.variantId,
-            productId: product.groupId,
-            price: variant.price || 0,
-            oldPrice: variant.oldPrice || null,
-            sku: variant.sku || null,
-            stock: variant.stock || 0,
-            available: variant.available || false,
-          },
-        });
-      }
-
-      productCount++;
-      if (productCount % 100 === 0) {
-        console.log(`  Progress: ${productCount}/${products.length}`);
-      }
-    } catch (err) {
-      console.error(`  Error with product ${product.slug}: ${err.message}`);
-      skipped++;
-    }
-  }
-
-  console.log(`  Products: ${productCount} (skipped: ${skipped})\n`);
-
-  // 3. Seed pages from Firecrawl
-  console.log('Seeding pages...');
-  const pageFiles = [
-    { slug: 'contacts', title: 'Контакты' },
-    { slug: 'payment', title: 'Оплата' },
-    { slug: 'payment-2', title: 'Условия оплаты' },
-    { slug: 'delivery', title: 'Доставка' },
-    { slug: 'about-us', title: 'О компании' },
-    { slug: 'oferta', title: 'Политика безопасности' },
-    { slug: 'feedback', title: 'Обратная связь' },
-    { slug: 'alashed', title: 'AlashEd — Товары для Гос.закупа' },
-  ];
-
-  for (const page of pageFiles) {
-    const filePath = path.join(PAGES_DIR, `${page.slug}.md`);
-    let content = '';
-    if (fs.existsSync(filePath)) {
-      content = fs.readFileSync(filePath, 'utf-8');
-    }
-    await prisma.page.upsert({
-      where: { slug: page.slug },
-      update: { title: page.title, content },
-      create: { title: page.title, slug: page.slug, content },
-    });
-  }
-  console.log(`  Pages: ${pageFiles.length}\n`);
-
-  // 4. Seed blog posts
-  console.log('Seeding blog posts...');
-  const blogFiles = [
-    { slug: '4wdsmartcarkitv2', blog: 'kits', title: '4WD Smart Car kit v2' },
-    { slug: 'advanced-kit', blog: 'kits', title: 'Electronics Adventure Kit' },
-    { slug: 'iotgreenhouse', blog: 'kits', title: 'IoT GreenHouse' },
-  ];
-
-  for (const post of blogFiles) {
-    const filePath = path.join(PAGES_DIR, `${post.slug}.md`);
-    let content = '';
-    if (fs.existsSync(filePath)) {
-      content = fs.readFileSync(filePath, 'utf-8');
-    }
-    await prisma.blogPost.upsert({
-      where: { slug: post.slug },
-      update: { title: post.title, blogSlug: post.blog, content },
-      create: { title: post.title, slug: post.slug, blogSlug: post.blog, content },
-    });
-  }
-  console.log(`  Blog posts: ${blogFiles.length}\n`);
-
-  console.log('=== Seed complete! ===');
+  console.log('\n=== Done! ===')
+  console.log('Login: admin@croon.kz / admin123')
 }
 
-main()
-  .catch(console.error)
-  .finally(() => prisma.$disconnect());
+main().catch(e => { console.error(e); process.exit(1) }).finally(() => prisma.$disconnect())
