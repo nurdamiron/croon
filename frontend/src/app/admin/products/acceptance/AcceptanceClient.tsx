@@ -26,6 +26,11 @@ interface BatchItem {
   imageUrl: string | null
 }
 
+interface Supplier {
+  id: string
+  name: string
+}
+
 const fmt = (n: number) => Math.round(n).toLocaleString('ru-RU')
 
 export default function AcceptanceClient() {
@@ -42,10 +47,33 @@ export default function AcceptanceClient() {
   const [batch, setBatch] = useState<BatchItem[]>([])
   const [isSubmitting, setIsSubmitting] = useState(false)
 
+  // Batch metadata
+  const [batchName, setBatchName] = useState('')
+  const [supplierId, setSupplierId] = useState('')
+  const [notes, setNotes] = useState('')
+
+  // Suppliers
+  const [suppliers, setSuppliers] = useState<Supplier[]>([])
+
+  // CSV
+  const [csvPreview, setCsvPreview] = useState<any[] | null>(null)
+  const [csvNotFound, setCsvNotFound] = useState<string[]>([])
+  const [csvLoading, setCsvLoading] = useState(false)
+  const [showCsv, setShowCsv] = useState(false)
+  const fileInputRef = useRef<HTMLInputElement>(null)
+
   const toast = useToast()
   const searchTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
   const searchInputRef = useRef<HTMLInputElement>(null)
   const qtyInputRef = useRef<HTMLInputElement>(null)
+
+  // Load suppliers
+  useEffect(() => {
+    fetch('/api/admin/suppliers')
+      .then((r) => r.json())
+      .then((d) => setSuppliers(d.suppliers || []))
+      .catch(() => {})
+  }, [])
 
   // Search logic
   const doSearch = useCallback(async (q: string) => {
@@ -175,7 +203,6 @@ export default function AcceptanceClient() {
 
   const removeItem = (id: string) => {
     setBatch(batch.filter((item) => item.id !== id))
-    toast.success('Товар удален из списка')
   }
 
   const updateBatchQty = (id: string, val: string) => {
@@ -188,6 +215,63 @@ export default function AcceptanceClient() {
     const cost = val === '' ? null : Number(val)
     if (cost !== null && (isNaN(cost) || cost < 0)) return
     setBatch(batch.map((item) => (item.id === id ? { ...item, costPrice: cost } : item)))
+  }
+
+  // CSV upload
+  const handleCsvUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+    setCsvLoading(true)
+    setShowCsv(true)
+    try {
+      const formData = new FormData()
+      formData.append('file', file)
+
+      const res = await fetch('/api/admin/products/acceptance/csv', {
+        method: 'POST',
+        body: formData,
+      })
+      const data = await res.json()
+      if (!res.ok) throw new Error(data.error)
+
+      setCsvPreview(data.matched || [])
+      setCsvNotFound(data.notFound || [])
+      toast.success(`Найдено ${data.totalMatched} из ${data.totalRows} строк`)
+    } catch (err: any) {
+      toast.error(err.message || 'Ошибка парсинга CSV')
+      setCsvPreview(null)
+    } finally {
+      setCsvLoading(false)
+      if (fileInputRef.current) fileInputRef.current.value = ''
+    }
+  }
+
+  const applyCsvToBatch = () => {
+    if (!csvPreview?.length) return
+    const newBatch = [...batch]
+    for (const item of csvPreview) {
+      const existing = newBatch.findIndex((b) => b.id === item.id)
+      if (existing >= 0) {
+        newBatch[existing].quantity += item.quantity
+        if (item.costPrice) newBatch[existing].costPrice = item.costPrice
+      } else {
+        newBatch.push({
+          id: item.id,
+          name: item.name,
+          sku: item.sku,
+          currentStock: item.currentStock,
+          currentCost: item.currentCost,
+          quantity: item.quantity,
+          costPrice: item.costPrice,
+          imageUrl: item.imageUrl,
+        })
+      }
+    }
+    setBatch(newBatch)
+    setCsvPreview(null)
+    setCsvNotFound([])
+    setShowCsv(false)
+    toast.success(`Добавлено ${csvPreview.length} позиций в партию`)
   }
 
   const handleSubmit = async () => {
@@ -206,6 +290,9 @@ export default function AcceptanceClient() {
             quantity: item.quantity,
             costPrice: item.costPrice,
           })),
+          batchName: batchName || undefined,
+          supplierId: supplierId || undefined,
+          notes: notes || undefined,
         }),
       })
 
@@ -213,6 +300,8 @@ export default function AcceptanceClient() {
       if (res.ok && data.success) {
         loader.resolve('Приемка успешно проведена!')
         setBatch([])
+        setBatchName('')
+        setNotes('')
       } else {
         loader.reject(data.error || 'Произошла ошибка при сохранении')
       }
@@ -239,24 +328,131 @@ export default function AcceptanceClient() {
             Поступление товаров на склад, увеличение остатков и обновление себестоимости во всех каналах синхронно.
           </p>
         </div>
-        <Link
-          href="/admin/products/acceptance/history"
-          className="bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2 rounded-xl text-xs font-bold transition-colors flex items-center gap-2"
-        >
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-            <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
-          </svg>
-          История приёмок
-        </Link>
+        <div className="flex gap-2">
+          <Link
+            href="/admin/suppliers"
+            className="bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2 rounded-xl text-xs font-bold transition-colors flex items-center gap-2"
+          >
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+            </svg>
+            Поставщики
+          </Link>
+          <Link
+            href="/admin/products/acceptance/history"
+            className="bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2 rounded-xl text-xs font-bold transition-colors flex items-center gap-2"
+          >
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+            </svg>
+            История приёмок
+          </Link>
+        </div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* ── LEFT PANEL: SEARCH & ADD ── */}
         <div className="lg:col-span-1 space-y-6">
+          {/* Batch metadata */}
+          <div className="bg-white rounded-2xl border border-gray-200 p-5 space-y-4">
+            <h2 className="text-sm font-semibold text-gray-900 uppercase tracking-wider">Данные партии</h2>
+            <div>
+              <label className="block text-[11px] font-semibold text-gray-500 uppercase tracking-wider mb-1.5">Номер / название</label>
+              <input
+                type="text"
+                className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 text-[13px] focus:outline-none focus:bg-white focus:border-admin focus:ring-4 focus:ring-admin/10 transition-all"
+                placeholder="Напр: Поставка от 22.06"
+                value={batchName}
+                onChange={(e) => setBatchName(e.target.value)}
+              />
+            </div>
+            <div>
+              <label className="block text-[11px] font-semibold text-gray-500 uppercase tracking-wider mb-1.5">Поставщик</label>
+              <select
+                className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 text-[13px] focus:outline-none focus:bg-white focus:border-admin focus:ring-4 focus:ring-admin/10 transition-all"
+                value={supplierId}
+                onChange={(e) => setSupplierId(e.target.value)}
+              >
+                <option value="">— Не указан —</option>
+                {suppliers.map((s) => (
+                  <option key={s.id} value={s.id}>{s.name}</option>
+                ))}
+              </select>
+            </div>
+            <div>
+              <label className="block text-[11px] font-semibold text-gray-500 uppercase tracking-wider mb-1.5">Заметки</label>
+              <input
+                type="text"
+                className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 text-[13px] focus:outline-none focus:bg-white focus:border-admin focus:ring-4 focus:ring-admin/10 transition-all"
+                placeholder="Доп. информация"
+                value={notes}
+                onChange={(e) => setNotes(e.target.value)}
+              />
+            </div>
+          </div>
+
+          {/* CSV Upload */}
+          <div className="bg-white rounded-2xl border border-gray-200 p-5">
+            <h2 className="text-sm font-semibold text-gray-900 uppercase tracking-wider mb-4">Импорт из CSV</h2>
+            <p className="text-[11px] text-gray-400 mb-3">Формат: <code className="bg-gray-100 px-1 rounded">sku,quantity,costPrice</code></p>
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept=".csv,.txt"
+              className="hidden"
+              onChange={handleCsvUpload}
+            />
+            <button
+              onClick={() => fileInputRef.current?.click()}
+              disabled={csvLoading}
+              className="w-full bg-gray-50 hover:bg-gray-100 border border-dashed border-gray-300 rounded-xl py-3 text-xs font-bold text-gray-600 transition-colors"
+            >
+              {csvLoading ? 'Загрузка...' : '📁 Загрузить CSV файл'}
+            </button>
+
+            {/* CSV Preview */}
+            {csvPreview && (
+              <div className="mt-4 space-y-3">
+                <div className="text-[11px] text-gray-500">
+                  Найдено: <b>{csvPreview.length}</b> товаров
+                  {csvNotFound.length > 0 && (
+                    <span className="text-red-500 ml-2">Не найдено: {csvNotFound.length} ({csvNotFound.slice(0, 5).join(', ')}{csvNotFound.length > 5 ? '...' : ''})</span>
+                  )}
+                </div>
+                <div className="max-h-48 overflow-y-auto space-y-1">
+                  {csvPreview.slice(0, 20).map((item, i) => (
+                    <div key={i} className="flex items-center justify-between text-[11px] bg-gray-50 rounded-lg px-3 py-1.5">
+                      <span className="text-gray-700 truncate max-w-[140px]">{item.name}</span>
+                      <span className="text-gray-400 font-mono">{item.sku}</span>
+                      <span className="font-bold text-gray-800">+{item.quantity} шт</span>
+                    </div>
+                  ))}
+                  {csvPreview.length > 20 && (
+                    <div className="text-[10px] text-gray-400 text-center">...и ещё {csvPreview.length - 20}</div>
+                  )}
+                </div>
+                <div className="flex gap-2">
+                  <button
+                    onClick={applyCsvToBatch}
+                    className="flex-1 bg-admin hover:bg-admin-hover text-white py-2 rounded-xl text-xs font-bold transition-colors"
+                  >
+                    Добавить в партию
+                  </button>
+                  <button
+                    onClick={() => { setCsvPreview(null); setCsvNotFound([]); setShowCsv(false) }}
+                    className="bg-gray-100 hover:bg-gray-200 text-gray-600 px-3 py-2 rounded-xl text-xs font-bold transition-colors"
+                  >
+                    Отмена
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Search Product */}
           <div className="bg-white rounded-2xl border border-gray-200 p-5 relative">
             <h2 className="text-sm font-semibold text-gray-900 uppercase tracking-wider mb-4">Найти товар</h2>
 
-            {/* Search Input */}
             <div className="relative">
               <div className="absolute inset-y-0 left-3 flex items-center pointer-events-none text-gray-400">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -277,7 +473,6 @@ export default function AcceptanceClient() {
                 <div className="absolute right-3 top-3 w-4 h-4 border-2 border-admin/35 border-t-admin rounded-full animate-spin" />
               )}
 
-              {/* Search Dropdown Results */}
               {searchResults.length > 0 && (
                 <div className="absolute left-0 right-0 mt-1.5 bg-white border border-gray-200 rounded-xl shadow-xl z-30 max-h-72 overflow-y-auto divide-y divide-gray-100">
                   {searchResults.map((p) => (
@@ -287,15 +482,9 @@ export default function AcceptanceClient() {
                       onClick={() => selectProduct(p)}
                     >
                       {p.images?.[0]?.url ? (
-                        <img
-                          src={p.images[0].url}
-                          alt=""
-                          className="w-8 h-8 rounded-lg object-cover bg-gray-50 border border-gray-100 shrink-0"
-                        />
+                        <img src={p.images[0].url} alt="" className="w-8 h-8 rounded-lg object-cover bg-gray-50 border border-gray-100 shrink-0" />
                       ) : (
-                        <div className="w-8 h-8 rounded-lg bg-gray-100 flex items-center justify-center text-gray-400 text-[10px] font-bold shrink-0">
-                          N/A
-                        </div>
+                        <div className="w-8 h-8 rounded-lg bg-gray-100 flex items-center justify-center text-gray-400 text-[10px] font-bold shrink-0">N/A</div>
                       )}
                       <div className="flex-1 min-w-0">
                         <p className="text-[12px] font-medium text-gray-800 truncate">{p.name}</p>
@@ -309,20 +498,13 @@ export default function AcceptanceClient() {
               )}
             </div>
 
-            {/* Selected Product Form */}
             {selectedProduct ? (
               <div className="mt-5 pt-5 border-t border-gray-100 space-y-4 animate-in fade-in duration-150">
                 <div className="flex items-start gap-3 bg-gray-50 rounded-xl p-3 border border-gray-100">
                   {selectedProduct.images?.[0]?.url ? (
-                    <img
-                      src={selectedProduct.images[0].url}
-                      alt=""
-                      className="w-12 h-12 rounded-lg object-cover bg-white border border-gray-100 shrink-0"
-                    />
+                    <img src={selectedProduct.images[0].url} alt="" className="w-12 h-12 rounded-lg object-cover bg-white border border-gray-100 shrink-0" />
                   ) : (
-                    <div className="w-12 h-12 rounded-lg bg-gray-100 flex items-center justify-center text-gray-400 text-xs font-bold shrink-0">
-                      N/A
-                    </div>
+                    <div className="w-12 h-12 rounded-lg bg-gray-100 flex items-center justify-center text-gray-400 text-xs font-bold shrink-0">N/A</div>
                   )}
                   <div className="flex-1 min-w-0">
                     <p className="text-[13px] font-semibold text-gray-800 leading-snug">{selectedProduct.name}</p>
@@ -344,12 +526,9 @@ export default function AcceptanceClient() {
                   </div>
                 </div>
 
-                {/* Inputs */}
                 <div className="space-y-3">
                   <div>
-                    <label className="block text-[11px] font-semibold text-gray-500 uppercase tracking-wider mb-1.5">
-                      Количество к поступлению
-                    </label>
+                    <label className="block text-[11px] font-semibold text-gray-500 uppercase tracking-wider mb-1.5">Количество к поступлению</label>
                     <input
                       ref={qtyInputRef}
                       type="number"
@@ -361,11 +540,8 @@ export default function AcceptanceClient() {
                       onKeyDown={handleFormKeyDown}
                     />
                   </div>
-
                   <div>
-                    <label className="block text-[11px] font-semibold text-gray-500 uppercase tracking-wider mb-1.5">
-                      Новая себестоимость (тг, опционально)
-                    </label>
+                    <label className="block text-[11px] font-semibold text-gray-500 uppercase tracking-wider mb-1.5">Новая себестоимость (тг, опционально)</label>
                     <input
                       type="number"
                       min="0"
@@ -395,7 +571,7 @@ export default function AcceptanceClient() {
               </div>
             ) : (
               <div className="mt-8 text-center py-6 border border-dashed border-gray-200 rounded-xl">
-                <p className="text-xs text-gray-400">Найдите товар выше для ввода количества приемки</p>
+                <p className="text-xs text-gray-400">Найдите товар выше или загрузите CSV</p>
               </div>
             )}
           </div>
@@ -425,9 +601,7 @@ export default function AcceptanceClient() {
               <h2 className="text-sm font-semibold text-gray-900 uppercase tracking-wider">Товары в текущей приемке</h2>
               {batch.length > 0 && (
                 <button
-                  onClick={() => {
-                    if (confirm('Очистить список?')) setBatch([])
-                  }}
+                  onClick={() => { if (confirm('Очистить список?')) setBatch([]) }}
                   className="text-[11px] font-bold text-red-500 hover:text-red-600 transition-colors"
                 >
                   Очистить список
@@ -437,22 +611,12 @@ export default function AcceptanceClient() {
 
             {batch.length === 0 ? (
               <div className="flex-1 flex flex-col items-center justify-center p-8 text-center">
-                <svg
-                  className="w-12 h-12 text-gray-300 mb-3"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  strokeWidth="1.5"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10"
-                  />
+                <svg className="w-12 h-12 text-gray-300 mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10" />
                 </svg>
                 <p className="text-[13px] font-medium text-gray-500">Список приемки пуст</p>
                 <p className="text-[11px] text-gray-400 mt-1 max-w-[280px]">
-                  Найдите и добавьте товары с левой панели, чтобы сформировать партию для оприходования.
+                  Найдите товары вручную или загрузите CSV-файл для массовой приёмки.
                 </p>
               </div>
             ) : (
@@ -476,20 +640,12 @@ export default function AcceptanceClient() {
                           <td className="py-3 px-4">
                             <div className="flex items-center gap-3">
                               {item.imageUrl ? (
-                                <img
-                                  src={item.imageUrl}
-                                  alt=""
-                                  className="w-10 h-10 rounded-lg object-cover bg-gray-50 border border-gray-100 shrink-0"
-                                />
+                                <img src={item.imageUrl} alt="" className="w-10 h-10 rounded-lg object-cover bg-gray-50 border border-gray-100 shrink-0" />
                               ) : (
-                                <div className="w-10 h-10 rounded-lg bg-gray-100 flex items-center justify-center text-gray-400 text-[9px] font-bold shrink-0">
-                                  N/A
-                                </div>
+                                <div className="w-10 h-10 rounded-lg bg-gray-100 flex items-center justify-center text-gray-400 text-[9px] font-bold shrink-0">N/A</div>
                               )}
                               <div className="min-w-0">
-                                <p className="font-semibold text-gray-800 truncate max-w-[180px] md:max-w-[240px]">
-                                  {item.name}
-                                </p>
+                                <p className="font-semibold text-gray-800 truncate max-w-[180px] md:max-w-[240px]">{item.name}</p>
                                 <p className="text-[10px] text-gray-400 mt-0.5">SKU: {item.sku || item.id}</p>
                               </div>
                             </div>
@@ -504,9 +660,7 @@ export default function AcceptanceClient() {
                               onChange={(e) => updateBatchQty(item.id, e.target.value)}
                             />
                           </td>
-                          <td className="py-3 px-4 text-center font-bold text-green-600">
-                            {item.currentStock + item.quantity} шт.
-                          </td>
+                          <td className="py-3 px-4 text-center font-bold text-green-600">{item.currentStock + item.quantity} шт.</td>
                           <td className="py-3 px-4">
                             <input
                               type="number"
@@ -517,19 +671,10 @@ export default function AcceptanceClient() {
                               placeholder={item.currentCost ? String(item.currentCost) : '0'}
                             />
                           </td>
-                          <td className="py-3 px-4 text-right font-semibold text-gray-700">
-                            {fmt(item.quantity * (item.costPrice || 0))}
-                          </td>
+                          <td className="py-3 px-4 text-right font-semibold text-gray-700">{fmt(item.quantity * (item.costPrice || 0))}</td>
                           <td className="py-3 px-4 text-center">
-                            <button
-                              onClick={() => removeItem(item.id)}
-                              className="text-gray-400 hover:text-red-500 transition-colors p-1 rounded-lg hover:bg-red-50"
-                              title="Удалить из списка"
-                            >
-                              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                <line x1="18" y1="6" x2="6" y2="18" />
-                                <line x1="6" y1="6" x2="18" y2="18" />
-                              </svg>
+                            <button onClick={() => removeItem(item.id)} className="text-gray-400 hover:text-red-500 transition-colors p-1 rounded-lg hover:bg-red-50" title="Удалить">
+                              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></svg>
                             </button>
                           </td>
                         </tr>
@@ -540,16 +685,15 @@ export default function AcceptanceClient() {
 
                 <div className="p-5 bg-gray-50 border-t border-gray-100 flex items-center justify-between">
                   <div className="text-[12px] text-gray-500">
-                    Нажимая кнопку, вы подтверждаете поступление товаров. Данные обновятся во всех каналах продаж.
+                    {batchName && <span className="font-semibold text-gray-700">«{batchName}»</span>}
+                    {supplierId && <span className="ml-2 text-gray-400">· Поставщик: {suppliers.find((s) => s.id === supplierId)?.name}</span>}
                   </div>
                   <button
                     onClick={handleSubmit}
                     disabled={isSubmitting}
                     className="bg-admin hover:bg-admin-hover disabled:bg-admin/50 text-white px-6 py-3 rounded-xl text-xs font-bold transition-all shadow-md shadow-admin/15 flex items-center gap-2"
                   >
-                    {isSubmitting && (
-                      <div className="w-3 h-3 border-2 border-white/40 border-t-white rounded-full animate-spin" />
-                    )}
+                    {isSubmitting && <div className="w-3 h-3 border-2 border-white/40 border-t-white rounded-full animate-spin" />}
                     Провести приемку
                   </button>
                 </div>

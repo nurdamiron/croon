@@ -252,19 +252,54 @@ model ProductImage {
   @@index([productId])
 }
 
+model Supplier {
+  id          String   @id @default(cuid())
+  name        String
+  contactInfo String?
+  notes       String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  receipts StockReceipt[]
+
+  @@index([name])
+}
+
+model StockReceipt {
+  id           String    @id @default(cuid())
+  batchNumber  String?   @unique
+  name         String?
+  supplierId   String?
+  supplier     Supplier? @relation(fields: [supplierId], references: [id], onDelete: SetNull)
+  notes        String?
+  totalItems   Int       @default(0)
+  totalQty     Int       @default(0)
+  totalCost    Float     @default(0)
+  createdAt    DateTime  @default(now())
+  createdBy    String?
+
+  changeLogs ProductChangeLog[]
+
+  @@index([supplierId])
+  @@index([createdAt])
+}
+
 model ProductChangeLog {
-  id        String   @id @default(cuid())
-  productId String
-  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
-  field     String   // "price", "oldPrice", "stock", "totalStock"
-  oldValue  Float
-  newValue  Float
-  source    String   @default("admin")
-  detail    String?
-  createdAt DateTime @default(now())
+  id              String        @id @default(cuid())
+  productId       String
+  product         Product       @relation(fields: [productId], references: [id], onDelete: Cascade)
+  field           String        // "price", "oldPrice", "stock", "totalStock"
+  oldValue        Float
+  newValue        Float
+  source          String        @default("admin")
+  detail          String?
+  stockReceiptId  String?
+  stockReceipt    StockReceipt? @relation(fields: [stockReceiptId], references: [id], onDelete: SetNull)
+  createdAt       DateTime      @default(now())
 
   @@index([productId])
   @@index([createdAt])
+  @@index([stockReceiptId])
 }
 
 model Order {

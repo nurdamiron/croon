@@ -12,43 +12,60 @@ export default async function AcceptanceHistoryPage({
   await requireAdmin()
 
   const page = Math.max(1, parseInt(searchParams.page || '1', 10) || 1)
-  const PAGE_SIZE = 50
+  const PAGE_SIZE = 20
 
-  const [logs, total] = await Promise.all([
-    prisma.productChangeLog.findMany({
-      where: { source: 'acceptance' },
+  const [receipts, total] = await Promise.all([
+    prisma.stockReceipt.findMany({
       orderBy: { createdAt: 'desc' },
       skip: (page - 1) * PAGE_SIZE,
       take: PAGE_SIZE,
       include: {
-        product: {
+        supplier: { select: { id: true, name: true } },
+        changeLogs: {
+          where: { field: 'totalStock' },
           select: {
             id: true,
-            name: true,
-            slug: true,
-            sku: true,
-            images: { select: { url: true }, orderBy: { sortOrder: 'asc' }, take: 1 },
+            productId: true,
+            field: true,
+            oldValue: true,
+            newValue: true,
+            detail: true,
+            product: {
+              select: {
+                name: true,
+                sku: true,
+                images: { select: { url: true }, take: 1 },
+              },
+            },
           },
         },
       },
     }),
-    prisma.productChangeLog.count({ where: { source: 'acceptance' } }),
+    prisma.stockReceipt.count(),
   ])
 
   const totalPages = Math.max(1, Math.ceil(total / PAGE_SIZE))
 
-  const rows = logs.map((log) => ({
-    id: log.id,
-    productId: log.productId,
-    productName: log.product.name,
-    productSlug: log.product.slug,
-    productSku: log.product.sku,
-    imageUrl: log.product.images[0]?.url || null,
-    field: log.field,
-    oldValue: log.oldValue,
-    newValue: log.newValue,
-    detail: log.detail,
-    createdAt: log.createdAt.toISOString(),
+  const rows = receipts.map((r) => ({
+    id: r.id,
+    batchNumber: r.batchNumber,
+    name: r.name,
+    supplierName: r.supplier?.name || null,
+    notes: r.notes,
+    totalItems: r.totalItems,
+    totalQty: r.totalQty,
+    totalCost: r.totalCost,
+    createdAt: r.createdAt.toISOString(),
+    items: r.changeLogs.map((log) => ({
+      id: log.id,
+      productId: log.productId,
+      productName: log.product.name,
+      productSku: log.product.sku,
+      imageUrl: log.product.images[0]?.url || null,
+      oldValue: log.oldValue,
+      newValue: log.newValue,
+      detail: log.detail,
+    })),
   }))
 
   return (
@@ -57,7 +74,7 @@ export default async function AcceptanceHistoryPage({
         <div>
           <h1 className="text-[26px] font-bold text-gray-900 leading-tight">История приёмок</h1>
           <p className="text-[13px] text-gray-500 mt-1">
-            Все операции поступления товаров на склад. Всего записей: {total}
+            Все операции поступления товаров на склад. Всего партий: {total}
           </p>
         </div>
         <a
