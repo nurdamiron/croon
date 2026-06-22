@@ -239,6 +239,15 @@ export default function AcceptanceClient() {
             Поступление товаров на склад, увеличение остатков и обновление себестоимости во всех каналах синхронно.
           </p>
         </div>
+        <Link
+          href="/admin/products/acceptance/history"
+          className="bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2 rounded-xl text-xs font-bold transition-colors flex items-center gap-2"
+        >
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+          </svg>
+          История приёмок
+        </Link>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
