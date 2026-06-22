@@ -8,12 +8,12 @@ const config: Config = {
     extend: {
       colors: {
         brand: {
-          DEFAULT: '#006EBE',
-          hover: '#0055a0',
+          DEFAULT: '#10b981',
+          hover: '#059669',
         },
         admin: {
-          DEFAULT: '#5c6ac4',
-          hover: '#4c5ab4',
+          DEFAULT: '#10b981',
+          hover: '#059669',
         },
       },
       fontFamily: {

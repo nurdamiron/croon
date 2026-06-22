@@ -1,31 +1,57 @@
+'use client'
+
 import Link from 'next/link'
-import Image from 'next/image'
+import { useEffect, useState } from 'react'
+
+const jokes = [
+  'Эта страница сгорела как резистор при КЗ.',
+  '404 — как ESP без Wi-Fi: есть, но не работает.',
+  'Страница ушла в обрыв. Проверьте пайку.',
+  'Тут был контент, но его спаяли.',
+  'Ошибка 404: страница не найдена в схеме.',
+  'Этот URL — как диод без тока. Ничего не пропускает.',
+  'Страница потеряла контакт. Как кнопка без нажатия.',
+  'Порвался провод между вами и этой страницей.',
+]
 
 export default function NotFound() {
-  return (
-    <div className="relative flex flex-col items-center justify-center min-h-[calc(100vh-200px)]">
-      <Image
-        src="/images/sheldon-404.png"
-        alt="Sheldon Cooper — 404"
-        width={1980}
-        height={938}
-        className="w-[90%] h-auto"
-        priority
-      />
+  const [joke, setJoke] = useState(jokes[0])
 
-      <div className="flex flex-wrap justify-center gap-3 mt-6">
+  useEffect(() => {
+    setJoke(jokes[Math.floor(Math.random() * jokes.length)])
+  }, [])
+
+  return (
+    <div className="flex flex-col items-center justify-center min-h-[calc(100vh-200px)] px-4 text-center">
+      <div className="text-[120px] font-black text-gray-200 leading-none select-none">
+        404
+      </div>
+
+      <h1 className="text-xl font-bold text-gray-800 -mt-6 mb-2">
+        Страница не найдена
+      </h1>
+
+      <p className="text-sm text-gray-500 max-w-md mb-1">
+        {joke}
+      </p>
+
+      <p className="text-xs text-gray-400 mb-8">
+        Возможно, она была перемещена или никогда не существовала.
+      </p>
+
+      <div className="flex gap-3">
         <Link
-          href="/"
-          className="inline-block bg-brand text-white px-6 py-3 rounded-lg hover:bg-brand-hover transition-colors font-medium shadow-lg"
+          href="/admin"
+          className="bg-admin hover:bg-admin-hover text-white px-5 py-2.5 rounded-xl text-sm font-bold transition-colors"
         >
-          Вернуться в реальность
+          На главную
         </Link>
-        <Link
-          href="/collection/all"
-          className="inline-block bg-white text-brand border-2 border-brand px-6 py-3 rounded-lg hover:bg-blue-50 transition-colors font-medium shadow-lg"
+        <button
+          onClick={() => window.history.back()}
+          className="bg-gray-100 hover:bg-gray-200 text-gray-700 px-5 py-2.5 rounded-xl text-sm font-bold transition-colors"
         >
-          Постучать к Пенни
-        </Link>
+          Назад
+        </button>
       </div>
     </div>
   )
