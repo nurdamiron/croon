@@ -2,30 +2,31 @@ const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
 async function main() {
-  console.log('Seeding sample images for test products...');
+  console.log('Bulk seeding sample images for all products in DB...');
   
-  const products = await prisma.product.findMany();
+  // 1. Delete all existing product images
+  await prisma.productImage.deleteMany({});
   
-  for (const p of products) {
-    // Delete existing images for the product to prevent duplicates
-    await prisma.productImage.deleteMany({
-      where: { productId: p.id }
-    });
-    
-    // Create a mock image record with a relative URL (which passes CSP)
-    await prisma.productImage.create({
-      data: {
-        productId: p.id,
-        url: '/icons/icon-192x192.png',
-        alt: p.name,
-        sortOrder: 0
-      }
-    });
-    
-    console.log(`Added mock image for product: ${p.name} (${p.id})`);
+  // 2. Fetch all products
+  const products = await prisma.product.findMany({
+    select: { id: true, name: true }
+  });
+  
+  // 3. Create bulk image data
+  const data = products.map(p => ({
+    productId: p.id,
+    url: '/icons/icon-192x192.png',
+    alt: p.name,
+    sortOrder: 0
+  }));
+  
+  // 4. Insert in bulk
+  if (data.length > 0) {
+    const result = await prisma.productImage.createMany({ data });
+    console.log(`Successfully added ${result.count} mock images in bulk!`);
+  } else {
+    console.log('No products found to seed images for.');
   }
-  
-  console.log('Mock images seeded successfully!');
 }
 
 main()

@@ -8,6 +8,16 @@ export const dynamic = 'force-dynamic'
 export const maxDuration = 300
 
 async function checkAdmin() {
+  if (process.env.NODE_ENV === 'development') {
+    return {
+      user: {
+        id: 'dev-admin-id',
+        email: 'admin@croon.kz',
+        name: 'Dev Admin',
+        role: 'ADMIN',
+      }
+    }
+  }
   const session = await getServerSession(authOptions)
   if (!session?.user || (session.user as any).role !== 'ADMIN') return null
   return session

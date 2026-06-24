@@ -10,49 +10,59 @@ export default async function AdminDashboard() {
   const monthStart = new Date(now.getFullYear(), now.getMonth(), 1)
 
   const [
-    newOrders, processingOrders, shippedOrders, recentOrders, lowStockProducts,
+    newOrders, processingOrders, shippedOrders, recentOrdersRaw, lowStockProducts,
     todayOrders, monthOrders, totalProducts, outOfStockCount,
   ] = await Promise.all([
-    prisma.order.findMany({ where: { status: 'NEW' }, select: { total: true } }),
-    prisma.order.findMany({ where: { status: 'PROCESSING' }, select: { total: true } }),
-    prisma.order.findMany({ where: { status: 'SHIPPED' }, select: { total: true } }),
-    prisma.order.findMany({
-      orderBy: { createdAt: 'desc' }, take: 8,
-      select: { id: true, orderNumber: true, status: true, total: true, name: true, phone: true, createdAt: true },
+    prisma.kaspiOrder.findMany({ where: { status: 'APPROVED_BY_BANK' }, select: { totalPrice: true } }),
+    prisma.kaspiOrder.findMany({ where: { status: 'ACCEPTED_BY_MERCHANT' }, select: { totalPrice: true } }),
+    prisma.kaspiOrder.findMany({ where: { state: { in: ['DELIVERY', 'KASPI_DELIVERY'] }, status: { notIn: ['COMPLETED', 'CANCELLED'] } }, select: { totalPrice: true } }),
+    prisma.kaspiOrder.findMany({
+      orderBy: { creationDate: 'desc' }, take: 8,
+      select: { id: true, code: true, status: true, totalPrice: true, customerName: true, customerPhone: true, creationDate: true },
     }),
     prisma.product.findMany({
       where: { totalStock: { gt: 0, lte: LOW_STOCK_THRESHOLD } },
       select: { id: true, name: true, totalStock: true, sku: true, images: { take: 1, select: { url: true } } },
       orderBy: { totalStock: 'asc' }, take: 8,
     }),
-    prisma.order.findMany({ where: { createdAt: { gte: todayStart }, status: { notIn: ['CANCELLED'] } }, select: { total: true } }),
-    prisma.order.findMany({ where: { createdAt: { gte: monthStart }, status: { notIn: ['CANCELLED'] } }, select: { total: true } }),
+    prisma.kaspiOrder.findMany({ where: { creationDate: { gte: todayStart }, status: { notIn: ['CANCELLED'] } }, select: { totalPrice: true } }),
+    prisma.kaspiOrder.findMany({ where: { creationDate: { gte: monthStart }, status: { notIn: ['CANCELLED'] } }, select: { totalPrice: true } }),
     prisma.product.count(),
     prisma.product.count({ where: { inStock: false } }),
   ])
 
-  const newTotal = newOrders.reduce((s, o) => s + o.total, 0)
-  const processingTotal = processingOrders.reduce((s, o) => s + o.total, 0)
-  const shippedTotal = shippedOrders.reduce((s, o) => s + o.total, 0)
-  const todayRevenue = todayOrders.reduce((s, o) => s + o.total, 0)
-  const monthRevenue = monthOrders.reduce((s, o) => s + o.total, 0)
+  const newTotal = newOrders.reduce((s, o) => s + o.totalPrice, 0)
+  const processingTotal = processingOrders.reduce((s, o) => s + o.totalPrice, 0)
+  const shippedTotal = shippedOrders.reduce((s, o) => s + o.totalPrice, 0)
+  const todayRevenue = todayOrders.reduce((s, o) => s + o.totalPrice, 0)
+  const monthRevenue = monthOrders.reduce((s, o) => s + o.totalPrice, 0)
+
+  const recentOrders = recentOrdersRaw.map(o => ({
+    id: o.id,
+    orderNumber: o.code,
+    status: o.status,
+    total: o.totalPrice,
+    name: o.customerName || 'Без имени',
+    phone: o.customerPhone,
+    createdAt: o.creationDate ? o.creationDate.toISOString() : new Date().toISOString()
+  }))
 
   const orderStatusCards = [
     {
       label: 'Новые', count: newOrders.length, total: newTotal,
-      href: '/admin/orders?status=NEW',
+      href: '/admin/kaspi-orders?status=OPLACHEN',
       dot: 'bg-red-500', dotLight: 'bg-red-50', textColor: 'text-red-600',
       icon: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>,
     },
     {
       label: 'В обработке', count: processingOrders.length, total: processingTotal,
-      href: '/admin/orders?status=PROCESSING',
+      href: '/admin/kaspi-orders?status=UPAKOVKA',
       dot: 'bg-orange-400', dotLight: 'bg-orange-50', textColor: 'text-orange-600',
       icon: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>,
     },
     {
       label: 'Отправлено', count: shippedOrders.length, total: shippedTotal,
-      href: '/admin/orders?status=SHIPPED',
+      href: '/admin/kaspi-orders?status=PEREDACHA',
       dot: 'bg-purple-500', dotLight: 'bg-purple-50', textColor: 'text-purple-600',
       icon: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg>,
     },
@@ -153,7 +163,7 @@ export default async function AdminDashboard() {
         <div className="xl:col-span-3">
           <div className="flex items-center justify-between mb-3">
             <h2 className="text-[15px] font-semibold text-gray-900">Последние заказы</h2>
-            <Link href="/admin/orders" className="text-[12px] text-admin hover:underline font-medium">Смотреть все →</Link>
+            <Link href="/admin/kaspi-orders" className="text-[12px] text-admin hover:underline font-medium">Смотреть все →</Link>
           </div>
           <div className="bg-white rounded-2xl border border-gray-200 overflow-hidden">
             <table className="w-full text-[13px]">
@@ -169,13 +179,13 @@ export default async function AdminDashboard() {
                 {recentOrders.map(order => (
                   <tr key={order.id} className="border-b border-gray-50 last:border-0 hover:bg-gray-50/60 transition-colors">
                     <td className="px-4 py-3">
-                      <Link href={`/admin/orders/${order.id}`} className="font-semibold text-admin hover:underline">#{order.orderNumber}</Link>
+                      <Link href={`/admin/kaspi-orders?q=${order.orderNumber}`} className="font-semibold text-admin hover:underline">#{order.orderNumber}</Link>
                       <div className="text-[11px] text-gray-400 mt-0.5">
                         {new Date(order.createdAt).toLocaleDateString('ru-RU', { day: '2-digit', month: 'short' })}
                       </div>
                     </td>
                     <td className="px-4 py-3 hidden sm:table-cell">
-                      <Link href={`/admin/clients?search=${encodeURIComponent(order.phone || order.name)}`} className="text-gray-800 hover:text-admin transition-colors truncate max-w-[140px] block">{order.name}</Link>
+                      <Link href={`/admin/kaspi-orders?q=${encodeURIComponent(order.phone || order.name)}`} className="text-gray-800 hover:text-admin transition-colors truncate max-w-[140px] block">{order.name}</Link>
                       {order.phone && <a href={`tel:${order.phone}`} className="text-[11px] text-gray-400 hover:text-admin transition-colors font-mono">{order.phone}</a>}
                     </td>
                     <td className="px-4 py-3 text-right font-semibold text-gray-900 whitespace-nowrap font-mono">
@@ -238,13 +248,11 @@ export default async function AdminDashboard() {
 
 function OrderStatusBadge({ status }: { status: string }) {
   const config: Record<string, { label: string; className: string }> = {
-    NEW:        { label: 'Новый',       className: 'bg-red-50 text-red-600 border-red-100' },
-    CONFIRMED:  { label: 'Подтверждён', className: 'bg-yellow-50 text-yellow-700 border-yellow-100' },
-    PROCESSING: { label: 'В обработке', className: 'bg-orange-50 text-orange-600 border-orange-100' },
-    SHIPPED:    { label: 'Отправлен',   className: 'bg-purple-50 text-purple-600 border-purple-100' },
-    DELIVERED:  { label: 'Доставлен',  className: 'bg-green-50 text-green-600 border-green-100' },
-    PICKED_UP:  { label: 'Самовывоз',  className: 'bg-teal-50 text-teal-600 border-teal-100' },
-    CANCELLED:  { label: 'Отменён',    className: 'bg-gray-100 text-gray-500 border-gray-200' },
+    APPROVED_BY_BANK:      { label: 'Одобрен банком',className: 'bg-red-50 text-red-600 border-red-100' },
+    ACCEPTED_BY_MERCHANT:  { label: 'Принят',        className: 'bg-orange-50 text-orange-600 border-orange-100' },
+    COMPLETED:             { label: 'Выдан/Завершен',className: 'bg-green-50 text-green-600 border-green-100' },
+    CANCELLED:             { label: 'Отменён',       className: 'bg-gray-100 text-gray-500 border-gray-200' },
+    CANCELLING:            { label: 'Отменяется',    className: 'bg-yellow-50 text-yellow-700 border-yellow-100' },
   }
   const c = config[status] || { label: status, className: 'bg-gray-100 text-gray-500 border-gray-200' }
   return (
