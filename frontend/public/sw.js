@@ -3,7 +3,7 @@
 // (старые JS-чанки в кэше → 404 → React hydration error → сломанный сайт).
 // При первом заходе после обновления старые кэши очищаются.
 
-const VERSION = 'alash-v4-nocache-2026-05-27'
+const VERSION = 'croon-v4-nocache-2026-05-27'
 
 self.addEventListener('install', () => {
   // Активируем новый SW сразу, не ждём закрытия вкладок

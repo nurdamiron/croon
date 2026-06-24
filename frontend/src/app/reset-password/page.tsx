@@ -117,13 +117,12 @@ function ResetPasswordForm() {
 
 export default function ResetPasswordPage() {
   return (
-    <div className="max-w-[1400px] mx-auto px-4 py-6">
+    <div className="max-w-[1400px] mx-auto px-4 py-16">
       <div className="max-w-md mx-auto">
         <div className="flex flex-col items-center mb-8">
-          <Link href="/">
-            <img src="/icons/icon-192x192.png" alt="ИП КРУН" className="w-16 h-16 rounded-2xl object-contain mb-3" />
+          <Link href="/client_account/login">
+            <span className="text-4xl font-black tracking-widest text-brand select-none">КРУН</span>
           </Link>
-          <span className="text-lg font-bold text-gray-900">ИП КРУН</span>
         </div>
         <h1 className="text-xl font-bold mb-6 text-center">Новый пароль</h1>
         <Suspense fallback={<p className="text-center text-gray-500">Загрузка...</p>}>

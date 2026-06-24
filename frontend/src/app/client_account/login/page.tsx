@@ -1,29 +1,31 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { signIn, useSession, getSession } from 'next-auth/react'
+import { signIn, useSession, getSession, signOut } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 
 export default function LoginPage() {
   const router = useRouter()
   const { data: session, status } = useSession()
-  const [isRegister, setIsRegister] = useState(false)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
 
   useEffect(() => {
     if (status === 'authenticated') {
       const role = (session?.user as any)?.role
-      router.replace(role === 'ADMIN' ? '/admin' : '/account')
+      if (role === 'ADMIN') {
+        router.replace('/admin')
+      } else {
+        setError('Доступ разрешен только администраторам')
+        signOut({ redirect: false })
+      }
     }
   }, [status, session, router])
 
   const [showPassword, setShowPassword] = useState(false)
   const [form, setForm] = useState({
-    name: '',
     email: '',
-    phone: '',
     password: '',
   })
 
@@ -45,125 +47,30 @@ export default function LoginPage() {
     if (result?.error) {
       setError('Неверный email или пароль')
     } else {
-      const localFavs: string[] = JSON.parse(localStorage.getItem('croon_favorites') || '[]')
-      if (localFavs.length > 0) {
-        await fetch('/api/account/favorites/sync', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ productIds: localFavs }),
-        }).catch(() => {})
-      }
       const s = await getSession()
       const role = (s?.user as any)?.role
-      router.push(role === 'ADMIN' ? '/admin' : '/account')
-      router.refresh()
-    }
-    setLoading(false)
-  }
-
-  const handleRegister = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setError('')
-    setLoading(true)
-
-    try {
-      const res = await fetch('/api/auth/register', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(form),
-      })
-
-      if (!res.ok) {
-        const data = await res.json()
-        throw new Error(data.error)
-      }
-
-      // Auto-login after registration
-      const result = await signIn('credentials', {
-        email: form.email,
-        password: form.password,
-        redirect: false,
-      })
-
-      if (result?.error) {
-        setError('Ошибка при входе')
-      } else {
-        const s = await getSession()
-        const role = (s?.user as any)?.role
-        router.push(role === 'ADMIN' ? '/admin' : '/account')
+      if (role === 'ADMIN') {
+        router.push('/admin')
         router.refresh()
+      } else {
+        setError('Доступ разрешен только администраторам')
+        await signOut({ redirect: false })
       }
-    } catch (err: any) {
-      setError(err.message)
     }
     setLoading(false)
   }
 
   return (
-    <div className="max-w-[1400px] mx-auto px-4 py-6">
-      <nav className="text-sm text-gray-500 mb-4">
-        <Link href="/" className="hover:text-brand">Главная</Link>
-        <span className="mx-1">/</span>
-        <span className="text-gray-800">{isRegister ? 'Регистрация' : 'Вход'}</span>
-      </nav>
-
+    <div className="max-w-[1400px] mx-auto px-4 py-16">
       <div className="max-w-md mx-auto">
         {/* Logo */}
         <div className="flex flex-col items-center mb-8">
-          <Link href="/">
-            <img src="/icons/icon-192x192.png" alt="ИП КРУН" className="w-16 h-16 rounded-2xl object-contain mb-3" />
+          <Link href="/admin">
+            <span className="text-4xl font-black tracking-widest text-brand select-none">КРУН</span>
           </Link>
-          <span className="text-lg font-bold text-gray-900">ИП КРУН</span>
         </div>
 
-        {/* Tabs */}
-        <div className="flex border-b mb-6">
-          <button
-            onClick={() => { setIsRegister(false); setError('') }}
-            className={`flex-1 py-3 text-center font-medium text-sm border-b-2 transition-colors ${
-              !isRegister ? 'border-brand text-brand' : 'border-transparent text-gray-500 hover:text-gray-700'
-            }`}
-          >
-            Вход
-          </button>
-          <button
-            onClick={() => { setIsRegister(true); setError('') }}
-            className={`flex-1 py-3 text-center font-medium text-sm border-b-2 transition-colors ${
-              isRegister ? 'border-brand text-brand' : 'border-transparent text-gray-500 hover:text-gray-700'
-            }`}
-          >
-            Регистрация
-          </button>
-        </div>
-
-        <form onSubmit={isRegister ? handleRegister : handleLogin} className="space-y-4">
-          {isRegister && (
-            <>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Имя</label>
-                <input
-                  type="text"
-                  name="name"
-                  value={form.name}
-                  onChange={handleChange}
-                  className="w-full border rounded-lg px-4 py-2.5 text-base outline-none focus:border-brand"
-                  placeholder="Ваше имя"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Телефон</label>
-                <input
-                  type="tel"
-                  name="phone"
-                  value={form.phone}
-                  onChange={handleChange}
-                  className="w-full border rounded-lg px-4 py-2.5 text-base outline-none focus:border-brand"
-                  placeholder="+7 (___) ___-__-__"
-                />
-              </div>
-            </>
-          )}
-
+        <form onSubmit={handleLogin} className="space-y-4">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Email *</label>
             <input
@@ -219,16 +126,14 @@ export default function LoginPage() {
             disabled={loading}
             className="w-full bg-brand text-white py-3 rounded-lg hover:bg-brand-hover transition-colors font-medium disabled:bg-gray-400"
           >
-            {loading ? 'Загрузка...' : isRegister ? 'Зарегистрироваться' : 'Войти'}
+            {loading ? 'Загрузка...' : 'Войти'}
           </button>
 
-          {!isRegister && (
-            <div className="text-center">
-              <Link href="/forgot-password" className="text-sm text-brand hover:text-brand-hover">
-                Забыли пароль?
-              </Link>
-            </div>
-          )}
+          <div className="text-center">
+            <Link href="/forgot-password" className="text-sm text-brand hover:text-brand-hover">
+              Забыли пароль?
+            </Link>
+          </div>
         </form>
       </div>
     </div>

@@ -77,11 +77,7 @@ export default async function InvoicePage({ params }: { params: Promise<{ id: st
       <body>
         <div className="header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', borderBottom: '2px solid #006EBE', paddingBottom: '16px', marginBottom: '24px' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-            <img src="/icons/icon-192x192.png" alt="ИП КРУН" style={{ width: '48px', height: '48px', borderRadius: '10px', objectFit: 'contain' }} />
-            <div>
-              <div style={{ fontSize: '22px', fontWeight: 'bold', color: '#006EBE' }}>ИП КРУН</div>
-              <div style={{ fontSize: '11px', color: '#888', marginTop: '2px' }}>croon.kz</div>
-            </div>
+            <span style={{ fontSize: '28px', fontWeight: '900', color: '#006EBE', letterSpacing: '3px' }}>КРУН</span>
           </div>
           <div style={{ textAlign: 'right' }}>
             <div style={{ fontSize: '20px', fontWeight: 'bold' }}>Заказ #{order.orderNumber}</div>

@@ -1,7 +1,6 @@
 'use client'
 
 import Link from 'next/link'
-import Image from 'next/image'
 import { Suspense, useEffect, useState, useCallback, useRef } from 'react'
 import { useSearchParams, usePathname, useRouter } from 'next/navigation'
 import { useSession } from 'next-auth/react'
@@ -214,7 +213,7 @@ export default function Header({ categories }: { categories: Category[] }) {
       <div className="max-w-[1400px] mx-auto px-4 flex items-center gap-2 md:gap-4 h-14 md:h-16">
         {/* Logo */}
         <Link href="/" aria-label="ИП КРУН — Главная" className="shrink-0 hidden md:block">
-          <Image src="/images/logo.png" alt="ИП КРУН" width={110} height={55} className="object-contain" />
+          <span className="text-2xl font-black tracking-widest text-brand select-none">КРУН</span>
         </Link>
 
         {/* Catalog button — only on mobile (desktop has sidebar) */}
@@ -388,7 +387,7 @@ export default function Header({ categories }: { categories: Category[] }) {
             {/* Drawer header */}
             <div className="flex items-center justify-between px-4 h-14 border-b">
               <Link href="/" aria-label="ИП КРУН — Главная" onClick={() => setMenuOpen(false)}>
-                <Image src="/images/logo.png" alt="ИП КРУН" width={110} height={50} className="object-contain" />
+                <span className="text-xl font-black tracking-widest text-brand select-none">КРУН</span>
               </Link>
               <button onClick={() => setMenuOpen(false)} className="text-gray-500 hover:text-gray-700 p-2">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">

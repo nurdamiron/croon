@@ -115,8 +115,7 @@ export default function AdminShell({ newOrderCount, children }: { newOrderCount:
         {/* Logo */}
         <div className="flex items-center justify-between px-4 py-3 border-b border-white/6">
           <Link href="/admin" className="flex items-center gap-2.5">
-            <img src="/icons/icon-192x192.png" alt="ИП КРУН" className="w-8 h-8 rounded-lg object-contain" />
-            <span className="text-[13px] font-semibold text-white/90 truncate">ИП КРУН</span>
+            <span className="text-lg font-black tracking-widest text-white select-none">КРУН</span>
           </Link>
           <button onClick={() => setSidebarOpen(false)} className="text-white/30 hover:text-white/60 lg:hidden transition-colors ml-2">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">

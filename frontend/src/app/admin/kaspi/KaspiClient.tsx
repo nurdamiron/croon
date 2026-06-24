@@ -1199,7 +1199,7 @@ function AlashLinker({ onBind, disabled }: { onBind: (productId: string) => void
     setErr(null)
     if (!url) return
     try {
-      const res = await fetch(`/api/admin/alash-products/search?url=${encodeURIComponent(url)}`)
+      const res = await fetch(`/api/admin/site-products/search?url=${encodeURIComponent(url)}`)
       const data = await res.json()
       if (data.found) {
         onBind(data.product.id)
@@ -1214,7 +1214,7 @@ function AlashLinker({ onBind, disabled }: { onBind: (productId: string) => void
     if (!q.trim()) { setResults([]); return }
     debounceRef.current = setTimeout(async () => {
       try {
-        const res = await fetch(`/api/admin/alash-products/search?q=${encodeURIComponent(q)}`)
+        const res = await fetch(`/api/admin/site-products/search?q=${encodeURIComponent(q)}`)
         const data = await res.json()
         setResults(data.products || [])
       } catch {}

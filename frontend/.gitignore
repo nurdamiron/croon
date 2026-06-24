@@ -14,3 +14,4 @@ google-indexing-state.json
 .kaspi-credentials.json
 # Логи разведки чатов кабинета (содержат данные кабинета)
 kaspi-chat-recon.log
+.vercel

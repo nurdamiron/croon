@@ -1,6 +1,6 @@
 {
   "name": "ИП КРУН — Админ",
-  "short_name": "Alash Admin",
+  "short_name": "КРУН Админ",
   "description": "Панель управления ИП КРУН",
   "start_url": "/admin",
   "scope": "/admin",

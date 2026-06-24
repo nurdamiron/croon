@@ -1,5 +1,4 @@
 import Link from 'next/link'
-import Image from 'next/image'
 
 export default function Footer() {
   return (
@@ -76,7 +75,7 @@ export default function Footer() {
         {/* Bottom bar */}
         <div className="border-t mt-8 pt-6 flex flex-col md:flex-row items-center justify-between gap-4">
           <Link href="/" aria-label="ИП КРУН — Главная">
-            <Image src="/images/logo.png" alt="ИП КРУН" width={140} height={70} className="object-contain" />
+          <span className="text-2xl font-black tracking-widest text-brand select-none">КРУН</span>
           </Link>
           <p className="text-xs text-[#999]">
             ИП КРУН — электронные компоненты с 2019 года. &copy; 2020-2026 Любое использование контента без письменного разрешения запрещено.
