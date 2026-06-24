@@ -10,39 +10,34 @@ datasource db {
 }
 
 model User {
-  id           String     @id @default(cuid())
-  email        String     @unique
-  passwordHash String
-  name         String?
-  phone        String?
-  role         Role       @default(USER)
-  emailNotifications Boolean @default(true)
-  createdAt    DateTime   @default(now())
-  updatedAt    DateTime   @updatedAt
-  orders              Order[]
-  favorites           Favorite[]
-  pushSubscriptions   PushSubscription[]
-  passwordResetTokens PasswordResetToken[]
-  reviews             Review[]
+  id                  String               @id @default(cuid())
+  email               String               @unique
+  passwordHash        String
+  name                String?
+  phone               String?
+  role                Role                 @default(USER)
+  emailNotifications  Boolean              @default(true)
+  createdAt           DateTime             @default(now())
+  updatedAt           DateTime             @updatedAt
   addresses           Address[]
+  favorites           Favorite[]
+  orders              Order[]
+  passwordResetTokens PasswordResetToken[]
+  pushSubscriptions   PushSubscription[]
+  reviews             Review[]
 }
 
 model Address {
   id        String   @id @default(cuid())
   userId    String
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   label     String
   address   String
   city      String?
   isDefault Boolean  @default(false)
   createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId])
-}
-
-enum Role {
-  USER
-  ADMIN
 }
 
 model Category {
@@ -50,63 +45,50 @@ model Category {
   name        String
   slug        String     @unique
   parentId    String?
-  parent      Category?  @relation("CategoryTree", fields: [parentId], references: [id])
-  children    Category[] @relation("CategoryTree")
   imageUrl    String?
-  description String?    @db.Text
+  description String?
   isHidden    Boolean    @default(false)
   sortOrder   Int        @default(0)
-  products    Product[]  @relation("PrimaryCategory")
-  allProducts Product[]  @relation("ProductCategories")
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @updatedAt
+  parent      Category?  @relation("CategoryTree", fields: [parentId], references: [id])
+  children    Category[] @relation("CategoryTree")
+  products    Product[]  @relation("PrimaryCategory")
+  allProducts Product[]  @relation("ProductCategories")
 }
 
 model Product {
-  id          String         @id
-  name        String
-  slug        String         @unique
-  description String?        @db.Text
-  price       Float
-  oldPrice    Float?
-  inStock     Boolean        @default(false)
-  // Архив: товар скрыт с сайта/Google/каналов/основного списка админки, но НЕ удалён
-  // (сохраняется история продаж). Виден в админке через фильтр «Архив», можно вернуть.
-  // Авто-архивация при попытке удалить товар, по которому есть продажи на сайте.
-  archived    Boolean        @default(false)
-  totalStock  Int            @default(0)
-  // Зарезервировано под незавершённые Kaspi-заказы (бронь). Доступный остаток
-  // для фида и сайта = totalStock − reservedStock. При выдаче заказа (COMPLETED)
-  // totalStock уменьшается, reservedStock тоже; при отмене/возврате reservedStock
-  // возвращается. Ручные правки склада трогают только totalStock.
-  reservedStock   Int        @default(0)
-  costPrice       Float?
-  costPriceDate   DateTime?
-  weight          Float?
-  // SKU товара. Якорь привязки каналов (Kaspi/Satu/Ba3ar ищут товар по SKU).
-  // Этап 1 миграции «1 карточка = 1 товар»: переносим SKU с тех-варианта на Product.
-  // Пока вариант ещё существует — sku зеркалится в обе стороны. nullable: товары без
-  // SKU допустимы (Postgres разрешает несколько NULL при @unique).
-  sku             String?    @unique
-  metaTitle       String?
-  metaDescription String?    @db.Text
-  // Текст наклейки/бейджа на карточке (рядом со скидкой). Напр. «С НДС · растаможен»,
-  // «Происхождение 2» — преимущество для B2B. Пусто/null → наклейки нет.
-  badgeText       String?
-  variantAttributes String[] @default([])
-  categoryId      String?
-  category    Category?      @relation("PrimaryCategory", fields: [categoryId], references: [id])
-  categories  Category[]     @relation("ProductCategories")
-  images      ProductImage[]
-  changeLogs  ProductChangeLog[]
-  favorites      Favorite[]
-  orderItems     OrderItem[]
-  reviews        Review[]
-  viewedInOrders OrderViewedProduct[]
-  kaspiOffers    KaspiOffer[]
-  kaspiOrderItems KaspiOrderItem[]
-  createdAt   DateTime       @default(now())
-  updatedAt   DateTime       @updatedAt
+  id                String               @id
+  name              String
+  slug              String               @unique
+  description       String?
+  price             Float
+  oldPrice          Float?
+  inStock           Boolean              @default(false)
+  archived          Boolean              @default(false)
+  totalStock        Int                  @default(0)
+  reservedStock     Int                  @default(0)
+  costPrice         Float?
+  costPriceDate     DateTime?
+  weight            Float?
+  sku               String?              @unique
+  metaTitle         String?
+  metaDescription   String?
+  badgeText         String?
+  variantAttributes String[]             @default([])
+  categoryId        String?
+  createdAt         DateTime             @default(now())
+  updatedAt         DateTime             @updatedAt
+  favorites         Favorite[]
+  kaspiOffers       KaspiOffer[]
+  kaspiOrderItems   KaspiOrderItem[]
+  orderItems        OrderItem[]
+  viewedInOrders    OrderViewedProduct[]
+  category          Category?            @relation("PrimaryCategory", fields: [categoryId], references: [id])
+  changeLogs        ProductChangeLog[]
+  images            ProductImage[]
+  reviews           Review[]
+  categories        Category[]           @relation("ProductCategories")
 
   @@index([categoryId])
   @@index([slug])
@@ -115,8 +97,8 @@ model Product {
 model KaspiCatalogEntry {
   id             String   @id @default(cuid())
   kaspiSku       String   @unique
-  kaspiProductId String?  // kaspi product id из URL карточки (вводится админом)
-  kaspiUrl       String?  // полный URL карточки (вводится админом)
+  kaspiProductId String?
+  kaspiUrl       String?
   name           String
   brand          String?
   priceTenge     Int
@@ -129,8 +111,6 @@ model KaspiCatalogEntry {
   @@index([kaspiProductId])
 }
 
-// Глобальные настройки-тумблеры (key-value). Для аварийных переключателей,
-// которые меняются «на лету» без правки .env и рестарта.
 model AppSetting {
   key       String   @id
   value     String
@@ -138,50 +118,39 @@ model AppSetting {
 }
 
 model KaspiOffer {
-  id           String   @id @default(cuid())
-  kaspiSku     String   @unique
-  productId    String
-  product      Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
-  kaspiUrl     String?
-  kaspiStoreId String   @default("30233309_PP1")
-  priceTenge   Int
-  cityId       String   @default("750000000")
-  active       Boolean  @default(true)
-  kaspiName    String?
-  kaspiBrand   String?
-  // Override-поля: если null/0 — используется значение из Product.totalStock/inStock
+  id                String    @id @default(cuid())
+  kaspiSku          String    @unique
+  productId         String
+  kaspiUrl          String?
+  kaspiStoreId      String    @default("30233309_PP1")
+  priceTenge        Int
+  cityId            String    @default("750000000")
+  active            Boolean   @default(true)
+  kaspiName         String?
+  kaspiBrand        String?
   stockOverride     Int?
   availableOverride Boolean?
-  preOrder          Int   @default(0)
-  // Показывать блок «Купить на Kaspi» на странице товара.
-  // null = авто (как active/в фиде), true = всегда показывать, false = скрыть.
+  preOrder          Int       @default(0)
   showOnSite        Boolean?
-  lastSyncedAt DateTime?
-
-  // --- Демпинг (автоматическое управление ценой) ---
-  // Два независимых тумблера: можно только снижать (держать топ), только повышать
-  // (вернуть маржу когда конкурент ушёл), или оба.
-  autoDownscale   Boolean  @default(false) // опускать цену под конкурента (до floor)
-  autoUpscale     Boolean  @default(false) // поднимать к ceiling когда конкурентов нет
-  minPriceTenge   Int?                       // floor — ниже не опускаемся
-  maxPriceTenge   Int?                       // ceiling — выше не поднимаемся
-  dumpingStep     Int      @default(2)       // на сколько тенге ниже конкурента
-  strategy        String   @default("BECOME_FIRST") // BECOME_FIRST | MATCH_FIRST | HOLD_SECOND
-  ignoreMerchants String[] @default([])      // merchantId, кого НЕ обгонять (свои/партнёры)
-  // Снятые метрики (мониторинг, обновляются движком при каждом прогоне)
-  firstPlacePrice Int?                        // цена лидера выдачи (из offer-view)
-  rivalPrice      Int?                        // цена релевантного конкурента: мы 1-е → второй; мы 2+ → первый
-  rivalName       String?                     // имя продавца релевантного конкурента (для игнор-листа и показа в строке)
-  ourPosition     Int?                        // наше место (1 = первые)
-  competitorCount Int?                        // число конкурентов (без нас и ignore)
-  lastDumpCheckAt DateTime?                   // когда последний раз проверяли
-  lastDumpError   String?                     // текст последней ошибки (null = ок)
-  // Приоритетный демпинг: товары, где конкуренты активно демпингуют. Воркер
-  // проверяет их ПЕРВЫМИ в каждом прогоне (не ждут своей очереди по кругу).
-  dumpPriority    Boolean  @default(false)
-
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
+  lastSyncedAt      DateTime?
+  autoDownscale     Boolean   @default(false)
+  autoUpscale       Boolean   @default(false)
+  minPriceTenge     Int?
+  maxPriceTenge     Int?
+  dumpingStep       Int       @default(2)
+  strategy          String    @default("BECOME_FIRST")
+  ignoreMerchants   String[]  @default([])
+  firstPlacePrice   Int?
+  rivalPrice        Int?
+  rivalName         String?
+  ourPosition       Int?
+  competitorCount   Int?
+  lastDumpCheckAt   DateTime?
+  lastDumpError     String?
+  dumpPriority      Boolean   @default(false)
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+  product           Product   @relation(fields: [productId], references: [id], onDelete: Cascade)
 
   @@index([productId])
   @@index([active])
@@ -190,33 +159,25 @@ model KaspiOffer {
   @@index([dumpPriority])
 }
 
-// Заказ, импортированный из Kaspi Merchant API (GET /shop/api/v2/orders).
-// Read-only зеркало: статусы тянутся из Kaspi, обратно мы (пока) не пишем.
-// Жизненный цикл остатков завязан на status (см. lib/kaspi-sync.ts):
-//   APPROVED_BY_BANK → бронь (reservedStock += qty)
-//   COMPLETED        → списание (totalStock -= qty, reservedStock -= qty)
-//   CANCELLED/RETURNED → снять бронь (reservedStock -= qty)
 model KaspiOrder {
-  id            String   @id @default(cuid())
-  kaspiOrderId  String   @unique          // id заказа в Kaspi (data.id)
-  code          String                     // человекочитаемый номер заказа Kaspi
-  state         String                     // NEW|SIGN_REQUIRED|PICKUP|DELIVERY|KASPI_DELIVERY|ARCHIVE
-  status        String                     // APPROVED_BY_BANK|ACCEPTED_BY_MERCHANT|COMPLETED|CANCELLED|...
-  // stockApplied — какой эффект на остатки уже применён, чтобы синк был
-  // идемпотентным и не задваивал бронь/списание: null | "reserved" | "completed" | "released"
-  stockApplied  String?
-  totalPrice    Float    @default(0)
-  customerName  String?
-  customerPhone String?
-  deliveryMode  String?
-  isPreorder    Boolean  @default(false)
-  isKaspiDelivery Boolean @default(false)
-  creationDate  DateTime?                  // дата создания заказа в Kaspi
-  raw           Json?                      // полный attributes на случай отладки
-  items         KaspiOrderItem[]
-  syncedAt      DateTime @default(now())
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+  id              String           @id @default(cuid())
+  kaspiOrderId    String           @unique
+  code            String
+  state           String
+  status          String
+  stockApplied    String?
+  totalPrice      Float            @default(0)
+  customerName    String?
+  customerPhone   String?
+  deliveryMode    String?
+  isPreorder      Boolean          @default(false)
+  isKaspiDelivery Boolean          @default(false)
+  creationDate    DateTime?
+  raw             Json?
+  syncedAt        DateTime         @default(now())
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+  items           KaspiOrderItem[]
 
   @@index([status])
   @@index([state])
@@ -226,76 +187,72 @@ model KaspiOrder {
 model KaspiOrderItem {
   id           String     @id @default(cuid())
   kaspiOrderId String
-  order        KaspiOrder @relation(fields: [kaspiOrderId], references: [id], onDelete: Cascade)
-  kaspiSku     String                       // merchant SKU позиции (ProductAttributes.code)
+  kaspiSku     String
   kaspiName    String?
-  productId    String?                      // привязка к Product (через KaspiOffer/каталог), null если не сопоставлено
-  product      Product?   @relation(fields: [productId], references: [id])
+  productId    String?
   quantity     Int        @default(1)
   price        Float      @default(0)
+  order        KaspiOrder @relation(fields: [kaspiOrderId], references: [id], onDelete: Cascade)
+  product      Product?   @relation(fields: [productId], references: [id])
 
   @@index([kaspiOrderId])
   @@index([productId])
   @@index([kaspiSku])
 }
 
-
-
 model ProductImage {
   id        String  @id @default(cuid())
   productId String
-  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
   url       String
   alt       String?
   sortOrder Int     @default(0)
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
 
   @@index([productId])
 }
 
 model Supplier {
-  id          String   @id @default(cuid())
+  id          String         @id @default(cuid())
   name        String
   contactInfo String?
   notes       String?
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-
-  receipts StockReceipt[]
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+  receipts    StockReceipt[]
 
   @@index([name])
 }
 
 model StockReceipt {
-  id           String    @id @default(cuid())
-  batchNumber  String?   @unique
-  name         String?
-  supplierId   String?
-  supplier     Supplier? @relation(fields: [supplierId], references: [id], onDelete: SetNull)
-  notes        String?
-  totalItems   Int       @default(0)
-  totalQty     Int       @default(0)
-  totalCost    Float     @default(0)
-  createdAt    DateTime  @default(now())
-  createdBy    String?
-
-  changeLogs ProductChangeLog[]
+  id          String             @id @default(cuid())
+  batchNumber String?            @unique
+  name        String?
+  supplierId  String?
+  notes       String?
+  totalItems  Int                @default(0)
+  totalQty    Int                @default(0)
+  totalCost   Float              @default(0)
+  createdAt   DateTime           @default(now())
+  createdBy   String?
+  changeLogs  ProductChangeLog[]
+  supplier    Supplier?          @relation(fields: [supplierId], references: [id])
 
   @@index([supplierId])
   @@index([createdAt])
 }
 
 model ProductChangeLog {
-  id              String        @id @default(cuid())
-  productId       String
-  product         Product       @relation(fields: [productId], references: [id], onDelete: Cascade)
-  field           String        // "price", "oldPrice", "stock", "totalStock"
-  oldValue        Float
-  newValue        Float
-  source          String        @default("admin")
-  detail          String?
-  stockReceiptId  String?
-  stockReceipt    StockReceipt? @relation(fields: [stockReceiptId], references: [id], onDelete: SetNull)
-  createdAt       DateTime      @default(now())
+  id             String        @id @default(cuid())
+  productId      String
+  field          String
+  oldValue       Float
+  newValue       Float
+  source         String        @default("admin")
+  detail         String?
+  createdAt      DateTime      @default(now())
+  stockReceiptId String?
+  product        Product       @relation(fields: [productId], references: [id], onDelete: Cascade)
+  stockReceipt   StockReceipt? @relation(fields: [stockReceiptId], references: [id])
 
   @@index([productId])
   @@index([createdAt])
@@ -303,50 +260,40 @@ model ProductChangeLog {
 }
 
 model Order {
-  id              String      @id @default(cuid())
-  orderNumber     Int         @unique @default(autoincrement())
-  userId          String?
-  user            User?       @relation(fields: [userId], references: [id])
-  status          OrderStatus @default(NEW)
-  total           Float
-  name            String
-  phone           String
-  email           String?
-  address         String?
-  deliveryMethod  String?
-  paymentMethod   String?
-  comment         String?     @db.Text
-  isPreorder      Boolean     @default(false)
-  referrer        String?     // откуда пришёл: google, instagram, direct...
-  utmSource       String?     // utm_source
-  utmMedium       String?     // utm_medium
-  utmCampaign     String?     // utm_campaign
-  items           OrderItem[]
-  viewedProducts  OrderViewedProduct[]
-  searchQueries   OrderSearchQuery[]
-  statusLogs      OrderStatusLog[]
-  createdAt       DateTime    @default(now())
-  updatedAt       DateTime    @updatedAt
-}
-
-enum OrderStatus {
-  NEW
-  CONFIRMED
-  PROCESSING
-  SHIPPED
-  DELIVERED
-  PICKED_UP
-  CANCELLED
+  id             String               @id @default(cuid())
+  orderNumber    Int                  @unique @default(autoincrement())
+  userId         String?
+  status         OrderStatus          @default(NEW)
+  total          Float
+  name           String
+  phone          String
+  email          String?
+  address        String?
+  deliveryMethod String?
+  paymentMethod  String?
+  comment        String?
+  isPreorder     Boolean              @default(false)
+  referrer       String?
+  utmSource      String?
+  utmMedium      String?
+  utmCampaign    String?
+  createdAt      DateTime             @default(now())
+  updatedAt      DateTime             @updatedAt
+  user           User?                @relation(fields: [userId], references: [id])
+  items          OrderItem[]
+  searchQueries  OrderSearchQuery[]
+  statusLogs     OrderStatusLog[]
+  viewedProducts OrderViewedProduct[]
 }
 
 model OrderItem {
   id        String  @id @default(cuid())
   orderId   String
-  order     Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
   productId String
-  product   Product @relation(fields: [productId], references: [id])
   quantity  Int
   price     Float
+  order     Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  product   Product @relation(fields: [productId], references: [id])
 
   @@index([orderId])
 }
@@ -354,12 +301,12 @@ model OrderItem {
 model OrderStatusLog {
   id          String   @id @default(cuid())
   orderId     String
-  order       Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
   status      String
   prevStatus  String?
   note        String?
   cancelledBy String?
   createdAt   DateTime @default(now())
+  order       Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
 
   @@index([orderId])
   @@index([createdAt])
@@ -368,10 +315,10 @@ model OrderStatusLog {
 model Favorite {
   id        String   @id @default(cuid())
   userId    String
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   productId String
-  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
   createdAt DateTime @default(now())
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([userId, productId])
 }
@@ -379,28 +326,28 @@ model Favorite {
 model OrderViewedProduct {
   id        String  @id @default(cuid())
   orderId   String
-  order     Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
   productId String
+  order     Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
   product   Product @relation(fields: [productId], references: [id])
 
   @@index([orderId])
 }
 
 model OrderSearchQuery {
-  id        String  @id @default(cuid())
-  orderId   String
-  order     Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
-  query     String
+  id      String @id @default(cuid())
+  orderId String
+  query   String
+  order   Order  @relation(fields: [orderId], references: [id], onDelete: Cascade)
 
   @@index([orderId])
 }
 
 model SearchLog {
-  id          String   @id @default(cuid())
-  query       String
+  id           String   @id @default(cuid())
+  query        String
   resultsCount Int
-  sessionId   String?
-  createdAt   DateTime @default(now())
+  sessionId    String?
+  createdAt    DateTime @default(now())
 
   @@index([createdAt])
   @@index([query])
@@ -410,7 +357,7 @@ model Page {
   id        String   @id @default(cuid())
   title     String
   slug      String   @unique
-  content   String   @db.Text
+  content   String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
@@ -420,7 +367,7 @@ model BlogPost {
   title     String
   slug      String   @unique
   blogSlug  String
-  content   String   @db.Text
+  content   String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
@@ -452,8 +399,8 @@ model Lead {
   reviewsCount   Int?
   branchCount    Int?
   twogisUrl      String?
-  message        String?    @db.Text
-  whatsappLink   String?    @db.Text
+  message        String?
+  whatsappLink   String?
   status         LeadStatus @default(NEW)
   note           String?
   createdAt      DateTime   @default(now())
@@ -462,22 +409,14 @@ model Lead {
   @@unique([name, city])
 }
 
-enum LeadStatus {
-  NEW
-  SENT
-  REPLIED
-  CONVERTED
-  REJECTED
-}
-
 model PasswordResetToken {
   id        String    @id @default(cuid())
   token     String    @unique
   userId    String
-  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   expiresAt DateTime
   usedAt    DateTime?
   createdAt DateTime  @default(now())
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([token])
   @@index([userId])
@@ -486,15 +425,38 @@ model PasswordResetToken {
 model Review {
   id         String   @id @default(cuid())
   userId     String
-  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   productId  String
-  product    Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
   rating     Int
-  text       String   @db.Text
+  text       String
   isApproved Boolean  @default(false)
   createdAt  DateTime @default(now())
+  product    Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([userId, productId])
   @@index([productId])
   @@index([isApproved])
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+enum OrderStatus {
+  NEW
+  CONFIRMED
+  PROCESSING
+  SHIPPED
+  DELIVERED
+  PICKED_UP
+  CANCELLED
+}
+
+enum LeadStatus {
+  NEW
+  SENT
+  REPLIED
+  CONVERTED
+  REJECTED
 }
