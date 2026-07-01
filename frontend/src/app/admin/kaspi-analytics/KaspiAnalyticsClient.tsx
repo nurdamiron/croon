@@ -716,7 +716,7 @@ function TimingHeatmap({ timing }: { timing: OrderTiming }) {
   )
 }
 
-// Вкладка «Каналы»: сравнение продаж/маржи одного товара по Kaspi/Satu/Ba3ar/сайту.
+// Вкладка «Каналы»: сравнение продаж/маржи одного товара по Kaspi/сайту.
 const CHANNEL_ORDER: ChannelKey[] = ['kaspi', 'site']
 const CHANNEL_DOT: Record<ChannelKey, string> = {
   kaspi: 'bg-red-500',

@@ -42,7 +42,7 @@ data/
 !frontend/scripts/data/
 scripts/*.json
 
-# Local export dumps (Kaspi/Satu/CSV outputs)
+# Local export dumps (Kaspi/CSV outputs)
 exports/
 
 # TypeScript build cache

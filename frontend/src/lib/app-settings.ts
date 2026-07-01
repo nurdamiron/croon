@@ -149,8 +149,6 @@ export async function setPostponed(productId: string, postponed: boolean): Promi
 // Ключи push-уведомлений по каналам продаж. По умолчанию все включены (true).
 export const NOTIFY_ALASH = 'notify_alash_enabled'
 export const NOTIFY_KASPI = 'notify_kaspi_enabled'
-export const NOTIFY_SATU = 'notify_satu_enabled'
-export const NOTIFY_BA3AR = 'notify_ba3ar_enabled'
 
 export type NotifyChannel = 'croon' | 'kaspi'
 export function notifyFlagKey(ch: NotifyChannel): string {

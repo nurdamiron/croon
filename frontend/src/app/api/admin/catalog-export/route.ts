@@ -6,7 +6,7 @@ import { prisma } from '@/lib/prisma'
 export const dynamic = 'force-dynamic'
 export const maxDuration = 120
 
-// Доступ: админ-сессия ИЛИ ?secret=<CRON_SECRET> (для внешних интеграций — ba3ar).
+// Доступ: админ-сессия ИЛИ ?secret=<CRON_SECRET>.
 async function authorized(req: NextRequest): Promise<boolean> {
   const session = await getServerSession(authOptions)
   if (session?.user && (session.user as any).role === 'ADMIN') return true
@@ -19,7 +19,7 @@ async function authorized(req: NextRequest): Promise<boolean> {
   return false
 }
 
-// GET — ПОЛНЫЙ каталог Сайт (вкл. не в наличии) для внешних каналов (ba3ar).
+// GET — ПОЛНЫЙ каталог (вкл. не в наличии).
 // Поля: id, sku (артикул), name, price, available (totalStock−reservedStock),
 // inStock, images[]. По SKU строится единый склад.
 export async function GET(req: NextRequest) {

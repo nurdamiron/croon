@@ -3,7 +3,7 @@ import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 import {
   getFlag, setFlag,
-  NOTIFY_ALASH, NOTIFY_KASPI, NOTIFY_SATU, NOTIFY_BA3AR,
+  NOTIFY_ALASH, NOTIFY_KASPI,
 } from '@/lib/app-settings'
 
 export const dynamic = 'force-dynamic'

@@ -36,8 +36,8 @@ async function uniqueSlug(base: string): Promise<string> {
 }
 
 // Дублировать товар: копируем ВСЁ кроме name/sku (их задаёт админ) и slug (генерим).
-// Остатки/брони НЕ копируем (новый товар — склад 0, не в наличии). Офферы каналов
-// (Kaspi/Satu/Ba3ar) НЕ копируем — это привязки конкретного товара/SKU.
+// Остатки/брони НЕ копируем (новый товар — склад 0, не в наличии). Kaspi-офферы
+// НЕ копируем — это привязки конкретного товара/SKU.
 export async function POST(request: NextRequest, { params }: { params: { id: string } }) {
   if (!(await checkAdmin())) return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
 

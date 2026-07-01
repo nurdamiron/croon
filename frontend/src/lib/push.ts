@@ -2,34 +2,11 @@ import webpush from 'web-push'
 import { prisma } from './prisma'
 import { getFlag, notifyFlagKey, type NotifyChannel } from './app-settings'
 
-// Зеркалим уведомление в операционный мозг Biz через его существующий приёмник
-// POST /api/internal/activity. Никаких новых эндпоинтов — только исходящий вызов.
-// Если BIZ_INTERNAL_URL/KEY не заданы — тихо пропускаем (dev / не настроено).
-async function forwardToBiz(type: string, title: string, body: string): Promise<void> {
-  const base = process.env.BIZ_INTERNAL_URL
-  const key = process.env.BIZ_INTERNAL_KEY
-  if (!base || !key) return
-  try {
-    await fetch(`${base.replace(/\/$/, '')}/api/internal/activity`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'x-internal-key': key },
-      body: JSON.stringify({ serviceId: 'croon', type, title, description: body }),
-      signal: AbortSignal.timeout(5000),
-    })
-  } catch {
-    /* fire-and-forget: сбой форварда не должен ломать уведомления админам */
-  }
-}
-
 export async function notifyAdmins(title: string, body: string, url?: string, channel?: NotifyChannel) {
-  // Канальный тумблер. Если канал передан и выключен в админке — молча выходим.
   if (channel) {
     const enabled = await getFlag(notifyFlagKey(channel), true)
     if (!enabled) return
   }
-
-  // Форвард в Biz идёт независимо от web-push конфигурации/подписок (до ранних return ниже).
-  await forwardToBiz(channel || 'notification', title, body)
 
   const publicKey = process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY
   const privateKey = process.env.VAPID_PRIVATE_KEY
