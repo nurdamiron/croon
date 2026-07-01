@@ -5,6 +5,9 @@ import { prisma } from '@/lib/prisma'
 // Ключи тумблеров Kaspi.
 export const KASPI_FEED_ENABLED = 'kaspi_feed_enabled'             // фид отдаёт товары на Kaspi
 export const KASPI_SITE_BLOCKS_ENABLED = 'kaspi_site_blocks_enabled' // блоки «Купить на Kaspi» на сайте
+export const KASPI_DUMPING_ENABLED = 'kaspi_dumping_enabled'       // авто-демпинг цен конкурентов
+export const KASPI_AUTOSYNC_ENABLED = 'kaspi_autosync_enabled'     // авто-синхронизация товаров из кабинета
+export const KASPI_IMAGE_SYNC_ENABLED = 'kaspi_image_sync_enabled' // авто-синхронизация картинок
 
 
 // Множитель комиссии Kaspi для расчёта маржи/floor (число-строка, напр. "1.41").

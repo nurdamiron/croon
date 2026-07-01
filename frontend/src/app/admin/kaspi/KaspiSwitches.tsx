@@ -120,6 +120,61 @@ export default function KaspiSwitches() {
           busy={busy === 'siteBlocksEnabled'}
           onToggle={(v) => toggle('siteBlocksEnabled', v, 'Блоки Kaspi на сайте')}
         />
+
+        {/* Тумблеры, требующие подключённый сайт */}
+        <div className="pt-2 mt-2 border-t border-gray-100">
+          <p className="text-[11px] text-gray-400 uppercase tracking-wide mb-2">Требуется подключённый сайт</p>
+          <div className="space-y-2 opacity-60">
+            <SwitchRow
+              title="Автодемпинг цен"
+              desc="Автоматическое снижение цен конкурентов на Kaspi. Работает через cabinet worker."
+              value={false}
+              busy={false}
+              disabled
+              onToggle={() => {}}
+            />
+            <SwitchRow
+              title="Автосинхронизация товаров"
+              desc="Автоматический импорт новых товаров из Kaspi кабинета в базу данных."
+              value={false}
+              busy={false}
+              disabled
+              onToggle={() => {}}
+            />
+            <SwitchRow
+              title="Автосинхронизация картинок"
+              desc="Автоматическая загрузка изображений товаров с Kaspi CDN."
+              value={false}
+              busy={false}
+              disabled
+              onToggle={() => {}}
+            />
+            <SwitchRow
+              title="Уведомления о новых заказах Kaspi"
+              desc="Push-уведомления в браузер при поступлении новых заказов с Kaspi."
+              value={false}
+              busy={false}
+              disabled
+              onToggle={() => {}}
+            />
+            <SwitchRow
+              title="Email-уведомления клиентам"
+              desc="Автоматическая отправка писем при изменении статуса заказа."
+              value={false}
+              busy={false}
+              disabled
+              onToggle={() => {}}
+            />
+            <SwitchRow
+              title="Telegram-уведомления"
+              desc="Отправка уведомлений о заказах в Telegram канал."
+              value={false}
+              busy={false}
+              disabled
+              onToggle={() => {}}
+            />
+          </div>
+        </div>
       </div>
 
       {/* Множитель комиссии Kaspi для расчёта маржи/floor */}
@@ -227,19 +282,24 @@ function EconInput({ label, desc, unit, step, value, busy, disabled, onSave }: {
   )
 }
 
-function SwitchRow({ title, desc, value, busy, onToggle }: {
-  title: string; desc: string; value: boolean | null; busy: boolean; onToggle: (v: boolean) => void
+function SwitchRow({ title, desc, value, busy, disabled, onToggle }: {
+  title: string; desc: string; value: boolean | null; busy: boolean; disabled?: boolean; onToggle: (v: boolean) => void
 }) {
   const on = value === true
   const loading = value === null
   return (
-    <div className="flex items-start justify-between gap-4 border border-gray-100 rounded-lg p-3">
+    <div className={`flex items-start justify-between gap-4 border border-gray-100 rounded-lg p-3 ${disabled ? 'pointer-events-none' : ''}`}>
       <div className="min-w-0">
         <div className="flex items-center gap-2">
           <span className="font-medium text-gray-900 text-sm">{title}</span>
-          {!loading && (
+          {!loading && !disabled && (
             <span className={`text-[10px] font-semibold px-1.5 py-0.5 rounded ${on ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>
               {on ? 'ВКЛ' : 'ВЫКЛ'}
+            </span>
+          )}
+          {disabled && (
+            <span className="text-[10px] font-semibold px-1.5 py-0.5 rounded bg-amber-100 text-amber-700">
+              Требуется сайт
             </span>
           )}
         </div>
@@ -247,11 +307,11 @@ function SwitchRow({ title, desc, value, busy, onToggle }: {
       </div>
       <button
         type="button"
-        disabled={loading || busy}
+        disabled={loading || busy || disabled}
         onClick={() => onToggle(!on)}
-        className={`shrink-0 relative w-12 h-7 rounded-full transition-colors disabled:opacity-50 ${on ? 'bg-green-500' : 'bg-gray-300'}`}
+        className={`shrink-0 relative w-12 h-7 rounded-full transition-colors disabled:opacity-40 disabled:cursor-not-allowed ${on ? 'bg-green-500' : 'bg-gray-300'}`}
         aria-pressed={on}
-        title={on ? 'Выключить' : 'Включить'}
+        title={disabled ? 'Требуется подключённый сайт' : on ? 'Выключить' : 'Включить'}
       >
         <span className={`absolute top-0.5 left-0.5 w-6 h-6 bg-white rounded-full shadow transition-transform ${on ? 'translate-x-5' : ''}`} />
       </button>
