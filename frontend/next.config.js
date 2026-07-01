@@ -45,7 +45,7 @@ const nextConfig = {
               "script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com https://mc.yandex.ru",
               "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
               "font-src 'self' data: https://fonts.gstatic.com",
-              "img-src 'self' data: blob: https://yhcnncpvjjpqmbagvowd.supabase.co https://www.google-analytics.com https://www.googletagmanager.com https://mc.yandex.ru",
+              "img-src 'self' data: blob: https://yhcnncpvjjpqmbagvowd.supabase.co https://resources.cdn-kaspi.kz https://alashed-media.s3.eu-north-1.amazonaws.com https://www.google-analytics.com https://www.googletagmanager.com https://mc.yandex.ru",
               "connect-src 'self' https://www.google-analytics.com https://analytics.google.com https://region1.google-analytics.com https://mc.yandex.ru wss://mc.yandex.ru https://yhcnncpvjjpqmbagvowd.supabase.co",
               "frame-src https://www.googletagmanager.com",
               "worker-src 'self' blob:",

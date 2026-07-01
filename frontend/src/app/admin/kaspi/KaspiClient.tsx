@@ -309,7 +309,7 @@ export default function KaspiClient({ rows, q, bound, commissionMult }: { rows: 
             className="px-3 py-1 bg-white/10 hover:bg-white/20 rounded text-sm transition"
           >Снять выделение</button>
         </div>
-
+        </div>
       )}
 
       <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
