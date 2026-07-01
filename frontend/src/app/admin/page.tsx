@@ -28,6 +28,7 @@ const getCachedStats = unstable_cache(
       prisma.kaspiOrder.findMany({ where: { creationDate: { gte: monthStart }, status: { notIn: ['CANCELLED'] } }, select: { totalPrice: true } }),
       prisma.product.count(),
       prisma.product.count({ where: { inStock: false } }),
+      prisma.kaspiOrder.findMany({ where: { status: { notIn: ['CANCELLED', 'CANCELLING'] } }, select: { totalPrice: true } }),
     ])
   },
   ['admin-dashboard-stats-v2'],
@@ -37,7 +38,7 @@ const getCachedStats = unstable_cache(
 export default async function AdminDashboard() {
   const [
     newOrders, processingOrders, shippedOrders, recentOrdersRaw, lowStockProducts,
-    todayOrders, monthOrders, totalProducts, outOfStockCount,
+    todayOrders, monthOrders, totalProducts, outOfStockCount, allNonCancelled,
   ] = await getCachedStats()
 
   const newTotal = newOrders.reduce((s, o) => s + o.totalPrice, 0)
@@ -45,6 +46,7 @@ export default async function AdminDashboard() {
   const shippedTotal = shippedOrders.reduce((s, o) => s + o.totalPrice, 0)
   const todayRevenue = todayOrders.reduce((s, o) => s + o.totalPrice, 0)
   const monthRevenue = monthOrders.reduce((s, o) => s + o.totalPrice, 0)
+  const totalRevenue = allNonCancelled.reduce((s, o) => s + o.totalPrice, 0)
 
   const recentOrders = recentOrdersRaw.map(o => ({
     id: o.id,
@@ -82,14 +84,14 @@ export default async function AdminDashboard() {
 
       {/* ── TOP STATS ── */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        {/* Today */}
+        {/* Total revenue */}
         <div className="bg-white rounded-2xl border border-gray-200 p-5 relative overflow-hidden">
           <div className="absolute top-3 right-3 w-9 h-9 bg-admin/8 rounded-xl flex items-center justify-center">
             <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#5c6ac4" strokeWidth="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
           </div>
-          <p className="text-[11px] font-semibold uppercase tracking-wider text-gray-400 mb-2">Сегодня</p>
-          <p className="text-[24px] font-bold text-gray-900 leading-none mb-1">{todayRevenue.toLocaleString('ru-RU')}</p>
-          <p className="text-[12px] text-gray-400">тг · {todayOrders.length} заказ{todayOrders.length !== 1 ? 'ов' : ''}</p>
+          <p className="text-[11px] font-semibold uppercase tracking-wider text-gray-400 mb-2">Выручка всего</p>
+          <p className="text-[24px] font-bold text-gray-900 leading-none mb-1">{totalRevenue.toLocaleString('ru-RU')}</p>
+          <p className="text-[12px] text-gray-400">тг · без отменённых</p>
         </div>
 
         {/* Month */}

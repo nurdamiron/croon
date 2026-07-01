@@ -189,8 +189,8 @@ export default function AdminClientsPage() {
                                   <tbody>
                                     {client.orders.map(order => (
                                       <tr key={order.id} className="border-b border-gray-50">
-                                        <td className="px-4 py-2.5">
-                                          <Link href={`/admin/orders/${order.id}`} className="font-medium text-blue-600 hover:underline">#{order.orderNumber || order.id.slice(0, 8)}</Link>
+                                          <td className="px-4 py-2.5">
+                                          <Link href={`/admin/kaspi-orders?q=${order.orderNumber || order.id.slice(0, 8)}`} className="font-medium text-blue-600 hover:underline">#{order.orderNumber || order.id.slice(0, 8)}</Link>
                                         </td>
                                         <td className="px-4 py-2.5">
                                           <span className={`inline-flex px-2 py-0.5 rounded-md text-[11px] font-medium border ${statusColors[order.status] || 'bg-gray-50 text-gray-500 border-gray-200'}`}>
@@ -261,7 +261,7 @@ export default function AdminClientsPage() {
                         {client.orders.map(order => (
                           <div key={order.id} className="bg-white rounded-lg border border-gray-200 px-3 py-2 flex items-center justify-between gap-2">
                             <div>
-                              <Link href={`/admin/orders/${order.id}`} className="font-medium text-blue-600 text-[13px] hover:underline">#{order.orderNumber || order.id.slice(0, 8)}</Link>
+                              <Link href={`/admin/kaspi-orders?q=${order.orderNumber || order.id.slice(0, 8)}`} className="font-medium text-blue-600 text-[13px] hover:underline">#{order.orderNumber || order.id.slice(0, 8)}</Link>
                               <span className={`ml-2 inline-flex px-2 py-0.5 rounded-md text-[10px] font-medium border ${statusColors[order.status] || 'bg-gray-50 text-gray-500 border-gray-200'}`}>
                                 {statusLabels[order.status] || order.status}
                               </span>

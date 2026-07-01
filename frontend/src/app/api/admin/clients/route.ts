@@ -18,32 +18,27 @@ export async function GET(request: NextRequest) {
   const page = parseInt(request.nextUrl.searchParams.get('page') || '1')
   const limit = 20
 
-  // Get all orders grouped by phone (primary identifier for clients)
-  // phone is String (non-nullable) on Order, so no null filter needed
+  // Get all Kaspi orders grouped by phone
   const orderWhere: any = {}
   if (search) {
     orderWhere.OR = [
-      { name: { contains: search, mode: 'insensitive' } },
-      { email: { contains: search, mode: 'insensitive' } },
-      { phone: { contains: search } },
+      { customerName: { contains: search, mode: 'insensitive' } },
+      { customerPhone: { contains: search } },
     ]
   }
 
-  // Get unique phones with aggregated data using raw grouping
-  const orders = await prisma.order.findMany({
+  const orders = await prisma.kaspiOrder.findMany({
     where: orderWhere,
     select: {
       id: true,
-      orderNumber: true,
-      name: true,
-      phone: true,
-      email: true,
-      total: true,
+      code: true,
+      customerName: true,
+      customerPhone: true,
+      totalPrice: true,
       status: true,
-      createdAt: true,
-      userId: true,
+      creationDate: true,
     },
-    orderBy: { createdAt: 'desc' },
+    orderBy: { creationDate: 'desc' },
   })
 
   // Group by normalized phone
@@ -56,53 +51,50 @@ export async function GET(request: NextRequest) {
     userId: string | null
     firstOrderDate: Date
     lastOrderDate: Date
-    orders: { id: string; orderNumber: number | null; total: number; status: string; createdAt: Date }[]
+    orders: { id: string; orderNumber: string | null; total: number; status: string; createdAt: Date }[]
     orderCount: number
-    totalSpent: number  // only non-cancelled orders
+    totalSpent: number
   }>()
 
   for (const order of orders) {
-    if (!order.phone) continue
-    const key = normalizePhone(order.phone)
-    const isCancelled = order.status === 'CANCELLED'
+    if (!order.customerPhone) continue
+    const key = normalizePhone(order.customerPhone)
+    const isCancelled = order.status === 'CANCELLED' || order.status === 'CANCELLING'
+    const orderDate = order.creationDate || new Date()
     const existing = clientMap.get(key)
     if (existing) {
       existing.orders.push({
         id: order.id,
-        orderNumber: order.orderNumber,
-        total: order.total,
+        orderNumber: order.code,
+        total: order.totalPrice,
         status: order.status,
-        createdAt: order.createdAt,
+        createdAt: orderDate,
       })
       existing.orderCount++
-      if (!isCancelled) existing.totalSpent += order.total
-      // Track oldest order (orders are sorted desc, so last processed = oldest)
-      if (order.createdAt < existing.firstOrderDate) existing.firstOrderDate = order.createdAt
-      // Use most recent name/email
-      if (order.createdAt > existing.lastOrderDate) {
-        existing.lastOrderDate = order.createdAt
-        if (order.name) existing.name = order.name
-        if (order.email) existing.email = order.email
-        if (order.userId) existing.userId = order.userId
+      if (!isCancelled) existing.totalSpent += order.totalPrice
+      if (orderDate < existing.firstOrderDate) existing.firstOrderDate = orderDate
+      if (orderDate > existing.lastOrderDate) {
+        existing.lastOrderDate = orderDate
+        if (order.customerName) existing.name = order.customerName
       }
     } else {
       clientMap.set(key, {
         id: key,
-        name: order.name,
-        phone: order.phone,
-        email: order.email,
-        userId: order.userId,
-        firstOrderDate: order.createdAt,
-        lastOrderDate: order.createdAt,
+        name: order.customerName || 'Без имени',
+        phone: order.customerPhone,
+        email: null,
+        userId: null,
+        firstOrderDate: orderDate,
+        lastOrderDate: orderDate,
         orders: [{
           id: order.id,
-          orderNumber: order.orderNumber,
-          total: order.total,
+          orderNumber: order.code,
+          total: order.totalPrice,
           status: order.status,
-          createdAt: order.createdAt,
+          createdAt: orderDate,
         }],
         orderCount: 1,
-        totalSpent: isCancelled ? 0 : order.total,
+        totalSpent: isCancelled ? 0 : order.totalPrice,
       })
     }
   }
