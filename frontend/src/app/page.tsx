@@ -25,10 +25,10 @@ export default async function Home() {
       {/* Hero */}
       <section className="bg-gradient-to-br from-brand/5 to-brand/10 rounded-2xl p-8 mb-10">
         <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-3">
-          Электронные компоненты в Казахстане
+          ИП КРУН — Интернет-магазин
         </h1>
         <p className="text-gray-600 text-lg mb-6 max-w-2xl">
-          Arduino, ESP32, Raspberry Pi, датчики, модули и многое другое. Доставка по Костанаю и всему Казахстану.
+          Широкий ассортимент товаров по выгодным ценам. Доставка по всему Казахстану.
         </p>
         <div className="flex gap-3">
           <Link href="/collection/all" className="bg-brand text-white px-6 py-2.5 rounded-lg hover:bg-brand-hover transition font-medium">

@@ -79,12 +79,10 @@ export default function Header({ categories }: { categories: Category[] }) {
 
   const topLinks = [
     { label: 'Главная', href: '/' },
-    { label: 'Arduino наборы', href: '/arduino-nabory' },
-    { label: 'Для школ', href: '/dlya-shkol' },
+    { label: 'Каталог', href: '/collection/all' },
     { label: 'Блог', href: '/blogs/kits' },
     { label: 'Контакты', href: '/page/contacts' },
     { label: 'Личный кабинет', href: accountHref },
-    { label: 'Вики', href: 'https://wiki.croon.kz/', external: true, own: true },
     { label: 'Государственные закупки', href: '/page/alashed' },
   ]
 

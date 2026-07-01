@@ -25,7 +25,7 @@ export default function Footer() {
               <li><Link href="/collection/bms-platy" className="block py-2 text-[#333] hover:text-brand">BMS платы</Link></li>
               <li><Link href="/collection/avtotovary" className="block py-2 text-[#333] hover:text-brand">Автотовары</Link></li>
               <li><Link href="/collection/gotovye-nabory-dlya-robototehniki" className="block py-2 text-[#333] hover:text-brand">Готовые наборы</Link></li>
-              <li><Link href="/arduino-nabory" className="block py-2 text-[#333] hover:text-brand">Наборы Arduino</Link></li>
+              <li><Link href="/collection/all" className="block py-2 text-[#333] hover:text-brand">Каталог</Link></li>
               <li><Link href="/dlya-shkol" className="block py-2 text-[#333] hover:text-brand">Для школ и кружков</Link></li>
               <li><Link href="/page/delivery" className="block py-2 text-[#333] hover:text-brand">Доставка</Link></li>
               <li><Link href="/page/payment" className="block py-2 text-[#333] hover:text-brand">Способы оплаты</Link></li>
@@ -78,7 +78,7 @@ export default function Footer() {
           <span className="text-2xl font-black tracking-widest text-brand select-none">КРУН</span>
           </Link>
           <p className="text-xs text-[#999]">
-            ИП КРУН — электронные компоненты с 2019 года. &copy; 2020-2026 Любое использование контента без письменного разрешения запрещено.
+            ИП КРУН. &copy; 2020-2026 Любое использование контента без письменного разрешения запрещено.
           </p>
         </div>
       </div>
