@@ -33,6 +33,7 @@ export const metadata: Metadata = {
   publisher: 'ИП КРУН',
   robots: { index: true, follow: true, googleBot: { index: true, follow: true } },
   icons: {
+    icon: '/favicon.svg',
     apple: [
       { url: '/icons/icon-180x180.png', sizes: '180x180', type: 'image/png' },
       { url: '/icons/icon-192x192.png', sizes: '192x192', type: 'image/png' },
