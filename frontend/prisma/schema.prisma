@@ -132,6 +132,22 @@ model KaspiOffer {
   availableOverride Boolean?
   preOrder          Int       @default(0)
   showOnSite        Boolean?
+  // Dumping fields
+  autoDownscale     Boolean   @default(false)
+  autoUpscale       Boolean   @default(false)
+  minPriceTenge     Int?
+  maxPriceTenge     Int?
+  dumpingStep       Int       @default(2)
+  strategy          String    @default("BECOME_FIRST")
+  ignoreMerchants   String[]
+  dumpPriority      Boolean   @default(false)
+  // Metrics (updated by dumping engine)
+  firstPlacePrice   Int?
+  rivalPrice        Int?
+  rivalName         String?
+  ourPosition       Int?
+  competitorCount   Int       @default(0)
+  lastDumpCheckAt   DateTime?
   lastSyncedAt      DateTime?
   createdAt         DateTime  @default(now())
   updatedAt         DateTime  @updatedAt
@@ -139,6 +155,8 @@ model KaspiOffer {
 
   @@index([productId])
   @@index([active])
+  @@index([autoDownscale])
+  @@index([lastDumpCheckAt])
 }
 
 model KaspiOrder {
