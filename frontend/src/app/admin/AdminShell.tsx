@@ -256,11 +256,6 @@ export default function AdminShell({ newOrderCount, children }: { newOrderCount:
                 </div>
               )}
             </div>
-
-            {/* Avatar */}
-            <div className="w-7 h-7 rounded-full bg-gradient-to-br from-admin to-admin-hover flex items-center justify-center cursor-pointer shadow-sm ml-1">
-              <span className="text-white text-[11px] font-bold select-none">Ae</span>
-            </div>
           </div>
         </header>
 
