@@ -19,7 +19,6 @@ type Econ = {
 export default function KaspiSwitches() {
   const [feed, setFeed] = useState<boolean | null>(null)
   const [site, setSite] = useState<boolean | null>(null)
-  const [dumping, setDumping] = useState<boolean | null>(null)
   const [mult, setMult] = useState<number | null>(null)
   const [econ, setEcon] = useState<Econ | null>(null)
   const [busy, setBusy] = useState<string | null>(null)
@@ -36,7 +35,7 @@ export default function KaspiSwitches() {
 
   useEffect(() => {
     fetch('/api/admin/kaspi/switches').then(r => r.ok ? r.json() : null).then(d => {
-      if (d) { setFeed(d.feedEnabled); setSite(d.siteBlocksEnabled); setDumping(d.dumpingEnabled); setMult(d.commissionMult); setEcon(d.econ) }
+      if (d) { setFeed(d.feedEnabled); setSite(d.siteBlocksEnabled); setMult(d.commissionMult); setEcon(d.econ) }
     }).catch(() => {})
   }, [])
 
@@ -55,7 +54,7 @@ export default function KaspiSwitches() {
     finally { setBusy(null) }
   }
 
-  async function toggle(key: 'feedEnabled' | 'siteBlocksEnabled' | 'dumpingEnabled', next: boolean, label: string) {
+  async function toggle(key: 'feedEnabled' | 'siteBlocksEnabled', next: boolean, label: string) {
     const action = next ? 'ВКЛЮЧИТЬ' : 'ВЫКЛЮЧИТЬ'
     if (!confirm(`${action}: ${label}?`)) return
     setBusy(key); setMsg(null)
@@ -66,7 +65,7 @@ export default function KaspiSwitches() {
       })
       const d = await res.json()
       if (!res.ok) throw new Error(d.error || 'error')
-      setFeed(d.feedEnabled); setSite(d.siteBlocksEnabled); setDumping(d.dumpingEnabled); setMult(d.commissionMult)
+      setFeed(d.feedEnabled); setSite(d.siteBlocksEnabled); setMult(d.commissionMult)
       setMsg(`${label}: ${next ? 'включено' : 'выключено'}`)
     } catch (e) { setMsg('Ошибка: ' + (e as Error).message) }
     finally { setBusy(null) }
@@ -101,7 +100,7 @@ export default function KaspiSwitches() {
         </svg>
         <span className="inline-flex items-center gap-1 rounded-md bg-red-600 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-white">Аварийно</span>
         <h2 className="text-[15px] font-semibold text-gray-900">Тумблеры Kaspi</h2>
-        {collapsed && <span className="text-xs text-gray-400 ml-1">фид · демпинг · комиссия · экономика — нажми чтобы открыть</span>}
+        {collapsed && <span className="text-xs text-gray-400 ml-1">фид · комиссия · экономика — нажми чтобы открыть</span>}
       </button>
       {!collapsed && <>
       {msg && <div className="text-sm px-3 py-2 rounded-lg bg-gray-100 text-gray-700 mb-3 mt-4">{msg}</div>}
@@ -120,13 +119,6 @@ export default function KaspiSwitches() {
           value={site}
           busy={busy === 'siteBlocksEnabled'}
           onToggle={(v) => toggle('siteBlocksEnabled', v, 'Блоки Kaspi на сайте')}
-        />
-        <SwitchRow
-          title="Демпинг (автоуправление ценой)"
-          desc="Включить → крон сам меняет цену по правилам (автоснижение/повышение, floor). Выключить → цена замораживается, бот ничего не трогает. Применяется в течение часа (фид Kaspi обновляется раз в ~60 мин)."
-          value={dumping}
-          busy={busy === 'dumpingEnabled'}
-          onToggle={(v) => toggle('dumpingEnabled', v, 'Демпинг Kaspi')}
         />
       </div>
 

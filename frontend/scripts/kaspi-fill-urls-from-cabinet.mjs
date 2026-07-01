@@ -80,8 +80,8 @@ async function fetchPage(cookie, page, active) {
     return
   }
 
-  // Шлём на прод батчами.
-  const CHUNK = 300
+  // Шлём на прод батчами (по 20 штук, чтобы база в Сиднее успевала).
+  const CHUNK = 20
   let catalogUpdated = 0, offersLinked = 0, noProduct = 0
   for (let i = 0; i < items.length; i += CHUNK) {
     const batch = items.slice(i, i + CHUNK)

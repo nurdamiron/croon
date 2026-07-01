@@ -25,22 +25,6 @@ type Row = {
     availableOverride: boolean | null
     preOrder: number
     showOnSite: boolean | null
-    // Демпинг
-    autoDownscale: boolean
-    autoUpscale: boolean
-    dumpPriority: boolean
-    minPriceTenge: number | null
-    maxPriceTenge: number | null
-    dumpingStep: number
-    strategy: string
-    ignoreMerchants: string[]
-    firstPlacePrice: number | null
-    rivalPrice: number | null
-    rivalName: string | null
-    ourPosition: number | null
-    competitorCount: number | null
-    lastDumpCheckAt: string | Date | null
-    lastDumpError: string | null
     product: { id: string; name: string; slug: string; totalStock: number; inStock: boolean; costPrice: number | null } | null
   } | null
 }
@@ -53,11 +37,6 @@ export default function KaspiClient({ rows, q, bound, commissionMult }: { rows: 
   const [selCat, setSelCat] = useState<Set<string>>(new Set())              // catalog.id (для удаления из каталога)
   const [bulkBusy, setBulkBusy] = useState(false)
   const [toast, setToast] = useState<string | null>(null)
-  // Множители формулы min/max (по умолчанию: min=себес×1.3, max-соло=сайт×1.0, max-конк=конкурент×0.99)
-  const [kMin, setKMin] = useState('1.3')
-  const [kMax, setKMax] = useState('1.0')
-  const [kRival, setKRival] = useState('0.99')
-  const [minmaxOpen, setMinmaxOpen] = useState(false)
   // меняется после каждого bulk-действия — форсит перемонтирование строк,
   // чтобы неуправляемые поля (defaultValue: stock/preorder/price) обновились
   const [tableKey, setTableKey] = useState(0)
@@ -122,11 +101,6 @@ export default function KaspiClient({ rows, q, bound, commissionMult }: { rows: 
       const p = new URLSearchParams({ scope })
       if (search) p.set('q', search)
       // пробрасываем активные демпинг-фильтры из URL — чтобы «Выбрать всё»
-      // выбрало именно отфильтрованные офферы (для массовых изменений по позиции)
-      for (const k of ['pos', 'comp', 'down', 'up', 'nofloor', 'pain', 'loss', 'expensive', 'underdump', 'stale', 'alonenoceil', 'nocost', 'notvisible']) {
-        const v = sp.get(k)
-        if (v) p.set(k, v)
-      }
       const res = await fetch(`/api/admin/kaspi-offers/ids?${p.toString()}`)
       const data = await res.json()
       if (!res.ok) throw new Error(data.error || 'error')
@@ -169,74 +143,6 @@ export default function KaspiClient({ rows, q, bound, commissionMult }: { rows: 
     }
   }
 
-  // ⚡ Просчитать min/max по формуле для выбранных офферов.
-  const applyMinMaxFormula = async () => {
-    const ids = Array.from(selected)
-    if (!ids.length) return
-    const a = Number(kMin), b = Number(kMax), c = Number(kRival)
-    if (![a, b, c].every((x) => Number.isFinite(x) && x > 0)) { alert('Множители должны быть числами > 0'); return }
-    if (!confirm(
-      `Просчитать min/max для ${ids.length} офферов?\n` +
-      `• min = себес × ${a}\n` +
-      `• max (мы одни) = цена сайта × ${b}\n` +
-      `• max (есть конкуренты) = цена конкурента × ${c}\n\n` +
-      `Без себеса и где min>max — пропустим. Существующие min/max перезапишутся.`
-    )) return
-    setBulkBusy(true)
-    try {
-      const res = await fetch('/api/admin/kaspi-offers/bulk', {
-        method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ids, action: 'set-minmax-formula', value: { kMin: a, kMax: b, kRival: c } }),
-      })
-      const d = await res.json()
-      if (!res.ok) throw new Error(d.error || 'error')
-      let msg = `✓ min/max выставлены: ${d.affected}`
-      if (d.skippedNoCost) msg += ` · без себеса: ${d.skippedNoCost}`
-      if (d.skippedMinGtMax) msg += ` · min>max: ${d.skippedMinGtMax}`
-      flashToast(msg)
-      if (d.skippedNoCost || d.skippedMinGtMax) {
-        const parts: string[] = []
-        if (d.skippedNoCostSamples?.length) parts.push('Без себеса:\n' + d.skippedNoCostSamples.join(', '))
-        if (d.skippedMinGtMaxSamples?.length) parts.push('min>max:\n' + d.skippedMinGtMaxSamples.join('\n'))
-        if (parts.length) alert('Пропущены:\n\n' + parts.join('\n\n'))
-      }
-      setTableKey(k => k + 1)
-      router.refresh()
-    } catch (e) {
-      alert('Ошибка: ' + (e as Error).message)
-    } finally {
-      setBulkBusy(false)
-    }
-  }
-
-  // 🔄 Скан + просчёт min/max: ставим задачу воркеру (он снимет свежие цены и применит формулу).
-  const queueScanMinMax = async () => {
-    const ids = Array.from(selected)
-    if (!ids.length) return
-    const a = Number(kMin), b = Number(kMax), c = Number(kRival)
-    if (![a, b, c].every((x) => Number.isFinite(x) && x > 0)) { alert('Множители должны быть числами > 0'); return }
-    if (!confirm(
-      `Поставить «скан + просчёт min/max» для ${ids.length} офферов?\n` +
-      `Воркер на маке снимет СВЕЖИЕ цены конкурентов и применит:\n` +
-      `• min = себес × ${a}\n• max (мы одни) = цена сайта × ${b}\n• max (конкуренты) = конкурент × ${c}\n\n` +
-      `Применится в течение ближайшего цикла воркера (не мгновенно).`
-    )) return
-    setBulkBusy(true)
-    try {
-      const res = await fetch('/api/admin/kaspi-offers/bulk', {
-        method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ids, action: 'scan-minmax-formula', value: { kMin: a, kMax: b, kRival: c } }),
-      })
-      const d = await res.json()
-      if (!res.ok) throw new Error(d.error || 'error')
-      flashToast(`🔄 Поставлено в очередь воркеру: ${d.affected}. Применится после ближайшего скана.`)
-    } catch (e) {
-      alert('Ошибка: ' + (e as Error).message)
-    } finally {
-      setBulkBusy(false)
-    }
-  }
-
   // Запросить число у пользователя и применить параметризованное действие
   const promptBulk = (action: string, label: string, opts?: { allowEmpty?: boolean; def?: string; confirmMsg?: string }) => {
     const raw = window.prompt(label, opts?.def ?? '')
@@ -244,30 +150,6 @@ export default function KaspiClient({ rows, q, bound, commissionMult }: { rows: 
     const trimmed = raw.trim()
     if (trimmed === '' && !opts?.allowEmpty) return
     doBulk(action, { value: trimmed === '' ? null : trimmed, confirmMsg: opts?.confirmMsg, keepSelection: true })
-  }
-
-  // Демпинг: ручной прогон («Проверить сейчас») по выбранным офферам.
-  // dryRun=true — только снять метрики конкурентов, цену не менять (безопасная разведка).
-  const runDumping = async (dryRun: boolean) => {
-    const ids = Array.from(selected)
-    if (!ids.length) return
-    if (!dryRun && !confirm(`Запустить демпинг по ${ids.length} офферам? Цена будет изменена у тех, где включено автоснижение/повышение и задан floor.`)) return
-    setBulkBusy(true)
-    try {
-      const res = await fetch('/api/admin/kaspi-dumping/run', {
-        method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ids, dryRun }),
-      })
-      const data = await res.json()
-      if (!res.ok) throw new Error(data.error || 'error')
-      flashToast(`Проверено ${data.checked}: изменено ${data.changed}, без PID ${data.noPid}, ошибок ${data.errors}${dryRun ? ' (разведка)' : ''}`)
-      setTableKey(k => k + 1)
-      router.refresh()
-    } catch (e) {
-      alert('Ошибка демпинга: ' + (e as Error).message)
-    } finally {
-      setBulkBusy(false)
-    }
   }
 
   return (
@@ -332,14 +214,6 @@ export default function KaspiClient({ rows, q, bound, commissionMult }: { rows: 
         <div className="sticky top-0 z-30 bg-admin/95 backdrop-blur text-white rounded-lg px-4 py-2.5 shadow-md flex flex-col gap-2">
         <div className="flex items-center gap-3 flex-wrap">
           <span className="font-medium">Выбрано: {selected.size}</span>
-          <div className="h-5 w-px bg-white/30" />
-          {/* ⚡ Формула min/max */}
-          <button
-            disabled={bulkBusy}
-            onClick={() => setMinmaxOpen((o) => !o)}
-            className="px-3 py-1 bg-green-500/40 hover:bg-green-500/60 rounded text-sm font-medium transition"
-            title="Просчитать min/max по формуле: min=себес×K, max=сайт×K (или конкурент×K)"
-          >⚡ Просчитать min/max {minmaxOpen ? '▴' : '▾'}</button>
           <div className="h-5 w-px bg-white/30" />
           <button
             disabled={bulkBusy}
@@ -424,129 +298,6 @@ export default function KaspiClient({ rows, q, bound, commissionMult }: { rows: 
             title="Изменить цену выбранных на % (от текущей цены оффера)"
           >наценка %…</button>
           <div className="h-5 w-px bg-white/30" />
-          {/* --- Демпинг --- */}
-          <button
-            disabled={bulkBusy}
-            onClick={() => doBulk('dump-down-on', { keepSelection: true })}
-            className="px-3 py-1 bg-white/10 hover:bg-white/20 rounded text-sm transition"
-            title="Включить автоснижение (демпинг под конкурента до floor)"
-          >↓ автосниж вкл</button>
-          <button
-            disabled={bulkBusy}
-            onClick={() => doBulk('dump-down-off', { keepSelection: true })}
-            className="px-3 py-1 bg-white/10 hover:bg-white/20 rounded text-sm transition"
-          >↓ выкл</button>
-          <button
-            disabled={bulkBusy}
-            onClick={() => doBulk('dump-up-on', { keepSelection: true })}
-            className="px-3 py-1 bg-white/10 hover:bg-white/20 rounded text-sm transition"
-            title="Включить автоповышение (поднимать цену к max когда конкурентов нет)"
-          >↑ автоповыш вкл</button>
-          <button
-            disabled={bulkBusy}
-            onClick={() => doBulk('dump-up-off', { keepSelection: true })}
-            className="px-3 py-1 bg-white/10 hover:bg-white/20 rounded text-sm transition"
-          >↑ выкл</button>
-          <button
-            disabled={bulkBusy}
-            onClick={() => promptBulk('set-dump-step', 'Шаг демпинга (тг, на сколько ниже конкурента):', { def: '2' })}
-            className="px-3 py-1 bg-white/10 hover:bg-white/20 rounded text-sm transition"
-          >шаг…</button>
-          <button
-            disabled={bulkBusy}
-            onClick={() => promptBulk('set-min-price', 'Мин. цена (floor, тг) для выбранных. Пусто = сброс:', { allowEmpty: true })}
-            className="px-3 py-1 bg-white/10 hover:bg-white/20 rounded text-sm transition"
-          >мин. цена…</button>
-          <button
-            disabled={bulkBusy}
-            onClick={() => promptBulk('set-floor-auto', `Авто-floor = закуп × ${commissionMult}. Доп. наценка сверху в % (0 = ровно безубыток):`, { def: '0' })}
-            className="px-3 py-1 bg-white/10 hover:bg-white/20 rounded text-sm transition"
-            title={`minPrice = round(costPrice × ${commissionMult} × (1+%/100)). У кого нет закупа — пропускаются.`}
-          >floor от закупа…</button>
-          <button
-            disabled={bulkBusy}
-            onClick={() => promptBulk('set-max-price', 'Макс. цена (ceiling, тг) для выбранных. Пусто = сброс:', { allowEmpty: true })}
-            className="px-3 py-1 bg-white/10 hover:bg-white/20 rounded text-sm transition"
-          >макс. цена…</button>
-          <button
-            disabled={bulkBusy}
-            onClick={() => promptBulk('set-floor-pct', 'Floor = текущая цена − N%. Введи N (напр. 15 → пол на 15% ниже цены):', { def: '15' })}
-            className="px-3 py-1 bg-amber-400/30 hover:bg-amber-400/50 rounded text-sm transition"
-            title="Поставить мин.цену = цена−N% (БЕЗ закупа). Разблокирует снижение у товаров без floor — главное лекарство."
-          >🩹 floor = −%…</button>
-          <button
-            disabled={bulkBusy}
-            onClick={() => promptBulk('set-ceiling-pct', 'Потолок = текущая цена + N%. Введи N (для товаров без конкурентов):', { def: '20' })}
-            className="px-3 py-1 bg-white/10 hover:bg-white/20 rounded text-sm transition"
-            title="Поставить макс.цену = цена+N%. Для автоповышения там, где конкурентов нет."
-          >потолок = +%…</button>
-          <div className="h-5 w-px bg-white/30" />
-          {/* Стратегия демпинга (4 режима движка) */}
-          <select
-            disabled={bulkBusy}
-            defaultValue=""
-            onChange={(e) => { const v = e.target.value; e.target.value = ''; if (v) doBulk('set-dump-strategy', { value: v, keepSelection: true }) }}
-            className="px-2 py-1 bg-white/10 hover:bg-white/20 rounded text-sm transition text-white [&>option]:text-gray-900"
-            title="Стратегия демпинга для выбранных"
-          >
-            <option value="">стратегия…</option>
-            <option value="BECOME_FIRST">Стать первым (−шаг от лидера)</option>
-            <option value="FIRST_MIN_GAP">Первым, но впритык (−шаг от 2-го)</option>
-            <option value="MATCH_FIRST">Равная лидеру</option>
-            <option value="HOLD_SECOND">Держать 2-е место</option>
-          </select>
-          <button
-            disabled={bulkBusy}
-            onClick={() => doBulk('beat-now', { keepSelection: true, confirmMsg: 'Выйти в топ сейчас по {n} офферам? Цена станет = конкурент − шаг (не ниже floor).' })}
-            className="px-3 py-1 bg-green-500/40 hover:bg-green-500/60 rounded text-sm transition"
-            title="Разово опустить цену до «конкурент − шаг» по выбранным, не дожидаясь авто-прогона. Защита floor соблюдается."
-          >⚡ выйти в топ сейчас</button>
-          <div className="h-5 w-px bg-white/30" />
-          {/* Игнор-лист продавца */}
-          <button
-            disabled={bulkBusy}
-            onClick={() => promptBulk('ignore-merchant-add', 'Не обгонять продавца (имя/id из строки «против:»):')}
-            className="px-3 py-1 bg-white/10 hover:bg-white/20 rounded text-sm transition"
-            title="Добавить продавца в игнор — движок не будет его обгонять (свой 2-й аккаунт/партнёр)"
-          >🛡 не обгонять…</button>
-          <button
-            disabled={bulkBusy}
-            onClick={() => promptBulk('ignore-merchant-remove', 'Убрать продавца из игнор-листа (имя/id):')}
-            className="px-3 py-1 bg-white/10 hover:bg-white/20 rounded text-sm transition"
-          >убрать из игнора…</button>
-          <div className="h-5 w-px bg-white/30" />
-          {/* Пауза / резюм / сброс */}
-          <button
-            disabled={bulkBusy}
-            onClick={() => doBulk('dump-pause', { keepSelection: true })}
-            className="px-3 py-1 bg-white/10 hover:bg-white/20 rounded text-sm transition"
-            title="Заморозить демпинг (оба тумблера off), сохранив floor/потолок/стратегию"
-          >⏸ пауза</button>
-          <button
-            disabled={bulkBusy}
-            onClick={() => doBulk('dump-resume', { keepSelection: true })}
-            className="px-3 py-1 bg-white/10 hover:bg-white/20 rounded text-sm transition"
-            title="Вернуть демпинг (включить автоснижение)"
-          >▶ возобновить</button>
-          <button
-            disabled={bulkBusy}
-            onClick={() => doBulk('dump-reset', { confirmMsg: 'Сбросить ВСЕ демпинг-настройки у {n} офферов (тумблеры, floor, потолок, игнор, стратегия)?', keepSelection: true })}
-            className="px-3 py-1 bg-white/10 hover:bg-white/20 rounded text-sm transition"
-            title="Полный сброс демпинг-настроек к дефолту (метрики не трогаются)"
-          >↺ сброс демпинга</button>
-          <div className="h-5 w-px bg-white/30" />
-          <button
-            disabled={bulkBusy}
-            onClick={() => runDumping(true)}
-            className="px-3 py-1 bg-blue-400/30 hover:bg-blue-400/50 rounded text-sm transition"
-            title="Серверный прогон (offer-view). Работает только если IP сервера не заблокирован Kaspi — обычно демпинг гонит внешний воркер с резидентного IP."
-          >🔍 проверить (сервер)</button>
-          <button
-            disabled={bulkBusy}
-            onClick={() => runDumping(false)}
-            className="px-3 py-1 bg-green-400/30 hover:bg-green-400/50 rounded text-sm transition"
-            title="Серверный демпинг (offer-view). С прод-IP обычно блокируется Kaspi (405) — реальный демпинг делает внешний кабинетный воркер."
-          >⚡ демпинг (сервер)</button>
           <button
             disabled={bulkBusy}
             onClick={() => doBulk('delete', { confirmMsg: 'Удалить {n} офферов? Это действие необратимо.' })}
@@ -559,46 +310,6 @@ export default function KaspiClient({ rows, q, bound, commissionMult }: { rows: 
           >Снять выделение</button>
         </div>
 
-        {/* Форма формулы min/max */}
-        {minmaxOpen && (
-          <div className="bg-white/10 rounded-lg px-3 py-3 flex flex-wrap items-end gap-3 text-sm">
-            <label className="flex flex-col gap-1">
-              <span className="text-white/70 text-xs">min = себес ×</span>
-              <input type="number" step="0.01" min="0" value={kMin} onChange={(e) => setKMin(e.target.value)}
-                className="w-20 px-2 py-1 rounded text-gray-900 outline-none" />
-            </label>
-            <span className="text-white/40 pb-1.5 text-xs">пол (ниже не падаем)</span>
-            <div className="h-8 w-px bg-white/20" />
-            <label className="flex flex-col gap-1">
-              <span className="text-white/70 text-xs">max (мы одни) = цена сайта ×</span>
-              <input type="number" step="0.01" min="0" value={kMax} onChange={(e) => setKMax(e.target.value)}
-                className="w-20 px-2 py-1 rounded text-gray-900 outline-none" />
-            </label>
-            <label className="flex flex-col gap-1">
-              <span className="text-white/70 text-xs">max (есть конкуренты) = конкурент ×</span>
-              <input type="number" step="0.01" min="0" value={kRival} onChange={(e) => setKRival(e.target.value)}
-                className="w-20 px-2 py-1 rounded text-gray-900 outline-none" />
-            </label>
-            <button
-              disabled={bulkBusy}
-              onClick={applyMinMaxFormula}
-              className="px-4 py-1.5 bg-green-500 hover:bg-green-600 rounded font-medium transition disabled:opacity-50"
-              title="Сразу по последнему скану (быстро, но данные могут быть не свежими)"
-            >{bulkBusy ? '…' : `⚡ Сразу (${selected.size})`}</button>
-            <button
-              disabled={bulkBusy}
-              onClick={queueScanMinMax}
-              className="px-4 py-1.5 bg-blue-500 hover:bg-blue-600 rounded font-medium transition disabled:opacity-50"
-              title="Воркер снимет СВЕЖИЕ цены конкурентов и применит формулу (надёжнее, не мгновенно)"
-            >{bulkBusy ? '…' : `🔄 Скан + просчёт (${selected.size})`}</button>
-            <span className="text-white/50 text-xs basis-full">
-              <b>⚡ Сразу</b> — по последнему скану (быстро). <b>🔄 Скан + просчёт</b> — воркер снимет свежие
-              цены конкурентов и применит формулу (надёжнее, в течение цикла воркера).
-              Нет себеса или min&gt;max → пропуск. Существующие min/max перезаписываются.
-            </span>
-          </div>
-        )}
-        </div>
       )}
 
       <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
@@ -635,11 +346,6 @@ export default function KaspiClient({ rows, q, bound, commissionMult }: { rows: 
                 <th className="px-3 py-2.5 font-medium text-gray-700 text-right" title="stockCount">stock</th>
                 <th className="px-3 py-2.5 font-medium text-gray-700 text-center" title="оффер активен в фиде">act</th>
                 <th className="px-3 py-2.5 font-medium text-gray-700 text-center" title="блок «Купить на Kaspi» на странице товара (auto = как act)">сайт</th>
-                {/* --- Демпинг --- */}
-                <th className="px-3 py-2.5 font-medium text-gray-700 text-center border-l border-gray-200" title="наша позиция в выдаче Kaspi / цена 1 места">Поз.</th>
-                <th className="px-3 py-2.5 font-medium text-gray-700 text-right" title="мин/макс цена (floor/ceiling) и маржа">Мин · Макс</th>
-                <th className="px-3 py-2.5 font-medium text-gray-700 text-center" title="шаг демпинга (тг)">шаг</th>
-                <th className="px-3 py-2.5 font-medium text-gray-700 text-center" title="автоснижение / автоповышение">Демпинг</th>
               </tr>
             </thead>
             <tbody key={tableKey} className="divide-y divide-gray-100">
@@ -743,20 +449,6 @@ function KaspiRow({ row, checked, onCheck, catChecked, onCatCheck, commissionMul
       const res = await fetch('/api/admin/kaspi-offers', {
         method: 'POST', headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ kaspiSku: catalog.kaspiSku, productId }),
-      })
-      if (!res.ok) throw new Error(await res.text())
-      router.refresh()
-    } catch (e) { alert((e as Error).message) }
-    finally { setBusy(false) }
-  }
-
-  // Добавить/убрать продавца из игнор-листа этого оффера (не обгонять его).
-  const toggleIgnore = async (offerId: string, merchant: string, currentlyIgnored: boolean) => {
-    setBusy(true)
-    try {
-      const res = await fetch('/api/admin/kaspi-offers/bulk', {
-        method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ids: [offerId], action: currentlyIgnored ? 'ignore-merchant-remove' : 'ignore-merchant-add', value: merchant }),
       })
       if (!res.ok) throw new Error(await res.text())
       router.refresh()
@@ -989,202 +681,7 @@ function KaspiRow({ row, checked, onCheck, catChecked, onCatCheck, commissionMul
         ) : <span className="text-gray-300">—</span>}
       </td>
 
-      {/* ====== ДЕМПИНГ ====== */}
-      {/* Позиция + цена 1 места (снятые метрики) — чтобы видеть от чего ставить floor/max */}
-      <td className="px-3 py-2 align-top text-center border-l border-gray-200">
-        {offer ? (
-          offer.lastDumpCheckAt ? (() => {
-            const pos = offer.ourPosition
-            const comp = offer.competitorCount ?? 0
-            // rivalPrice = релевантный конкурент: мы 1-е → цена ВТОРОГО; мы 2+ → цена ПЕРВОГО.
-            // Фолбэк на firstPlacePrice для старых записей, снятых до появления rivalPrice.
-            const rival = offer.rivalPrice ?? (pos !== 1 ? offer.firstPlacePrice : null)
-            const weFirst = pos === 1
-            const step = offer.dumpingStep || 2
-            // Статус-бейдж
-            let badge, badgeCls
-            if (comp === 0) { badge = '⚪ один'; badgeCls = 'text-gray-400' }
-            else if (weFirst) { badge = '🥇 1 место'; badgeCls = 'text-green-600' }
-            else if (pos) { badge = `🔴 ${pos} место`; badgeCls = 'text-red-500' }
-            else { badge = '⚠ не в топе'; badgeCls = 'text-amber-500' }
-            // Разрыв с конкурентом (наша цена vs rival): >0 = мы дороже (теряем), <0 = дешевле (недозарабатываем)
-            const ourPrice = offer.priceTenge
-            const gap = rival != null ? ourPrice - rival : null
-            const gapPct = rival != null && rival > 0 ? Math.round((ourPrice - rival) / rival * 100) : null
-            // ignore-лист: содержит ли уже этого продавца
-            const ignored = !!(offer.rivalName && (offer.ignoreMerchants || []).includes(offer.rivalName))
-            return (
-              <div className="space-y-0.5"
-                title={offer.lastDumpError ? `ошибка: ${offer.lastDumpError}` : `проверено ${new Date(offer.lastDumpCheckAt).toLocaleString('ru-RU')}`}>
-                <div className={`text-[11px] font-semibold ${badgeCls}`}>{badge}</div>
-                {rival != null && comp > 0 && (
-                  <>
-                    <div className="text-[12px] font-bold text-gray-800 tabular-nums"
-                      title={weFirst ? 'цена ближайшего преследователя (2-е место)' : 'цена лидера (1-е место)'}>
-                      {rival.toLocaleString('ru-RU')}₸
-                    </div>
-                    <div className="text-[9px] text-gray-400">{weFirst ? 'цена 2-го' : 'цена 1-го'}</div>
-                    {/* имя конкурента + кнопка игнора («не воюй сам с собой») */}
-                    {offer.rivalName && (
-                      <div className="text-[9px] flex items-center gap-1 justify-center">
-                        <span className="text-gray-500 truncate max-w-[90px]" title={`конкурент: ${offer.rivalName}`}>против: {offer.rivalName}</span>
-                        <button
-                          onClick={() => toggleIgnore(offer.id, offer.rivalName!, ignored)}
-                          className={`px-1 rounded ${ignored ? 'bg-amber-100 text-amber-700' : 'text-gray-300 hover:text-amber-600'}`}
-                          title={ignored ? 'В игноре — не обгоняем. Клик: убрать' : 'Не обгонять этого продавца (свой 2-й аккаунт/партнёр)'}
-                        >🛡</button>
-                      </div>
-                    )}
-                    {/* разрыв с конкурентом */}
-                    {gap != null && gap !== 0 && (
-                      <div className={`text-[9px] tabular-nums ${gap > 0 ? 'text-red-500' : 'text-green-600'}`}
-                        title={gap > 0 ? 'мы ДОРОЖЕ конкурента (теряем продажи)' : 'мы дешевле конкурента (можно поднять цену)'}>
-                        {gap > 0 ? '▲' : '▼'} {Math.abs(gap).toLocaleString('ru-RU')}₸{gapPct != null ? ` (${gapPct > 0 ? '+' : ''}${gapPct}%)` : ''}
-                      </div>
-                    )}
-                    {/* что поставить, чтобы быть первым на step₸ дешевле релевантного конкурента */}
-                    <div className={`text-[9px] ${weFirst ? 'text-gray-500' : 'text-blue-500'}`}
-                      title={weFirst ? 'можно поднять цену до этой и остаться первым' : 'поставь эту цену, чтобы выйти в топ'}>
-                      {weFirst ? 'до' : 'в топ'}: {(rival - step).toLocaleString('ru-RU')}₸
-                    </div>
-                  </>
-                )}
-                {comp > 0 && <div className="text-[9px] text-gray-400">конк: {comp}</div>}
-                {/* свежесть проверки */}
-                {(() => {
-                  const ms = new Date(offer.lastDumpCheckAt!).getTime()
-                  const ageMin = Math.floor((Date.now() - ms) / 60000)
-                  const fresh = ageMin < 60
-                  const stale = ageMin > 24 * 60
-                  const label = ageMin < 1 ? 'только что' : ageMin < 60 ? `${ageMin}м` : ageMin < 1440 ? `${Math.floor(ageMin / 60)}ч` : `${Math.floor(ageMin / 1440)}д`
-                  return <div className={`text-[9px] ${stale ? 'text-amber-500' : fresh ? 'text-green-500' : 'text-gray-300'}`} title="когда последний раз снимали позицию">✓ {label}</div>
-                })()}
-              </div>
-            )
-          })() : <span className="text-[10px] text-gray-300">не проверено</span>
-        ) : <span className="text-gray-300">—</span>}
-      </td>
-
-      {/* Мин (floor) и Макс (ceiling) + маржа каждой. Сверху — закуп и порог
-          безубытка (round(закуп×комиссия)), чтобы при простановке мин/макс
-          сразу видеть себестоимость и не уйти в минус. */}
-      <td className="px-3 py-2 align-top text-right">
-        {offer ? (
-          <div className="space-y-1">
-            {(() => {
-              const cost = offer.product?.costPrice
-              if (!cost || cost <= 0) {
-                return <div className="text-[9px] text-amber-500 leading-tight" title="Нет закупочной цены — заполни закуп в карточке товара">⚠ нет закупа</div>
-              }
-              const breakeven = Math.round(cost * commissionMult)
-              return (
-                <div className="text-[9px] text-gray-500 leading-tight whitespace-nowrap"
-                  title={`Закуп ${cost.toLocaleString('ru')}₸ · безубыток = round(закуп × ${commissionMult}) = ${breakeven.toLocaleString('ru')}₸ (ниже этой цены — минус)`}>
-                  закуп <b className="text-gray-700">{cost.toLocaleString('ru')}</b>₸
-                  <span className="text-gray-400"> · 0% </span><b className="text-gray-700">{breakeven.toLocaleString('ru')}</b>₸
-                </div>
-              )
-            })()}
-            <DumpPriceInput
-              value={offer.minPriceTenge}
-              placeholder="мин"
-              disabled={busy}
-              cost={offer.product?.costPrice}
-              mult={commissionMult}
-              warn={offer.autoDownscale && offer.minPriceTenge == null}
-              onSave={v => patchOffer({ minPriceTenge: v })}
-            />
-            <DumpPriceInput
-              value={offer.maxPriceTenge}
-              placeholder="макс"
-              disabled={busy}
-              cost={offer.product?.costPrice}
-              mult={commissionMult}
-              onSave={v => patchOffer({ maxPriceTenge: v })}
-            />
-          </div>
-        ) : <span className="text-gray-300">—</span>}
-      </td>
-
-      {/* Шаг демпинга */}
-      <td className="px-3 py-2 align-top text-center">
-        {offer ? (
-          <input
-            type="number"
-            min={1}
-            defaultValue={offer.dumpingStep}
-            disabled={busy}
-            onBlur={e => {
-              let v = Math.round(Number(e.target.value))
-              if (!Number.isFinite(v) || v < 1) v = 1
-              if (v !== offer.dumpingStep) patchOffer({ dumpingStep: v })
-            }}
-            className="w-12 px-1.5 py-1 text-center border border-gray-200 rounded text-[11px] outline-none focus:border-admin tabular-nums"
-            title="на сколько тенге ниже конкурента"
-          />
-        ) : <span className="text-gray-300">—</span>}
-      </td>
-
-      {/* Тумблеры автоснижение / автоповышение */}
-      <td className="px-3 py-2 align-top">
-        {offer ? (
-          <div className="flex flex-col gap-1 items-start">
-            <label className="flex items-center gap-1 cursor-pointer" title="Автоснижение: опускать цену под конкурента (до floor)">
-              <input type="checkbox" checked={offer.autoDownscale} disabled={busy}
-                onChange={e => patchOffer({ autoDownscale: e.target.checked })}
-                className="rounded border-gray-300 cursor-pointer accent-green-600" />
-              <span className="text-[10px] text-gray-600">↓ сниж</span>
-            </label>
-            <label className="flex items-center gap-1 cursor-pointer" title="Автоповышение: поднимать к max когда конкурентов нет">
-              <input type="checkbox" checked={offer.autoUpscale} disabled={busy}
-                onChange={e => patchOffer({ autoUpscale: e.target.checked })}
-                className="rounded border-gray-300 cursor-pointer accent-admin" />
-              <span className="text-[10px] text-gray-600">↑ повыш</span>
-            </label>
-            <label className="flex items-center gap-1 cursor-pointer" title="Приоритетный демпинг: воркер проверяет этот товар ПЕРВЫМ в каждом прогоне (там конкуренты активно демпингуют)">
-              <input type="checkbox" checked={offer.dumpPriority} disabled={busy}
-                onChange={e => patchOffer({ dumpPriority: e.target.checked })}
-                className="rounded border-gray-300 cursor-pointer accent-violet-600" />
-              <span className={`text-[10px] font-medium ${offer.dumpPriority ? 'text-violet-700' : 'text-gray-600'}`}>⚡ приор</span>
-            </label>
-          </div>
-        ) : <span className="text-gray-300">—</span>}
-      </td>
     </tr>
-  )
-}
-
-// Поле цены floor/ceiling с показом маржи под ним. warn=true → красная рамка
-// (включено снижение, но floor пуст — предохранитель: бот такой товар не тронет).
-function DumpPriceInput({ value, placeholder, disabled, cost, mult, warn, onSave }: {
-  value: number | null
-  placeholder: string
-  disabled: boolean
-  cost: number | null | undefined
-  mult: number
-  warn?: boolean
-  onSave: (v: number | null) => void
-}) {
-  const m = calcMargin(value, cost, mult)
-  return (
-    <div>
-      <input
-        type="number"
-        defaultValue={value ?? ''}
-        placeholder={placeholder}
-        disabled={disabled}
-        onBlur={e => {
-          const raw = e.target.value
-          const v = raw === '' ? null : Math.max(1, Math.round(Number(raw)))
-          if (v !== value) onSave(v)
-        }}
-        className={`w-16 px-1.5 py-1 text-right border rounded text-[11px] outline-none focus:border-admin tabular-nums ${warn ? 'border-red-300 bg-red-50' : 'border-gray-200'}`}
-        title={warn ? 'Автоснижение включено, но мин. цена не задана — бот не тронет товар' : placeholder}
-      />
-      {m && (
-        <div className={`text-[9px] ${m.tg >= 0 ? 'text-green-600' : 'text-red-500'}`}>{m.pct}%</div>
-      )}
-    </div>
   )
 }
 

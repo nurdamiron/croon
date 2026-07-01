@@ -4,7 +4,7 @@ import { authOptions } from '@/lib/auth'
 import {
   getFlag, setFlag, getNumber, setNumber,
   KASPI_FEED_ENABLED, KASPI_SITE_BLOCKS_ENABLED,
-  KASPI_DUMPING_ENABLED, KASPI_COMMISSION_MULT, KASPI_COMMISSION_MULT_DEFAULT,
+  KASPI_COMMISSION_MULT, KASPI_COMMISSION_MULT_DEFAULT,
   getKaspiEconomics,
   KASPI_ECON_COMMISSION_PCT, KASPI_ECON_PAY_PCT, KASPI_ECON_TAX_PCT,
   KASPI_ECON_DELIVERY_TENGE, KASPI_ECON_DELIVERY_THRESHOLD,
@@ -23,13 +23,12 @@ async function state() {
     Promise.all([
       getFlag(KASPI_FEED_ENABLED),
       getFlag(KASPI_SITE_BLOCKS_ENABLED),
-      getFlag(KASPI_DUMPING_ENABLED, false), // демпинг по умолчанию ВЫКЛ
       getNumber(KASPI_COMMISSION_MULT, KASPI_COMMISSION_MULT_DEFAULT),
     ]),
     getKaspiEconomics(),
   ])
-  const [feedEnabled, siteBlocksEnabled, dumpingEnabled, commissionMult] = flags
-  return { feedEnabled, siteBlocksEnabled, dumpingEnabled, commissionMult, econ }
+  const [feedEnabled, siteBlocksEnabled, commissionMult] = flags
+  return { feedEnabled, siteBlocksEnabled, commissionMult, econ }
 }
 
 // GET — текущее состояние тумблеров + множитель комиссии.
@@ -38,14 +37,13 @@ export async function GET() {
   return NextResponse.json(await state())
 }
 
-// PATCH { feedEnabled?, siteBlocksEnabled?, dumpingEnabled?: boolean, commissionMult?: number }
+// PATCH { feedEnabled?, siteBlocksEnabled?, commissionMult?: number }
 export async function PATCH(req: NextRequest) {
   if (!(await checkAdmin())) return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
   let body: any
   try { body = await req.json() } catch { return NextResponse.json({ error: 'Некорректное тело' }, { status: 400 }) }
   if (typeof body.feedEnabled === 'boolean') await setFlag(KASPI_FEED_ENABLED, body.feedEnabled)
   if (typeof body.siteBlocksEnabled === 'boolean') await setFlag(KASPI_SITE_BLOCKS_ENABLED, body.siteBlocksEnabled)
-  if (typeof body.dumpingEnabled === 'boolean') await setFlag(KASPI_DUMPING_ENABLED, body.dumpingEnabled)
   if (body.commissionMult !== undefined) {
     const n = Number(body.commissionMult)
     if (Number.isFinite(n) && n > 0 && n < 100) await setNumber(KASPI_COMMISSION_MULT, n)

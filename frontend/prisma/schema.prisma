@@ -133,30 +133,12 @@ model KaspiOffer {
   preOrder          Int       @default(0)
   showOnSite        Boolean?
   lastSyncedAt      DateTime?
-  autoDownscale     Boolean   @default(false)
-  autoUpscale       Boolean   @default(false)
-  minPriceTenge     Int?
-  maxPriceTenge     Int?
-  dumpingStep       Int       @default(2)
-  strategy          String    @default("BECOME_FIRST")
-  ignoreMerchants   String[]  @default([])
-  firstPlacePrice   Int?
-  rivalPrice        Int?
-  rivalName         String?
-  ourPosition       Int?
-  competitorCount   Int?
-  lastDumpCheckAt   DateTime?
-  lastDumpError     String?
-  dumpPriority      Boolean   @default(false)
   createdAt         DateTime  @default(now())
   updatedAt         DateTime  @updatedAt
   product           Product   @relation(fields: [productId], references: [id], onDelete: Cascade)
 
   @@index([productId])
   @@index([active])
-  @@index([autoDownscale])
-  @@index([autoUpscale])
-  @@index([dumpPriority])
 }
 
 model KaspiOrder {

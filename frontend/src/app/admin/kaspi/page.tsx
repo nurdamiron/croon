@@ -1,11 +1,9 @@
 import { requireAdmin } from '@/lib/admin'
 import { prisma } from '@/lib/prisma'
-import { getKaspiCommissionMult, getFlag, getString, KASPI_DUMPING_ENABLED, KASPI_WORKER_LAST_SEEN } from '@/lib/app-settings'
+import { getKaspiCommissionMult } from '@/lib/app-settings'
 import KaspiClient from './KaspiClient'
 import KaspiSwitches from './KaspiSwitches'
 import KaspiCheckpointFilters from './KaspiCheckpointFilters'
-import KaspiDumpingStatus from './KaspiDumpingStatus'
-import KaspiDumpFilters from './KaspiDumpFilters'
 
 export const dynamic = 'force-dynamic'
 
@@ -25,10 +23,6 @@ export default async function KaspiPage({ searchParams }: {
   searchParams: {
     q?: string; bound?: string; page?: string
     act?: string; avl?: string; kurl?: string; site?: string; aurl?: string
-    dump?: string; comp?: string
-    pos?: string; down?: string; up?: string; nofloor?: string
-    pain?: string; loss?: string; expensive?: string; underdump?: string; stale?: string; alonenoceil?: string; nocost?: string
-    notvisible?: string; outstock?: string; atfloor?: string; prio?: string
   }
 }) {
   await requireAdmin()
@@ -37,31 +31,6 @@ export default async function KaspiPage({ searchParams }: {
   const commissionMult = await getKaspiCommissionMult()
   const bound = searchParams.bound // undefined | 'yes' | 'no'
   const page = Math.max(1, parseInt(searchParams.page || '1', 10) || 1)
-  // dump=on → показать только товары с включённым демпингом (autoDownscale/autoUpscale)
-  const dumpOnly = searchParams.dump === 'on'
-  // comp=on → только товары, где есть конкуренты (competitorCount > 0)
-  const compOnly = searchParams.comp === 'on'
-  // Демпинг-фильтры:
-  //  pos = '1'|'2'|'3'|'4' (наша позиция) | 'alone' (конкурентов нет)
-  //  down/up = 'yes'|'no' (автоснижение/автоповышение)
-  //  nofloor = 'on' (снижение вкл, но мин.цена не задана — предохранитель)
-  const fPos = ['1', '2', '3', '4', 'alone'].includes(searchParams.pos || '') ? searchParams.pos! : undefined
-  const fDown = tri(searchParams.down)
-  const fUp = tri(searchParams.up)
-  const fNoFloor = searchParams.nofloor === 'on'
-  // Расширенные демпинг-фильтры (вычисляются по строке):
-  const fPain = searchParams.pain === 'on'           // демпинг вкл + не первые + конкуренты + нет floor
-  const fLoss = searchParams.loss === 'on'           // цель демпинга ниже закуп×комиссия (убыток)
-  const fExpensive = searchParams.expensive === 'on' // мы дороже конкурента в 1.5×+
-  const fUnderdump = searchParams.underdump === 'on' // мы дешевле конкурента в 1.5×+ (отдаём маржу)
-  const fStale = searchParams.stale === 'on'         // не проверялись >24ч (или вообще)
-  const fAloneNoCeil = searchParams.alonenoceil === 'on' // один (нет конкурентов) + потолок не задан
-  const fNoCost = searchParams.nocost === 'on'       // нет закупочной цены (costPrice пуст) → нельзя посчитать floor/маржу
-  const fNotVisible = searchParams.notvisible === 'on' // конкуренты есть, но нас НЕТ в выдаче (дорого/глубоко)
-  const fOutStock = searchParams.outstock === 'on'   // активный оффер, но товар НЕ в наличии (склад 0) → не на витрине Kaspi
-  const fAtFloor = searchParams.atfloor === 'on'     // упёрлись в floor: наша цена ≤ мин.цены, ниже опускаться нельзя
-  const fPrio = searchParams.prio === 'on'           // приоритетный демпинг (проверяется первым)
-
   // Чекпойнты выкладки на Kaspi (три состояния). Дефолт (если ни один параметр
   // не задан в URL) = act/avl/kurl/aurl 'yes' → «готов к выкладке». Если хоть один
   // задан — используем как есть (не подставляем дефолты), чтобы можно было ослаблять.
@@ -110,13 +79,6 @@ export default async function KaspiPage({ searchParams }: {
         id: o.id, kaspiName: o.kaspiName, kaspiBrand: o.kaspiBrand, priceTenge: o.priceTenge,
         active: o.active, stockOverride: o.stockOverride, availableOverride: o.availableOverride,
         preOrder: o.preOrder, showOnSite: o.showOnSite,
-        // Демпинг
-        autoDownscale: o.autoDownscale, autoUpscale: o.autoUpscale,
-        minPriceTenge: o.minPriceTenge, maxPriceTenge: o.maxPriceTenge,
-        dumpingStep: o.dumpingStep, strategy: o.strategy, ignoreMerchants: o.ignoreMerchants,
-        firstPlacePrice: o.firstPlacePrice, rivalPrice: o.rivalPrice, rivalName: o.rivalName, ourPosition: o.ourPosition,
-        competitorCount: o.competitorCount, lastDumpCheckAt: o.lastDumpCheckAt,
-        lastDumpError: o.lastDumpError, dumpPriority: (o as any).dumpPriority ?? false,
         product: o.product ? {
           id: o.product.id, name: o.product.name, slug: o.product.slug,
           totalStock: o.product.totalStock, reservedStock: o.product.reservedStock, inStock: o.product.inStock,
@@ -147,64 +109,6 @@ export default async function KaspiPage({ searchParams }: {
 
     if (bound === 'yes' && !o) return false
     if (bound === 'no' && o) return false
-    // dump=on → только товары с включённым автоснижением/повышением
-    if (dumpOnly && !(o?.autoDownscale || o?.autoUpscale)) return false
-    // comp=on → только товары с конкурентами (есть смысл ставить floor/max)
-    if (compOnly && !((o?.competitorCount ?? 0) > 0)) return false
-
-    // --- Демпинг-фильтры ---
-    const comp = o?.competitorCount ?? 0
-    const pos = o?.ourPosition ?? null
-    // pos: '1'..'4' — наша позиция; 'alone' — конкурентов нет
-    if (fPos) {
-      if (fPos === 'alone') { if (comp !== 0) return false }
-      else { if (pos !== Number(fPos)) return false }
-    }
-    // снижение/повышение вкл/выкл
-    if (fDown !== undefined && matchTri(!!o?.autoDownscale, fDown) === false) return false
-    if (fUp !== undefined && matchTri(!!o?.autoUpscale, fUp) === false) return false
-    // без мин.цены: снижение вкл, но floor (minPriceTenge) не задан (предохранитель)
-    if (fNoFloor && !(o?.autoDownscale && o?.minPriceTenge == null)) return false
-
-    // --- Расширенные демпинг-фильтры ---
-    const rival = o?.rivalPrice ?? null
-    const ourPrice = o?.priceTenge ?? 0
-    const cost = o?.product?.costPrice ?? null
-    // pain: демпинг вкл + не первые + есть конкуренты + floor не задан (заблокировано)
-    if (fPain && !(o?.autoDownscale && pos != null && pos !== 1 && comp > 0 && o?.minPriceTenge == null)) return false
-    // loss: цель демпинга (rival−step) ниже безубытка (закуп×комиссия) → ушли бы в минус
-    if (fLoss) {
-      const target = rival != null ? rival - (o?.dumpingStep || 2) : null
-      const breakeven = cost != null && cost > 0 ? cost * commissionMult : null
-      if (!(target != null && breakeven != null && target < breakeven)) return false
-    }
-    // expensive: мы дороже релевантного конкурента в 1.5×+ (теряем продажи)
-    if (fExpensive && !(rival != null && rival > 0 && ourPrice > rival * 1.5)) return false
-    // underdump: мы дешевле конкурента в 1.5×+ (отдаём маржу даром)
-    if (fUnderdump && !(rival != null && rival > 0 && ourPrice > 0 && ourPrice * 1.5 < rival)) return false
-    // stale: не проверялись >24ч (или вообще не проверялись, но есть оффер)
-    if (fStale) {
-      if (!o) return false
-      const checkedMs = o.lastDumpCheckAt ? new Date(o.lastDumpCheckAt).getTime() : 0
-      const stale = !checkedMs || (Date.now() - checkedMs) > 24 * 3600 * 1000
-      if (!stale) return false
-    }
-    // alonenoceil: конкурентов нет, но потолок (max) не задан → автоповышение молчит
-    if (fAloneNoCeil && !(o && comp === 0 && o.maxPriceTenge == null && o.lastDumpCheckAt)) return false
-    // nocost: нет закупочной цены (costPrice пуст/0) — нельзя посчитать безубыток.
-    // Требуем привязанный товар (без оффера closPrice неизвестен → не показываем).
-    if (fNoCost && !(o && p && (cost == null || cost <= 0))) return false
-    // notvisible: конкуренты есть, но мы НЕ в выдаче (ourPosition пуст) — дорого/глубоко.
-    if (fNotVisible && !(o && comp > 0 && pos == null && o.lastDumpCheckAt)) return false
-    // outstock: активный оффер, но товар не в наличии (cAvl=false) → не на витрине Kaspi.
-    if (fOutStock && !(o && o.active && !cAvl)) return false
-    // atfloor: УПЁРЛИСЬ В ПОЛ — floor задан, есть конкуренты, и наша цена опустилась
-    // до минимума (≤ floor): дальше демпинговать некуда. Тут конкурент может стоять
-    // ниже нашего floor → чтобы отбить, нужно вручную снизить минимум.
-    if (fAtFloor && !(o && o.minPriceTenge != null && comp > 0 && ourPrice <= o.minPriceTenge)) return false
-    // prio: приоритетный демпинг (воркер проверяет первым каждый прогон).
-    if (fPrio && !(o && (o as any).dumpPriority)) return false
-
     return matchTri(cAct, fAct) && matchTri(cAvl, fAvl) && matchTri(cKurl, fKurl)
       && matchTri(cSite, fSite) && matchTri(cAurl, fAurl)
   })
@@ -245,65 +149,6 @@ export default async function KaspiPage({ searchParams }: {
     return cAvl && cKurl && cAurl
   }).length
 
-  // Статистика демпинга для плашки статуса.
-  const dumpingEnabled = await getFlag(KASPI_DUMPING_ENABLED, false)
-  const workerLastSeen = await getString(KASPI_WORKER_LAST_SEEN)
-  const dumpingOn = await prisma.kaspiOffer.count({
-    where: { active: true, OR: [{ autoDownscale: true }, { autoUpscale: true }] },
-  })
-  // «Опасные»: снижение включено, но floor (minPriceTenge) не задан — бот их не тронет.
-  const noFloor = await prisma.kaspiOffer.count({
-    where: { active: true, autoDownscale: true, minPriceTenge: null },
-  })
-  // Товары с конкурентами (где есть смысл ставить floor/max).
-  const withCompetitors = await prisma.kaspiOffer.count({
-    where: { active: true, competitorCount: { gt: 0 } },
-  })
-
-  // Счётчики для демпинг-фильтров (по активным офферам, у которых снята позиция).
-  const [c1, c2, c3, c4, cAlone, cDownOn, cUpOn] = await Promise.all([
-    prisma.kaspiOffer.count({ where: { active: true, ourPosition: 1 } }),
-    prisma.kaspiOffer.count({ where: { active: true, ourPosition: 2 } }),
-    prisma.kaspiOffer.count({ where: { active: true, ourPosition: 3 } }),
-    prisma.kaspiOffer.count({ where: { active: true, ourPosition: 4 } }),
-    prisma.kaspiOffer.count({ where: { active: true, competitorCount: 0, lastDumpCheckAt: { not: null } } }),
-    prisma.kaspiOffer.count({ where: { active: true, autoDownscale: true } }),
-    prisma.kaspiOffer.count({ where: { active: true, autoUpscale: true } }),
-  ])
-  // «Боль»: демпинг-снижение вкл, мы не первые, есть конкуренты, floor не задан.
-  const painCount = await prisma.kaspiOffer.count({
-    where: { active: true, autoDownscale: true, minPriceTenge: null, competitorCount: { gt: 0 }, ourPosition: { not: 1 } },
-  })
-  // Активные офферы, у которых позиция ещё не снималась (нет данных для решений).
-  const notCheckedCount = await prisma.kaspiOffer.count({
-    where: { active: true, lastDumpCheckAt: null },
-  })
-  // «Нет закупа»: активные офферы с привязанным товаром, у которого costPrice пуст/0.
-  const noCostCount = await prisma.kaspiOffer.count({
-    where: { active: true, product: { OR: [{ costPrice: null }, { costPrice: { lte: 0 } }] } },
-  })
-  // «Нас нет в выдаче»: конкуренты есть, но ourPosition пуст (мы дороже/глубже топ-64).
-  const notVisibleCount = await prisma.kaspiOffer.count({
-    where: { active: true, competitorCount: { gt: 0 }, ourPosition: null, lastDumpCheckAt: { not: null } },
-  })
-  // «Упёрлись в пол»: floor задан, есть конкуренты, наша цена ≤ floor (демпинг встал).
-  // Выражение по двум колонкам → raw SQL. dumpPriority — новая колонка, тоже raw
-  // (на случай если клиент ещё не пересобран).
-  const atFloorRows = await prisma.$queryRawUnsafe<{ n: bigint }[]>(
-    `SELECT COUNT(*)::bigint AS n FROM "KaspiOffer"
-     WHERE active = true AND "minPriceTenge" IS NOT NULL
-       AND "competitorCount" > 0 AND "priceTenge" <= "minPriceTenge"`
-  )
-  const atFloorCount = Number(atFloorRows?.[0]?.n ?? 0)
-  const prioRows = await prisma.$queryRawUnsafe<{ n: bigint }[]>(
-    `SELECT COUNT(*)::bigint AS n FROM "KaspiOffer" WHERE active = true AND "dumpPriority" = true`
-  )
-  const prioCount = Number(prioRows?.[0]?.n ?? 0)
-  const dumpFilterCounts = {
-    pos1: c1, pos2: c2, pos3: c3, pos4: c4, alone: cAlone,
-    comp: withCompetitors, downOn: cDownOn, upOn: cUpOn, noFloor, pain: painCount,
-    noCost: noCostCount, notVisible: notVisibleCount, atFloor: atFloorCount, prio: prioCount,
-  }
 
   return (
     <div className="space-y-6">
@@ -338,19 +183,6 @@ export default async function KaspiPage({ searchParams }: {
 
       <KaspiSwitches />
 
-      <KaspiDumpingStatus
-        enabled={dumpingEnabled}
-        dumpingOn={dumpingOn}
-        noFloor={noFloor}
-        withCompetitors={withCompetitors}
-        workerLastSeen={workerLastSeen}
-        dumpOnly={dumpOnly}
-        compOnly={compOnly}
-        painCount={painCount}
-        noPositionCount={notCheckedCount}
-      />
-
-      <KaspiDumpFilters counts={dumpFilterCounts} />
 
       <KaspiCheckpointFilters counts={{ ready: filteredTotal, total }} />
 

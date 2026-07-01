@@ -6,9 +6,6 @@ import { prisma } from '@/lib/prisma'
 export const KASPI_FEED_ENABLED = 'kaspi_feed_enabled'             // фид отдаёт товары на Kaspi
 export const KASPI_SITE_BLOCKS_ENABLED = 'kaspi_site_blocks_enabled' // блоки «Купить на Kaspi» на сайте
 
-// Демпинг (автоуправление ценой). Глобальный аварийный тумблер: off → крон ничего
-// не меняет. По умолчанию ВЫКЛ (демпинг — опасная автоматика, включается осознанно).
-export const KASPI_DUMPING_ENABLED = 'kaspi_dumping_enabled'
 
 // Множитель комиссии Kaspi для расчёта маржи/floor (число-строка, напр. "1.41").
 // margin = price − costPrice × mult; floorAuto = round(costPrice × mult).
@@ -148,39 +145,6 @@ export async function setPostponed(productId: string, postponed: boolean): Promi
   return next
 }
 
-// --- Отложенные запросы «скан + просчёт min/max» по формуле ---------------
-// Кнопка в /admin/kaspi ставит сюда offerId → множители; воркер сканит свежие
-// цены конкурентов, а ingest применяет формулу и снимает запрос. Migration-free
-// (храним JSON в appSetting, без новой колонки в БД).
-export const KASPI_MINMAX_PENDING = 'kaspi_minmax_pending'
-export type MinMaxFormula = { kMin: number; kMax: number; kRival: number }
-
-export async function getMinMaxPending(): Promise<Record<string, MinMaxFormula>> {
-  const raw = await getString(KASPI_MINMAX_PENDING)
-  if (!raw) return {}
-  try {
-    const obj = JSON.parse(raw)
-    return obj && typeof obj === 'object' ? obj : {}
-  } catch {
-    return {}
-  }
-}
-
-// Поставить запрос формулы для набора офферов (перезаписывает множители если были).
-export async function addMinMaxPending(offerIds: string[], f: MinMaxFormula): Promise<number> {
-  const cur = await getMinMaxPending()
-  for (const id of offerIds) cur[id] = f
-  await setString(KASPI_MINMAX_PENDING, JSON.stringify(cur))
-  return Object.keys(cur).length
-}
-
-// Снять запросы (после применения) для набора офферов.
-export async function clearMinMaxPending(offerIds: string[]): Promise<void> {
-  const cur = await getMinMaxPending()
-  let changed = false
-  for (const id of offerIds) if (id in cur) { delete cur[id]; changed = true }
-  if (changed) await setString(KASPI_MINMAX_PENDING, JSON.stringify(cur))
-}
 
 // Ключи push-уведомлений по каналам продаж. По умолчанию все включены (true).
 export const NOTIFY_ALASH = 'notify_alash_enabled'

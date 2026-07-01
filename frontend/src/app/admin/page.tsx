@@ -1,35 +1,44 @@
 import { prisma } from '@/lib/prisma'
 import Link from 'next/link'
 import RevenueChart from './components/RevenueChart'
+import { unstable_cache } from 'next/cache'
 
 const LOW_STOCK_THRESHOLD = 5
 
-export default async function AdminDashboard() {
-  const now = new Date()
-  const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate())
-  const monthStart = new Date(now.getFullYear(), now.getMonth(), 1)
+const getCachedStats = unstable_cache(
+  async () => {
+    const now = new Date()
+    const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate())
+    const monthStart = new Date(now.getFullYear(), now.getMonth(), 1)
 
+    return await Promise.all([
+      prisma.kaspiOrder.findMany({ where: { status: 'APPROVED_BY_BANK' }, select: { totalPrice: true } }),
+      prisma.kaspiOrder.findMany({ where: { status: 'ACCEPTED_BY_MERCHANT' }, select: { totalPrice: true } }),
+      prisma.kaspiOrder.findMany({ where: { state: { in: ['DELIVERY', 'KASPI_DELIVERY'] }, status: { notIn: ['COMPLETED', 'CANCELLED'] } }, select: { totalPrice: true } }),
+      prisma.kaspiOrder.findMany({
+        orderBy: { creationDate: 'desc' }, take: 8,
+        select: { id: true, code: true, status: true, totalPrice: true, customerName: true, customerPhone: true, creationDate: true },
+      }),
+      prisma.product.findMany({
+        where: { totalStock: { gt: 0, lte: LOW_STOCK_THRESHOLD } },
+        select: { id: true, name: true, totalStock: true, sku: true, images: { take: 1, select: { url: true } } },
+        orderBy: { totalStock: 'asc' }, take: 8,
+      }),
+      prisma.kaspiOrder.findMany({ where: { creationDate: { gte: todayStart }, status: { notIn: ['CANCELLED'] } }, select: { totalPrice: true } }),
+      prisma.kaspiOrder.findMany({ where: { creationDate: { gte: monthStart }, status: { notIn: ['CANCELLED'] } }, select: { totalPrice: true } }),
+      prisma.product.count(),
+      prisma.product.count({ where: { inStock: false } }),
+    ])
+  },
+  ['admin-dashboard-stats-v2'],
+  { revalidate: 60 }
+)
+
+export default async function AdminDashboard() {
   const [
     newOrders, processingOrders, shippedOrders, recentOrdersRaw, lowStockProducts,
     todayOrders, monthOrders, totalProducts, outOfStockCount,
-  ] = await Promise.all([
-    prisma.kaspiOrder.findMany({ where: { status: 'APPROVED_BY_BANK' }, select: { totalPrice: true } }),
-    prisma.kaspiOrder.findMany({ where: { status: 'ACCEPTED_BY_MERCHANT' }, select: { totalPrice: true } }),
-    prisma.kaspiOrder.findMany({ where: { state: { in: ['DELIVERY', 'KASPI_DELIVERY'] }, status: { notIn: ['COMPLETED', 'CANCELLED'] } }, select: { totalPrice: true } }),
-    prisma.kaspiOrder.findMany({
-      orderBy: { creationDate: 'desc' }, take: 8,
-      select: { id: true, code: true, status: true, totalPrice: true, customerName: true, customerPhone: true, creationDate: true },
-    }),
-    prisma.product.findMany({
-      where: { totalStock: { gt: 0, lte: LOW_STOCK_THRESHOLD } },
-      select: { id: true, name: true, totalStock: true, sku: true, images: { take: 1, select: { url: true } } },
-      orderBy: { totalStock: 'asc' }, take: 8,
-    }),
-    prisma.kaspiOrder.findMany({ where: { creationDate: { gte: todayStart }, status: { notIn: ['CANCELLED'] } }, select: { totalPrice: true } }),
-    prisma.kaspiOrder.findMany({ where: { creationDate: { gte: monthStart }, status: { notIn: ['CANCELLED'] } }, select: { totalPrice: true } }),
-    prisma.product.count(),
-    prisma.product.count({ where: { inStock: false } }),
-  ])
+  ] = await getCachedStats()
 
   const newTotal = newOrders.reduce((s, o) => s + o.totalPrice, 0)
   const processingTotal = processingOrders.reduce((s, o) => s + o.totalPrice, 0)
@@ -44,7 +53,7 @@ export default async function AdminDashboard() {
     total: o.totalPrice,
     name: o.customerName || 'Без имени',
     phone: o.customerPhone,
-    createdAt: o.creationDate ? o.creationDate.toISOString() : new Date().toISOString()
+    createdAt: o.creationDate ? new Date(o.creationDate).toISOString() : new Date().toISOString()
   }))
 
   const orderStatusCards = [

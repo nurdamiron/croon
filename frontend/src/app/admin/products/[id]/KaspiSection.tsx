@@ -12,31 +12,8 @@ type OfferRow = {
   kaspiName?: string | null
   kaspiBrand?: string | null
   lastSyncedAt?: string | null
-  // Поштучный демпинг
-  autoDownscale: boolean
-  autoUpscale: boolean
-  dumpPriority: boolean
-  minPriceTenge: string
-  maxPriceTenge: string
-  dumpingStep: string
-  strategy: string
-  ignoreMerchants: string // через запятую (для простого ввода)
-  // снятые движком метрики (только показ)
-  rivalPrice?: number | null
-  rivalName?: string | null
-  ourPosition?: number | null
-  competitorCount?: number | null
-  lastDumpError?: string | null
-  // ui
-  dumpOpen?: boolean
 }
 
-const STRATEGY_LABELS: Record<string, string> = {
-  BECOME_FIRST: 'Стать первым (−шаг от лидера)',
-  FIRST_MIN_GAP: 'Первым, но впритык (−шаг от 2-го)',
-  MATCH_FIRST: 'Равная лидеру',
-  HOLD_SECOND: 'Держать 2-е место',
-}
 
 // маппинг оффера из API → строка формы (с дефолтами демпинга)
 function rowFromOffer(o: any): OfferRow {
@@ -50,19 +27,6 @@ function rowFromOffer(o: any): OfferRow {
     kaspiName: o.kaspiName,
     kaspiBrand: o.kaspiBrand,
     lastSyncedAt: o.lastSyncedAt,
-    autoDownscale: !!o.autoDownscale,
-    autoUpscale: !!o.autoUpscale,
-    dumpPriority: !!o.dumpPriority,
-    minPriceTenge: o.minPriceTenge == null ? '' : String(o.minPriceTenge),
-    maxPriceTenge: o.maxPriceTenge == null ? '' : String(o.maxPriceTenge),
-    dumpingStep: o.dumpingStep == null ? '2' : String(o.dumpingStep),
-    strategy: o.strategy || 'BECOME_FIRST',
-    ignoreMerchants: Array.isArray(o.ignoreMerchants) ? o.ignoreMerchants.join(', ') : '',
-    rivalPrice: o.rivalPrice,
-    rivalName: o.rivalName,
-    ourPosition: o.ourPosition,
-    competitorCount: o.competitorCount,
-    lastDumpError: o.lastDumpError,
   }
 }
 
@@ -101,8 +65,6 @@ export default function KaspiSection({ productId, isNew }: { productId: string; 
 
   const addRow = () => setRows(prev => [...prev, {
     kaspiSku: '', url: '', priceTenge: '', active: true,
-    autoDownscale: false, autoUpscale: false, dumpPriority: false,
-    minPriceTenge: '', maxPriceTenge: '', dumpingStep: '2', strategy: 'BECOME_FIRST', ignoreMerchants: '',
   }])
 
   const updateRow = (i: number, patch: Partial<OfferRow>) => {
@@ -175,15 +137,6 @@ export default function KaspiSection({ productId, isNew }: { productId: string; 
           active: r.active,
           kaspiName: r.kaspiName || undefined,
           kaspiBrand: r.kaspiBrand || undefined,
-          // поштучный демпинг
-          autoDownscale: r.autoDownscale,
-          autoUpscale: r.autoUpscale,
-          dumpPriority: r.dumpPriority,
-          minPriceTenge: r.minPriceTenge === '' ? null : Number(r.minPriceTenge),
-          maxPriceTenge: r.maxPriceTenge === '' ? null : Number(r.maxPriceTenge),
-          dumpingStep: r.dumpingStep === '' ? 2 : Number(r.dumpingStep),
-          strategy: r.strategy,
-          ignoreMerchants: r.ignoreMerchants.split(',').map(s => s.trim()).filter(Boolean),
         }))
       const res = await fetch(`/api/admin/products/${productId}/kaspi-offers`, {
         method: 'PUT',
@@ -329,17 +282,7 @@ export default function KaspiSection({ productId, isNew }: { productId: string; 
                       </button>
                     </td>
                     <td className="py-2 text-center whitespace-nowrap">
-                      <button
-                        type="button"
-                        onClick={() => updateRow(i, { dumpOpen: !r.dumpOpen })}
-                        className={`mr-1.5 transition-colors ${r.dumpOpen || r.autoDownscale || r.autoUpscale ? 'text-admin' : 'text-gray-400 hover:text-admin'}`}
-                        title="Настройки демпинга"
-                      >
-                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                          <circle cx="12" cy="12" r="3"/>
-                          <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
-                        </svg>
-                      </button>
+
                       <button
                         type="button"
                         onClick={() => deleteOffer(i)}
@@ -352,13 +295,7 @@ export default function KaspiSection({ productId, isNew }: { productId: string; 
                       </button>
                     </td>
                   </tr>
-                  {r.dumpOpen && (
-                    <tr className="bg-admin/[0.03]">
-                      <td colSpan={5} className="px-3 py-4 border-b border-gray-100">
-                        <DumpPanel row={r} onChange={patch => updateRow(i, patch)} />
-                      </td>
-                    </tr>
-                  )}
+
                   </React.Fragment>
                 ))}
               </tbody>
@@ -377,121 +314,8 @@ export default function KaspiSection({ productId, isNew }: { productId: string; 
         {msg && (
           <div className={`mt-3 text-[12px] ${msg.kind === 'ok' ? 'text-green-600' : 'text-red-600'}`}>{msg.text}</div>
         )}
-        <p className="text-[11px] text-gray-400 mt-3 leading-relaxed">
-          ⚙ — поштучные настройки демпинга для оффера. Изменения применяются после «Сохранить Kaspi».
-          Глобальный тумблер демпинга и массовые операции — на странице{' '}
-          <a href="/admin/kaspi" className="text-admin hover:underline">Kaspi</a>.
-        </p>
       </div>
     </div>
   )
 }
 
-// Поштучная панель настроек демпинга для одного оффера.
-function DumpPanel({ row, onChange }: { row: OfferRow; onChange: (patch: Partial<OfferRow>) => void }) {
-  const Toggle = ({ on, onClick, label, hint }: { on: boolean; onClick: () => void; label: string; hint: string }) => (
-    <button type="button" onClick={onClick} className="flex items-start gap-2 text-left">
-      <span className={`mt-0.5 relative inline-flex h-5 w-9 shrink-0 items-center rounded-full transition-colors ${on ? 'bg-admin' : 'bg-gray-300'}`}>
-        <span className={`inline-block h-3 w-3 transform rounded-full bg-white transition ${on ? 'translate-x-5' : 'translate-x-1'}`} />
-      </span>
-      <span>
-        <span className="block text-[12px] font-medium text-gray-700">{label}</span>
-        <span className="block text-[11px] text-gray-400 leading-snug">{hint}</span>
-      </span>
-    </button>
-  )
-
-  return (
-    <div className="space-y-4">
-      <div className="text-[12px] font-semibold text-gray-600">Демпинг для этого оффера</div>
-
-      {/* Тумблеры режима */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-        <Toggle
-          on={row.autoDownscale}
-          onClick={() => onChange({ autoDownscale: !row.autoDownscale })}
-          label="Снижать цену (держать топ)"
-          hint="опускать под конкурента до нижнего порога"
-        />
-        <Toggle
-          on={row.autoUpscale}
-          onClick={() => onChange({ autoUpscale: !row.autoUpscale })}
-          label="Повышать цену (вернуть маржу)"
-          hint="поднимать к верхнему порогу, когда конкурентов нет"
-        />
-      </div>
-
-      {/* Стратегия + шаг + приоритет */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-        <label className="block">
-          <span className="block text-[11px] text-gray-500 mb-1">Стратегия</span>
-          <select
-            value={row.strategy}
-            onChange={e => onChange({ strategy: e.target.value })}
-            className="w-full border border-gray-200 rounded px-2 py-1.5 text-[12px] outline-none focus:border-admin bg-white"
-          >
-            {Object.entries(STRATEGY_LABELS).map(([v, l]) => (
-              <option key={v} value={v}>{l}</option>
-            ))}
-          </select>
-        </label>
-        <label className="block">
-          <span className="block text-[11px] text-gray-500 mb-1">Шаг, ₸ (ниже конкурента)</span>
-          <input
-            type="number" min={1} value={row.dumpingStep}
-            onChange={e => onChange({ dumpingStep: e.target.value })}
-            className="w-full border border-gray-200 rounded px-2 py-1.5 text-[12px] outline-none focus:border-admin"
-          />
-        </label>
-        <div className="flex items-end">
-          <Toggle
-            on={row.dumpPriority}
-            onClick={() => onChange({ dumpPriority: !row.dumpPriority })}
-            label="Приоритет"
-            hint="воркер проверяет этот оффер первым"
-          />
-        </div>
-      </div>
-
-      {/* Границы цены */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-        <label className="block">
-          <span className="block text-[11px] text-gray-500 mb-1">Мин. цена (пол), ₸</span>
-          <input
-            type="number" min={0} value={row.minPriceTenge} placeholder="не опускаться ниже"
-            onChange={e => onChange({ minPriceTenge: e.target.value })}
-            className="w-full border border-gray-200 rounded px-2 py-1.5 text-[12px] outline-none focus:border-admin"
-          />
-        </label>
-        <label className="block">
-          <span className="block text-[11px] text-gray-500 mb-1">Макс. цена (потолок), ₸</span>
-          <input
-            type="number" min={0} value={row.maxPriceTenge} placeholder="не поднимать выше"
-            onChange={e => onChange({ maxPriceTenge: e.target.value })}
-            className="w-full border border-gray-200 rounded px-2 py-1.5 text-[12px] outline-none focus:border-admin"
-          />
-        </label>
-      </div>
-
-      {/* Игнор-продавцы */}
-      <label className="block">
-        <span className="block text-[11px] text-gray-500 mb-1">Не обгонять продавцов (merchantId через запятую)</span>
-        <input
-          type="text" value={row.ignoreMerchants} placeholder="напр. 30383258, 12345678"
-          onChange={e => onChange({ ignoreMerchants: e.target.value })}
-          className="w-full border border-gray-200 rounded px-2 py-1.5 text-[12px] outline-none focus:border-admin"
-        />
-      </label>
-
-      {/* Снятые движком метрики (только показ) */}
-      {(row.ourPosition != null || row.rivalPrice != null || row.lastDumpError) && (
-        <div className="text-[11px] text-gray-500 bg-white border border-gray-100 rounded px-3 py-2 space-y-0.5">
-          <div className="font-medium text-gray-600">Последняя проверка:</div>
-          {row.ourPosition != null && <div>Наше место: <b>{row.ourPosition}</b>{row.competitorCount != null && ` · конкурентов: ${row.competitorCount}`}</div>}
-          {row.rivalPrice != null && <div>Конкурент: <b>{row.rivalPrice.toLocaleString('ru-RU')} ₸</b>{row.rivalName ? ` (${row.rivalName})` : ''}</div>}
-          {row.lastDumpError && <div className="text-red-500">Ошибка: {row.lastDumpError}</div>}
-        </div>
-      )}
-    </div>
-  )
-}

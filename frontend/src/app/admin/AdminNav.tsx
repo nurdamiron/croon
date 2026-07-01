@@ -26,21 +26,7 @@ const NAV_GROUPS = [
     label: 'Продажи',
     items: [
       {
-        label: 'Заказы',
-        href: '/admin/orders',
-        badge: true,
-        badgeKey: 'orders',
-        icon: (
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75">
-            <path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/>
-            <rect x="9" y="3" width="6" height="4" rx="2"/>
-            <line x1="9" y1="12" x2="15" y2="12"/>
-            <line x1="9" y1="16" x2="13" y2="16"/>
-          </svg>
-        ),
-      },
-      {
-        label: 'Kaspi заказы',
+        label: 'Заказы Kaspi',
         href: '/admin/kaspi-orders',
         badge: true,
         badgeKey: 'kaspi',
@@ -53,14 +39,15 @@ const NAV_GROUPS = [
         ),
       },
       {
-        label: 'Kaspi аналитика',
-        href: '/admin/kaspi-analytics',
+        label: 'Заказы Сайт',
+        href: '/admin/orders',
+        badge: true,
+        badgeKey: 'orders',
         icon: (
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75">
-            <line x1="3" y1="21" x2="21" y2="21"/>
-            <rect x="5" y="11" width="3" height="7" rx="0.5"/>
-            <rect x="10.5" y="7" width="3" height="11" rx="0.5"/>
-            <rect x="16" y="3" width="3" height="15" rx="0.5"/>
+            <circle cx="9" cy="21" r="1"/>
+            <circle cx="20" cy="21" r="1"/>
+            <path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/>
           </svg>
         ),
       },
@@ -85,17 +72,54 @@ const NAV_GROUPS = [
           </svg>
         ),
       },
+      {
+        label: 'Аналитика',
+        href: '/admin/kaspi-analytics',
+        icon: (
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75">
+            <line x1="3" y1="21" x2="21" y2="21"/>
+            <rect x="5" y="11" width="3" height="7" rx="0.5"/>
+            <rect x="10.5" y="7" width="3" height="11" rx="0.5"/>
+            <rect x="16" y="3" width="3" height="15" rx="0.5"/>
+          </svg>
+        ),
+      },
     ],
   },
   {
-    label: 'Каталог',
+    label: 'Склад и Каталог',
     items: [
+      {
+        label: 'Каталог Kaspi',
+        href: '/admin/kaspi',
+        icon: (
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75">
+            <polygon points="12 2 22 8.5 22 15.5 12 22 2 15.5 2 8.5 12 2" />
+            <line x1="12" y1="22" x2="12" y2="15.5" />
+            <polyline points="22 8.5 12 15.5 2 8.5" />
+            <polyline points="2 15.5 12 8.5 22 15.5" />
+            <line x1="12" y1="2" x2="12" y2="8.5" />
+          </svg>
+        ),
+      },
       {
         label: 'Товары',
         href: '/admin/products',
         icon: (
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75">
             <path d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10"/>
+          </svg>
+        ),
+      },
+      {
+        label: 'Категории',
+        href: '/admin/categories',
+        icon: (
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75">
+            <rect x="3" y="3" width="7" height="7" rx="1"/>
+            <rect x="14" y="3" width="7" height="7" rx="1"/>
+            <rect x="14" y="14" width="7" height="7" rx="1"/>
+            <rect x="3" y="14" width="7" height="7" rx="1"/>
           </svg>
         ),
       },
@@ -118,61 +142,11 @@ const NAV_GROUPS = [
         ),
       },
       {
-        label: 'Себестоимость',
+        label: 'Коррекция себестоимости',
         href: '/admin/cost-fix',
         icon: (
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75">
-            <circle cx="12" cy="12" r="9"/>
-            <path d="M12 7v10M9.5 9.5h3.25a1.75 1.75 0 010 3.5H10.5a1.75 1.75 0 000 3.5H14"/>
-          </svg>
-        ),
-      },
-      {
-        label: 'Kaspi',
-        href: '/admin/kaspi',
-        icon: (
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75">
-            <path d="M3 3h7v7H3zM14 3h7v7h-7zM3 14h7v7H3zM14 14h7v7h-7z"/>
-            <path d="M7 7v3M17.5 7v3M7 14v3M17.5 14v3"/>
-          </svg>
-        ),
-      },
-      {
-        label: 'Нет на Kaspi',
-        href: '/admin/kaspi-missing',
-        icon: (
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75">
-            <path d="M3 3h7v7H3zM14 3h7v7h-7zM3 14h7v7H3z"/>
-            <line x1="15" y1="15" x2="21" y2="21"/><line x1="21" y1="15" x2="15" y2="21"/>
-          </svg>
-        ),
-      },
-      {
-        label: 'Категории',
-        href: '/admin/categories',
-        icon: (
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75">
-            <rect x="3" y="3" width="7" height="7" rx="1"/>
-            <rect x="14" y="3" width="7" height="7" rx="1"/>
-            <rect x="14" y="14" width="7" height="7" rx="1"/>
-            <rect x="3" y="14" width="7" height="7" rx="1"/>
-          </svg>
-        ),
-      },
-    ],
-  },
-  {
-    label: 'Контент',
-    items: [
-      {
-        label: 'Страницы',
-        href: '/admin/pages',
-        icon: (
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75">
-            <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
-            <polyline points="14 2 14 8 20 8"/>
-            <line x1="8" y1="13" x2="16" y2="13"/>
-            <line x1="8" y1="17" x2="12" y2="17"/>
+            <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
           </svg>
         ),
       },

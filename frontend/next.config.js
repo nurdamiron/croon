@@ -5,10 +5,19 @@ const nextConfig = {
     missingSuspenseWithCSRBailout: false,
   },
   images: {
+    unoptimized: true,
     remotePatterns: [
       {
         protocol: 'https',
         hostname: 'alashed-media.s3.eu-north-1.amazonaws.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'resources.cdn-kaspi.kz',
+      },
+      {
+        protocol: 'https',
+        hostname: 'images.unsplash.com',
       },
     ],
     formats: ['image/avif', 'image/webp'],

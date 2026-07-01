@@ -100,9 +100,12 @@ function mcHeaders(cookie, extra = {}) {
 // (без SMS, подтверждено): значит полностью автоматизируем.
 async function doLogin({ interactive = false } = {}) {
   const { user, pass } = getCreds()
-  if (!user || !pass) {
+  const isManual = !user || !pass
+
+  if (isManual && !interactive) {
     throw new Error('нет логина/пароля робота. Введи их на странице дашборда (кнопка «Логин/пароль») или задай KASPI_LOGIN_USER/PASS')
   }
+
   let chromium
   try { ({ chromium } = await import('playwright')) }
   catch { throw new Error('для входа нужен playwright: npm i playwright && npx playwright install chromium') }
@@ -113,27 +116,37 @@ async function doLogin({ interactive = false } = {}) {
   })
   const page = await ctx.newPage()
   try {
-    log(`авто-вход в кабинет под ${user}…`)
+    if (isManual) {
+      log('Логин/пароль не заданы. Открываю браузер для ручного входа...')
+      log('Пожалуйста, авторизуйтесь в открывшемся окне браузера Chromium...')
+    } else {
+      log(`авто-вход в кабинет под ${user}…`)
+    }
+    
     await page.goto('https://idmc.shop.kaspi.kz/login', { waitUntil: 'domcontentloaded', timeout: 30000 })
     await sleep(1500)
 
-    // Вход ДВУХШАГОВЫЙ (проверено вживую):
-    //   Шаг 1: вкладка «Email» (<li role=tab>), поле #user_email_field, «Продолжить».
-    //   Шаг 2: появляется #password_field, «Продолжить» → редирект в кабинет.
-    // SMS не запрашивается (вход только email+пароль).
-    try { await page.locator('li[role="tab"]:has-text("Email")').click({ timeout: 3000 }) } catch {}
-    await sleep(400)
-    await page.fill('#user_email_field, input[name="username"]', user)
-    await page.locator('button:has-text("Продолжить"), button[type="submit"]').first().click({ timeout: 5000 })
-    await sleep(2500)
+    if (!isManual) {
+      // Вход ДВУХШАГОВЫЙ (проверено вживую):
+      //   Шаг 1: вкладка «Email» (<li role=tab>), поле #user_email_field, «Продолжить».
+      //   Шаг 2: появляется #password_field, «Продолжить» → редирект в кабинет.
+      // SMS не запрашивается (вход только email+пароль).
+      try { await page.locator('li[role="tab"]:has-text("Email")').click({ timeout: 3000 }) } catch {}
+      await sleep(400)
+      await page.fill('#user_email_field, input[name="username"]', user)
+      await page.locator('button:has-text("Продолжить"), button[type="submit"]').first().click({ timeout: 5000 })
+      await sleep(2500)
 
-    // Шаг 2 — пароль.
-    await page.fill('#password_field, input[type="password"]', pass)
-    await page.locator('button:has-text("Продолжить"), button:has-text("Войти"), button[type="submit"]').first().click({ timeout: 5000 }).catch(() => {})
-    log('   логин/пароль отправлены, жду сессию…')
+      // Шаг 2 — пароль.
+      await page.fill('#password_field, input[type="password"]', pass)
+      await page.locator('button:has-text("Продолжить"), button:has-text("Войти"), button[type="submit"]').first().click({ timeout: 5000 }).catch(() => {})
+      log('   логин/пароль отправлены, жду сессию…')
+    }
 
-    // Ждём рабочую сессию (проверка offer/count). До 90с — авто-логин быстрый.
-    for (let i = 0; i < 30; i++) {
+    // Ждём рабочую сессию (проверка offer/count).
+    // Для ручного входа даем больше времени (180 секунд).
+    const maxAttempts = isManual ? 60 : 30
+    for (let i = 0; i < maxAttempts; i++) {
       await sleep(3000)
       let ok = false
       try {
@@ -144,13 +157,14 @@ async function doLogin({ interactive = false } = {}) {
       if (ok) {
         const cookies = await ctx.cookies(['https://mc.shop.kaspi.kz', 'https://kaspi.kz'])
         const cookie = cookies.map((c) => `${c.name}=${c.value}`).join('; ')
-        saveCookie(cookie)
-        log('✅ авто-вход выполнен, куки сохранены')
+        const finalCookie = cookie.includes('ks.sid=') ? cookie : (await ctx.cookies()).map((c) => `${c.name}=${c.value}`).join('; ')
+        saveCookie(finalCookie)
+        log('✅ вход выполнен, куки сохранены')
         await browser.close()
-        return cookie
+        return finalCookie
       }
     }
-    throw new Error('авто-вход не удался за 90с — проверь логин/пароль (или Kaspi запросил подтверждение)')
+    throw new Error('вход не удался по таймауту — проверь логин/пароль или пройди авторизацию до конца')
   } finally {
     try { await browser.close() } catch {}
   }

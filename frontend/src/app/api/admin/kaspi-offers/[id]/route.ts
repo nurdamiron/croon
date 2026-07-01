@@ -45,32 +45,6 @@ export async function PATCH(request: NextRequest, { params }: { params: { id: st
     data.showOnSite = body.showOnSite === null ? null : Boolean(body.showOnSite)
   }
 
-  // --- Демпинг ---
-  if (body.autoDownscale !== undefined) data.autoDownscale = Boolean(body.autoDownscale)
-  if (body.autoUpscale !== undefined) data.autoUpscale = Boolean(body.autoUpscale)
-  if (body.dumpPriority !== undefined) data.dumpPriority = Boolean(body.dumpPriority)
-  if (body.minPriceTenge !== undefined) {
-    const v = body.minPriceTenge
-    data.minPriceTenge = v === null || v === '' ? null : Math.max(1, Math.round(Number(v)))
-  }
-  if (body.maxPriceTenge !== undefined) {
-    const v = body.maxPriceTenge
-    data.maxPriceTenge = v === null || v === '' ? null : Math.max(1, Math.round(Number(v)))
-  }
-  if (body.dumpingStep !== undefined) {
-    let v = Math.round(Number(body.dumpingStep))
-    if (!Number.isFinite(v) || v < 1) v = 1
-    data.dumpingStep = v
-  }
-  if (body.strategy !== undefined) {
-    const allowed = ['BECOME_FIRST', 'MATCH_FIRST', 'HOLD_SECOND', 'FIRST_MIN_GAP']
-    if (allowed.includes(String(body.strategy))) data.strategy = String(body.strategy)
-  }
-  if (body.ignoreMerchants !== undefined) {
-    data.ignoreMerchants = Array.isArray(body.ignoreMerchants)
-      ? body.ignoreMerchants.map((m: any) => String(m)).filter(Boolean)
-      : []
-  }
 
   const offer = await prisma.kaspiOffer.update({ where: { id: params.id }, data })
   return NextResponse.json({ offer })
