@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>com.croon.kaspi-sync</string>
+  <key>ProgramArguments</key>
+  <array>
+    <string>/usr/local/bin/node</string>
+    <string>/Users/nurdauletakhmatov/Desktop/croon/frontend/scripts/kaspi-full-sync.mjs</string>
+    <string>--once</string>
+  </array>
+  <key>WorkingDirectory</key>
+  <string>/Users/nurdauletakhmatov/Desktop/croon/frontend</string>
+  <key>StartInterval</key>
+  <integer>3600</integer>
+  <key>StandardOutPath</key>
+  <string>/Users/nurdauletakhmatov/Desktop/croon/frontend/logs/kaspi-sync.log</string>
+  <key>StandardErrorPath</key>
+  <string>/Users/nurdauletakhmatov/Desktop/croon/frontend/logs/kaspi-sync.log</string>
+  <key>EnvironmentVariables</key>
+  <dict>
+    <key>CRON_SECRET</key>
+    <string>YOUR_CRON_SECRET_HERE</string>
+  </dict>
+  <key>RunAtLoad</key>
+  <true/>
+</dict>
+</plist>
