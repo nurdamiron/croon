@@ -7,46 +7,70 @@ const LOW_STOCK_THRESHOLD = 5
 
 const getCachedStats = unstable_cache(
   async () => {
-    const now = new Date()
-    const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate())
-    const monthStart = new Date(now.getFullYear(), now.getMonth(), 1)
+    // Single raw SQL query for all dashboard stats — avoids 6+ round trips
+    const result = await prisma.$queryRaw<{
+      new_count: bigint; new_total: number;
+      processing_count: bigint; processing_total: number;
+      shipped_count: bigint; shipped_total: number;
+      today_count: bigint; today_total: number;
+      month_count: bigint; month_total: number;
+      total_count: bigint; total_total: number;
+      product_count: bigint; out_of_stock: bigint;
+    }[]>`
+      SELECT
+        (SELECT COUNT(*) FROM "KaspiOrder" WHERE status = 'APPROVED_BY_BANK')::bigint AS new_count,
+        (SELECT COALESCE(SUM("totalPrice"), 0) FROM "KaspiOrder" WHERE status = 'APPROVED_BY_BANK')::float AS new_total,
+        (SELECT COUNT(*) FROM "KaspiOrder" WHERE status = 'ACCEPTED_BY_MERCHANT')::bigint AS processing_count,
+        (SELECT COALESCE(SUM("totalPrice"), 0) FROM "KaspiOrder" WHERE status = 'ACCEPTED_BY_MERCHANT')::float AS processing_total,
+        (SELECT COUNT(*) FROM "KaspiOrder" WHERE state IN ('DELIVERY', 'KASPI_DELIVERY') AND status NOT IN ('COMPLETED', 'CANCELLED'))::bigint AS shipped_count,
+        (SELECT COALESCE(SUM("totalPrice"), 0) FROM "KaspiOrder" WHERE state IN ('DELIVERY', 'KASPI_DELIVERY') AND status NOT IN ('COMPLETED', 'CANCELLED'))::float AS shipped_total,
+        (SELECT COUNT(*) FROM "KaspiOrder" WHERE "creationDate" >= DATE_TRUNC('day', NOW()) AND status != 'CANCELLED')::bigint AS today_count,
+        (SELECT COALESCE(SUM("totalPrice"), 0) FROM "KaspiOrder" WHERE "creationDate" >= DATE_TRUNC('day', NOW()) AND status != 'CANCELLED')::float AS today_total,
+        (SELECT COUNT(*) FROM "KaspiOrder" WHERE "creationDate" >= DATE_TRUNC('month', NOW()) AND status != 'CANCELLED')::bigint AS month_count,
+        (SELECT COALESCE(SUM("totalPrice"), 0) FROM "KaspiOrder" WHERE "creationDate" >= DATE_TRUNC('month', NOW()) AND status != 'CANCELLED')::float AS month_total,
+        (SELECT COUNT(*) FROM "KaspiOrder" WHERE status NOT IN ('CANCELLED', 'CANCELLING'))::bigint AS total_count,
+        (SELECT COALESCE(SUM("totalPrice"), 0) FROM "KaspiOrder" WHERE status NOT IN ('CANCELLED', 'CANCELLING'))::float AS total_total,
+        (SELECT COUNT(*) FROM "Product")::bigint AS product_count,
+        (SELECT COUNT(*) FROM "Product" WHERE "inStock" = false)::bigint AS out_of_stock
+    `
 
-    return await Promise.all([
-      prisma.kaspiOrder.findMany({ where: { status: 'APPROVED_BY_BANK' }, select: { totalPrice: true } }),
-      prisma.kaspiOrder.findMany({ where: { status: 'ACCEPTED_BY_MERCHANT' }, select: { totalPrice: true } }),
-      prisma.kaspiOrder.findMany({ where: { state: { in: ['DELIVERY', 'KASPI_DELIVERY'] }, status: { notIn: ['COMPLETED', 'CANCELLED'] } }, select: { totalPrice: true } }),
-      prisma.kaspiOrder.findMany({
-        orderBy: { creationDate: 'desc' }, take: 8,
-        select: { id: true, code: true, status: true, totalPrice: true, customerName: true, customerPhone: true, creationDate: true },
-      }),
-      prisma.product.findMany({
-        where: { totalStock: { gt: 0, lte: LOW_STOCK_THRESHOLD } },
-        select: { id: true, name: true, totalStock: true, sku: true, images: { take: 1, select: { url: true } } },
-        orderBy: { totalStock: 'asc' }, take: 8,
-      }),
-      prisma.kaspiOrder.findMany({ where: { creationDate: { gte: todayStart }, status: { notIn: ['CANCELLED'] } }, select: { totalPrice: true } }),
-      prisma.kaspiOrder.findMany({ where: { creationDate: { gte: monthStart }, status: { notIn: ['CANCELLED'] } }, select: { totalPrice: true } }),
-      prisma.product.count(),
-      prisma.product.count({ where: { inStock: false } }),
-      prisma.kaspiOrder.findMany({ where: { status: { notIn: ['CANCELLED', 'CANCELLING'] } }, select: { totalPrice: true } }),
-    ])
+    const stats = result[0]
+
+    // Recent orders (separate query — can't combine with aggregates easily)
+    const recentOrders = await prisma.kaspiOrder.findMany({
+      orderBy: { creationDate: 'desc' }, take: 8,
+      select: { id: true, code: true, status: true, totalPrice: true, customerName: true, customerPhone: true, creationDate: true },
+    })
+
+    // Low stock products
+    const lowStockProducts = await prisma.product.findMany({
+      where: { totalStock: { gt: 0, lte: 5 } },
+      select: { id: true, name: true, totalStock: true, sku: true, images: { take: 1, select: { url: true } } },
+      orderBy: { totalStock: 'asc' }, take: 8,
+    })
+
+    return { stats, recentOrders, lowStockProducts }
   },
-  ['admin-dashboard-stats-v2'],
-  { revalidate: 60 }
+  ['admin-dashboard-stats-v3'],
+  { revalidate: 300 }
 )
 
 export default async function AdminDashboard() {
-  const [
-    newOrders, processingOrders, shippedOrders, recentOrdersRaw, lowStockProducts,
-    todayOrders, monthOrders, totalProducts, outOfStockCount, allNonCancelled,
-  ] = await getCachedStats()
+  const { stats, recentOrders: recentOrdersRaw, lowStockProducts } = await getCachedStats()
 
-  const newTotal = newOrders.reduce((s, o) => s + o.totalPrice, 0)
-  const processingTotal = processingOrders.reduce((s, o) => s + o.totalPrice, 0)
-  const shippedTotal = shippedOrders.reduce((s, o) => s + o.totalPrice, 0)
-  const todayRevenue = todayOrders.reduce((s, o) => s + o.totalPrice, 0)
-  const monthRevenue = monthOrders.reduce((s, o) => s + o.totalPrice, 0)
-  const totalRevenue = allNonCancelled.reduce((s, o) => s + o.totalPrice, 0)
+  const newTotal = Number(stats.new_total)
+  const processingTotal = Number(stats.processing_total)
+  const shippedTotal = Number(stats.shipped_total)
+  const todayRevenue = Number(stats.today_total)
+  const monthRevenue = Number(stats.month_total)
+  const totalRevenue = Number(stats.total_total)
+  const totalProducts = Number(stats.product_count)
+  const outOfStockCount = Number(stats.out_of_stock)
+  const todayCount = Number(stats.today_count)
+  const monthCount = Number(stats.month_count)
+  const newCount = Number(stats.new_count)
+  const processingCount = Number(stats.processing_count)
+  const shippedCount = Number(stats.shipped_count)
 
   const recentOrders = recentOrdersRaw.map(o => ({
     id: o.id,
@@ -60,19 +84,19 @@ export default async function AdminDashboard() {
 
   const orderStatusCards = [
     {
-      label: 'Новые', count: newOrders.length, total: newTotal,
+      label: 'Новые', count: newCount, total: newTotal,
       href: '/admin/kaspi-orders?status=OPLACHEN',
       dot: 'bg-red-500', dotLight: 'bg-red-50', textColor: 'text-red-600',
       icon: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>,
     },
     {
-      label: 'В обработке', count: processingOrders.length, total: processingTotal,
+      label: 'В обработке', count: processingCount, total: processingTotal,
       href: '/admin/kaspi-orders?status=UPAKOVKA',
       dot: 'bg-orange-400', dotLight: 'bg-orange-50', textColor: 'text-orange-600',
       icon: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>,
     },
     {
-      label: 'Отправлено', count: shippedOrders.length, total: shippedTotal,
+      label: 'Отправлено', count: shippedCount, total: shippedTotal,
       href: '/admin/kaspi-orders?status=PEREDACHA',
       dot: 'bg-purple-500', dotLight: 'bg-purple-50', textColor: 'text-purple-600',
       icon: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg>,
@@ -101,7 +125,7 @@ export default async function AdminDashboard() {
           </div>
           <p className="text-[11px] font-semibold uppercase tracking-wider text-gray-400 mb-2">Этот месяц</p>
           <p className="text-[24px] font-bold text-gray-900 leading-none mb-1">{monthRevenue.toLocaleString('ru-RU')}</p>
-          <p className="text-[12px] text-gray-400">тг · {monthOrders.length} заказ{monthOrders.length !== 1 ? 'ов' : ''}</p>
+          <p className="text-[12px] text-gray-400">тг · {monthCount} заказ{monthCount !== 1 ? 'ов' : ''}</p>
         </div>
 
         {/* Products */}
